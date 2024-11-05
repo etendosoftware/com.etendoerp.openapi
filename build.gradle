@@ -1,0 +1,22 @@
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Swagger-Core Dependencies
+    implementation 'io.swagger.core.v3:swagger-jaxrs2:2.2.15'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
+    implementation 'io.swagger.core.v3:swagger-models:2.2.15'
+
+    /*
+    // JSON Processing
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
+    // Si usas JAX-RS para exponer endpoints REST
+    implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
+
+    // Servlet API (si usas servlets)
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+    */
+}
