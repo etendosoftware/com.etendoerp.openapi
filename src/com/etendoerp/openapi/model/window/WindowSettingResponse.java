@@ -8,8 +8,7 @@ import java.util.Map;
 @Schema(description = "Window Settings Configuration Response")
 public class WindowSettingResponse {
 
-  @Schema(description = "Mapping of UI patterns for different elements, where the key is the element ID and the value is the pattern type",
-      example = "{\"186\": \"STD\", \"800222\": \"RO\"}")
+  @Schema(description = "Mapping of UI patterns for different elements, where the key is the element ID and the value is the pattern type", example = "{\"186\": \"STD\", \"800222\": \"RO\"}")
   private Map<String, String> uiPattern;
 
   @Schema(description = "Indicates whether auto-save is enabled", example = "true")
