@@ -86,7 +86,7 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
                       .addProperty("inpKey", new StringSchema().example(""))
                       .addProperty("inpwindowId", new StringSchema().example(""))
                       .addProperty("inpTabId", new StringSchema().example(""))
-                      .addProperty("##PRINT_ORDER##.inpDocumentId", new StringSchema().example("('0AC230C0DDA4435A949B40602A183F45')"))
+                      .addProperty("inpDocumentId", new StringSchema().example("('0AC230C0DDA4435A949B40602A183F45')"))
                       .addProperty("draftDocumentIds", new StringSchema().example(""))
                   )
                   .example(new HashMap<String, Object>() {{
