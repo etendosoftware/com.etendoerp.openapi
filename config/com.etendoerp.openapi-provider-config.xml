@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<provider>
+    <bean>
+        <name>openAPIController</name>
+        <class>com.etendoerp.openapi.OpenAPIController</class>
+        <singleton>true</singleton>
+    </bean>
+</provider>
