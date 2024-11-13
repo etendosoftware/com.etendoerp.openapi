@@ -26,6 +26,12 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
 
   private static final String JOBS_ACTION_HANDLER = "com.smf.jobs.defaults";
   private static final String BASE_PATH = "/etendo/org.openbravo.client.kernel";
+  private static final List<String> tags = List.of("Jobs and Actions");
+
+  @Override
+  public List<String> getTags() {
+    return tags;
+  }
 
   @Override
   public void add(OpenAPI openAPI) {
@@ -53,25 +59,23 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
             false, "The user agent string of the user agent."));
 
-    List<String> jobsActionsTags = List.of("Jobs and Actions");
 
     createJobsAndActionsEndpoint(openAPI, "ProcessOrdersDefaults",
         "Initializes job processing with default settings",
         "This endpoint initializes job processing with default settings based on the provided document statuses and tab ID.",
         processOrdersDefaultsRequestSchema, processOrdersDefaultsRequestExample,
-        processOrdersDefaultsResponseSchema, processOrdersDefaultsResponseExample, commonHeaders,
-        jobsActionsTags);
+        processOrdersDefaultsResponseSchema, processOrdersDefaultsResponseExample, commonHeaders);
 
     createJobsAndActionsEndpoint(openAPI, "ProcessOrders",
         "Executes job processing for specified orders",
         "This endpoint executes job processing for the specified orders, performing actions like closing the document.",
         processOrdersRequestSchema, processOrdersRequestExample, processOrdersResponseSchema,
-        processOrdersResponseExample, commonHeaders, jobsActionsTags);
+        processOrdersResponseExample, commonHeaders);
   }
 
   private void createJobsAndActionsEndpoint(OpenAPI openAPI, String actionName, String summary,
       String description, Schema<?> requestSchema, String requestExample, Schema<?> responseSchema,
-      String responseExample, List<Parameter> headers, List<String> tags) {
+      String responseExample, List<Parameter> headers) {
 
     Parameter queryParameter = new Parameter().in("query")
         .name("_action")
@@ -114,8 +118,8 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
         .addApiResponse("500", new ApiResponse().description("Internal Server Error."));
 
     Operation operation = new Operation().summary(summary)
-        .description(description)
-        .addTagsItem(tags.get(0));
+        .description(description);
+    tags.forEach(operation::addTagsItem);
 
     for (Parameter param : queryParameters) {
       operation.addParametersItem(param);

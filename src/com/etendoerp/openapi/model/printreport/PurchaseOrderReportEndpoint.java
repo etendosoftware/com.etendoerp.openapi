@@ -28,6 +28,13 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
   private static final String DEFAULTS_PROCESS_ACTION_HANDLER = "org.openbravo.client.application.process.DefaultsProcessActionHandler";
   private static final String BASE_REPORT_ACTION_HANDLER = "org.openbravo.client.application.report.BaseReportActionHandler";
   private static final String BASE_PATH = "/etendo/org.openbravo.client.kernel";
+  private static final List<String> tags = List.of("Jobs and Actions");
+  private static final List<String> tagsDescription = List.of("Endpoints related to jobs and actions.");
+
+  @Override
+  public List<String> getTags() {
+    return tags;
+  }
 
   @Override
   public void add(OpenAPI openAPI) {
@@ -39,20 +46,18 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
     String baseReportActionResponseExample = "{\n" + "    \"retryExecution\": true,\n" + "    \"showResultsInProcessView\": true,\n" + "    \"refreshParent\": true,\n" + "    \"responseActions\": [\n" + "        {\n" + "            \"OBUIAPP_browseReport\": {\n" + "                \"processParameters\": {\n" + "                    \"AD_Org_ID\": null,\n" + "                    \"C_BPartner_ID\": null,\n" + "                    \"C_Currency_ID\": \"102\",\n" + "                    \"DateFrom\": \"2024-11-07\",\n" + "                    \"DateTo\": null,\n" + "                    \"C_Project_ID\": null,\n" + "                    \"M_Warehouse_ID\": null,\n" + "                    \"Status\": null,\n" + "                    \"processId\": \"4BDE0AF5E8C44B6C9575E388AAECDF69\",\n" + "                    \"reportId\": \"95A65133A5314CAABEE405B1EB2A639D\",\n" + "                    \"actionHandler\": \"org.openbravo.client.application.report.BaseReportActionHandler\"\n" + "                },\n" + "                \"tmpfileName\": \"3d5c89c9-c563-4395-8ce9-04be8e7b0ea5.html\",\n" + "                \"fileName\": \"Purchase Order Report-07-11-2024 14_01_38.html\",\n" + "                \"tabTitle\": \"Purchase Order Report\"\n" + "            }\n" + "        }\n" + "    ]\n" + "}";
 
     // Definir tags
-    List<String> jobsActionsTags = List.of("Jobs and Actions");
 
     createJobsAndActionsEndpoint(openAPI, "BaseReportActionHandler",
         "Generates reports based on provided parameters",
         "This endpoint generates reports based on the provided parameters and returns the report details.",
         baseReportActionRequestSchema, baseReportActionRequestExample,
-        baseReportActionResponseSchema, baseReportActionResponseExample,
-        jobsActionsTags);
+        baseReportActionResponseSchema, baseReportActionResponseExample, tags);
 
     createJobsAndActionsEndpoint(openAPI, "BaseReportActionHandler&mode=DOWNLOAD",
         "Generates reports based on provided parameters",
         "This endpoint generates reports based on the provided parameters and returns the report details.",
         baseReportActionRequestSchema, baseReportActionRequestExample,
-        baseReportActionResponseSchema, baseReportActionResponseExample, jobsActionsTags);
+        baseReportActionResponseSchema, baseReportActionResponseExample, tags);
   }
 
   private void createJobsAndActionsEndpoint(OpenAPI openAPI, String actionName, String summary,
@@ -131,15 +136,13 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
     if (openAPI.getTags() == null) {
       openAPI.setTags(new ArrayList<>());
     }
-    for (String tag : tags) {
-      if (openAPI.getTags().stream().noneMatch(t -> t.getName().equals(tag))) {
-        String tagDescription = "";
-        if ("Jobs and Actions".equals(tag)) {
-          tagDescription = "Endpoints related to Jobs and Actions processing.";
-        }
-        openAPI.addTagsItem(new Tag().name(tag).description(tagDescription));
-      }
-    }
+    tags.forEach(it -> {
+      operation.getTags().add(it);
+      Tag tag = new Tag().name(it).description(tagsDescription.get(tags.indexOf(it)));
+      openAPI.getTags().add(tag);
+    });
+
+
   }
 
   private Parameter createQueryParameter(String name, String example, boolean required,

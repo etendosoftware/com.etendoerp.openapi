@@ -35,9 +35,10 @@ public class OpenAPIController implements WebService {
   public void doGet(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
     try {
+      String tag = request.getParameter("tag");
       OpenAPI openAPI = initializeOpenAPI();
       configureSecurity(openAPI);
-      openAPI = applyEndpoints(openAPI);
+      openAPI = applyEndpoints(openAPI, tag);
       String openApiJson = serializeOpenAPI(openAPI);
 
       response.setContentType("application/json");
@@ -58,16 +59,29 @@ public class OpenAPIController implements WebService {
         .servers(Collections.singletonList(new Server().url(BASE_URL).description("Local Server")));
   }
 
-  private void configureSecurity(OpenAPI openAPI) {
-    openAPI.components(new Components().addSecuritySchemes("basicAuth",
+  private void configureSecurity(OpenAPI openAPI) throws IOException {
+    Components components = new Components().addSecuritySchemes("basicAuth",
         new SecurityScheme().type(SecurityScheme.Type.HTTP)
             .scheme("basic")
-            .description("Basic authentication with username and password")));
+            .description("Basic authentication with username and password"));
+    openAPI.components(components);
 
-    openAPI.addSecurityItem(new SecurityRequirement().addList("basicAuth"));
+    SecurityScheme bearerAuthScheme = new SecurityScheme()
+        .type(SecurityScheme.Type.HTTP)
+        .scheme("bearer")
+        .bearerFormat("JWT")
+        .description("Bearer token authentication using token from <a href=\"http://localhost:8080/etendo/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint");
+    openAPI.components(components.addSecuritySchemes("bearerAuth", bearerAuthScheme));
+
+    SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
+    openAPI.addSecurityItem(securityRequirement);
+
+    openAPI.setSecurity(
+        Collections.singletonList(securityRequirement)
+    );
   }
 
-  private OpenAPI applyEndpoints(OpenAPI openAPI) throws OpenApiConfigurationException {
+  private OpenAPI applyEndpoints(OpenAPI openAPI, String tag) throws OpenApiConfigurationException {
     Set<String> resourcePackages = new HashSet<>();
     resourcePackages.add(RESOURCE_PACKAGE);
 
@@ -79,7 +93,9 @@ public class OpenAPIController implements WebService {
     OpenAPI updatedOpenAPI = ctx.read();
 
     for (OpenAPIEndpoint endpoint : WeldUtils.getInstances(OpenAPIEndpoint.class)) {
-      endpoint.add(updatedOpenAPI);
+      if(tag == null || endpoint.getTags().contains(tag)) {
+        endpoint.add(updatedOpenAPI);
+      }
     }
     return updatedOpenAPI;
   }
@@ -87,7 +103,9 @@ public class OpenAPIController implements WebService {
   private String serializeOpenAPI(OpenAPI openAPI) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(openAPI);
+    String output =  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(openAPI);
+    output = output.replaceAll("\"type\" : \"HTTP\"", "\"type\" : \"http\"");
+    return output;
   }
 
   @Override
