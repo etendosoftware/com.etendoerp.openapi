@@ -35,9 +35,10 @@ public class OpenAPIController implements WebService {
   public void doGet(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
     try {
+      String tag = request.getParameter("tag");
       OpenAPI openAPI = initializeOpenAPI();
       configureSecurity(openAPI);
-      openAPI = applyEndpoints(openAPI);
+      openAPI = applyEndpoints(openAPI, tag);
       String openApiJson = serializeOpenAPI(openAPI);
 
       response.setContentType("application/json");
@@ -80,7 +81,7 @@ public class OpenAPIController implements WebService {
     );
   }
 
-  private OpenAPI applyEndpoints(OpenAPI openAPI) throws OpenApiConfigurationException {
+  private OpenAPI applyEndpoints(OpenAPI openAPI, String tag) throws OpenApiConfigurationException {
     Set<String> resourcePackages = new HashSet<>();
     resourcePackages.add(RESOURCE_PACKAGE);
 
@@ -92,7 +93,9 @@ public class OpenAPIController implements WebService {
     OpenAPI updatedOpenAPI = ctx.read();
 
     for (OpenAPIEndpoint endpoint : WeldUtils.getInstances(OpenAPIEndpoint.class)) {
-      endpoint.add(updatedOpenAPI);
+      if(tag == null || endpoint.getTags().contains(tag)) {
+        endpoint.add(updatedOpenAPI);
+      }
     }
     return updatedOpenAPI;
   }

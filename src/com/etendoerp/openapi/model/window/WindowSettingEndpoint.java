@@ -12,8 +12,10 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.tags.Tag;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,12 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
   private static final String WINDOW_SETTINGS_ACTION = "org.openbravo.client.application.WindowSettingsActionHandler";
   private static final String FORM_INIT_ACTION = "org.openbravo.client.application.window.FormInitializationComponent";
   private static final String BASE_PATH = "/etendo/org.openbravo.client.kernel?_action=";
+  private static final List<String> tags = List.of("Window Settings");
+
+  @Override
+  public List<String> getTags() {
+    return tags;
+  }
 
   @Override
   public void add(OpenAPI openAPI) {
@@ -96,8 +104,11 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
         .addApiResponse("500", new ApiResponse().description("Internal server error."));
 
     Operation operation = new Operation().summary(summary)
-        .description(description)
-        .addTagsItem("Window Settings");
+        .description(description);
+    if(operation.getTags() == null) {
+      operation.setTags(new ArrayList<>());
+    }
+    tags.forEach(it -> operation.getTags().add(it));
 
     for (Parameter parameter : parameters) {
       operation.addParametersItem(parameter);

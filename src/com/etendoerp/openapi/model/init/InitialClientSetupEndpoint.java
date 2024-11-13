@@ -21,6 +21,12 @@ import java.util.*;
 public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
 
   private static final String BASE_PATH = "/etendo/ad_forms/InitialClientSetup.html?stateless=true";
+  private static final List<String> tags = Arrays.asList("Initial Setup");
+
+  @Override
+  public List<String> getTags() {
+    return tags;
+  }
 
   @Override
   public void add(OpenAPI openAPI) {
@@ -73,7 +79,6 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
         createHeaderParameter("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "string", false, "The user agent string of the user agent.")
     );
 
-    List<String> initialClientSetupTags = Arrays.asList("Initial Setup");
 
     createInitialClientSetupEndpoint(openAPI,
         "InitialClientSetup",
@@ -83,8 +88,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
         initialClientSetupRequestExample,
         initialClientSetupResponseSchema,
         initialClientSetupResponseExample,
-        commonHeaders,
-        initialClientSetupTags,
+        commonHeaders, tags,
         "POST");
   }
 
