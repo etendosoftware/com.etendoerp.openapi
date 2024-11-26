@@ -32,8 +32,11 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
   private static final List<String> tagsDescription = List.of("Endpoints related to jobs and actions.");
 
   @Override
-  public List<String> getTags() {
-    return tags;
+  public boolean isValid(String tag) {
+    if(tag == null) {
+      return true;
+    }
+    return tags.contains(tag);
   }
 
   @Override

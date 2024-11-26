@@ -29,8 +29,11 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
   private static final List<String> tags = List.of("Window Settings");
 
   @Override
-  public List<String> getTags() {
-    return tags;
+  public boolean isValid(String tag) {
+    if(tag == null) {
+      return true;
+    }
+    return tags.contains(tag);
   }
 
   @Override

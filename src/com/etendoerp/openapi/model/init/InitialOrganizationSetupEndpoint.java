@@ -25,8 +25,11 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   private static final List<String> tags = Arrays.asList("Initial Setup");
 
   @Override
-  public List<String> getTags() {
-    return tags;
+  public boolean isValid(String tag) {
+    if(tag == null) {
+      return true;
+    }
+    return tags.contains(tag);
   }
 
   @Override

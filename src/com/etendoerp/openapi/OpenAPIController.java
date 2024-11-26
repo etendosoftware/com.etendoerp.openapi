@@ -70,7 +70,7 @@ public class OpenAPIController implements WebService {
         .type(SecurityScheme.Type.HTTP)
         .scheme("bearer")
         .bearerFormat("JWT")
-        .description("Bearer token authentication using token from <a href=\"http://localhost:8080/etendo/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint");
+        .description("Bearer token authentication using token from <a href=\"http://localhost:8080/etendo/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint. On each call use \"ETENDO_TOKEN\" as Bearer token.");
     openAPI.components(components.addSecuritySchemes("bearerAuth", bearerAuthScheme));
 
     SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
@@ -93,7 +93,7 @@ public class OpenAPIController implements WebService {
     OpenAPI updatedOpenAPI = ctx.read();
 
     for (OpenAPIEndpoint endpoint : WeldUtils.getInstances(OpenAPIEndpoint.class)) {
-      if(tag == null || endpoint.getTags().contains(tag)) {
+      if(tag == null || endpoint.isValid(tag)) {
         endpoint.add(updatedOpenAPI);
       }
     }

@@ -22,14 +22,17 @@ import java.util.List;
 public class PrintDocumentEndpoint implements OpenAPIEndpoint {
 
   private static final String PRINT_DOCUMENT_ACTION = "com.etendoerp.client.print.PrintOptionsActionHandler";
-  private static final String BASE_PATH = "/etendo/orders/sws/PrintOptions.html";
+  private static final String BASE_PATH = "/etendo/orders/PrintOptions.html?stateless=true";
   public static final String POST = "POST";
   public static final List<String> tags = List.of("Print Report");
   public static final List<String> tagsDescription = List.of("Endpoints related to printing reports and documents.");
 
   @Override
-  public List<String> getTags() {
-    return tags;
+  public boolean isValid(String tag) {
+    if(tag == null) {
+      return true;
+    }
+    return tags.contains(tag);
   }
 
   @Override

@@ -29,8 +29,11 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
   private static final List<String> tags = List.of("Jobs and Actions");
 
   @Override
-  public List<String> getTags() {
-    return tags;
+  public boolean isValid(String tag) {
+    if(tag == null) {
+      return true;
+    }
+    return tags.contains(tag);
   }
 
   @Override
