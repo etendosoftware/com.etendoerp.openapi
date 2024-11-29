@@ -30,7 +30,9 @@
       ],
       layout: "BaseLayout",
       requestInterceptor: (req) => {
-        req.headers['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
+        if(!req.url.endsWith('com.etendoerp.openapi.openAPIController')) {
+          req.credentials = 'omit';
+        }
         return req;
       }
     })

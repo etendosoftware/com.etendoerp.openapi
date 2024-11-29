@@ -22,8 +22,18 @@ import java.util.List;
 public class PrintDocumentEndpoint implements OpenAPIEndpoint {
 
   private static final String PRINT_DOCUMENT_ACTION = "com.etendoerp.client.print.PrintOptionsActionHandler";
-  private static final String BASE_PATH = "/etendo/orders/sws/PrintOptions.html";
+  private static final String BASE_PATH = "/etendo/orders/PrintOptions.html?stateless=true";
   public static final String POST = "POST";
+  public static final List<String> tags = List.of("Print Report");
+  public static final List<String> tagsDescription = List.of("Endpoints related to printing reports and documents.");
+
+  @Override
+  public boolean isValid(String tag) {
+    if(tag == null) {
+      return true;
+    }
+    return tags.contains(tag);
+  }
 
   @Override
   public void add(OpenAPI openAPI) {
@@ -46,16 +56,13 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
             false, "The user agent string of the user agent."));
 
-    List<String> printReportTags = List.of("Print Report");
 
     createEndpoint(openAPI, printDocumentResponseSchema, printDocumentResponseExample,
-        printDocumentParams, printDocumentRequestSchema, printDocumentRequestExample,
-        printReportTags);
+        printDocumentParams, printDocumentRequestSchema, printDocumentRequestExample);
   }
 
   private void createEndpoint(OpenAPI openAPI, Schema<?> responseSchema, String responseExample,
-      List<Parameter> parameters, List<Parameter> requestBodySchema, String requestBodyExample,
-      List<String> tags) {
+      List<Parameter> parameters, List<Parameter> requestBodySchema, String requestBodyExample) {
 
     ApiResponses apiResponses = new ApiResponses().addApiResponse("200",
             createApiResponse(responseSchema, responseExample))
@@ -114,19 +121,15 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
     openAPI.getPaths().addPathItem(BASE_PATH, pathItem);
 
     addSchema(openAPI, responseSchema);
-
-    if (openAPI.getTags() == null) {
+    if(openAPI.getTags() == null) {
       openAPI.setTags(new ArrayList<>());
     }
-    for (String tag : tags) {
-      if (openAPI.getTags().stream().noneMatch(t -> t.getName().equals(tag))) {
-        String tagDescription = "";
-        if (tag.equals("Print Report")) {
-          tagDescription = "Endpoints related to printing reports and documents.";
-        }
-        openAPI.addTagsItem(new Tag().name(tag).description(tagDescription));
-      }
-    }
+    tags.forEach(it -> {
+      operation.getTags().add(it);
+      Tag tag = new Tag().name(it).description(tagsDescription.get(tags.indexOf(it)));
+      openAPI.getTags().add(tag);
+    });
+
   }
 
   private ApiResponse createApiResponse(Schema<?> schema, String example) {
@@ -200,7 +203,7 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
         .in("formData")
         .required(true)
         .schema(new StringSchema().example("0AC230C0DDA4435A949B40602A183F45"))
-        .allowReserved(true)); // Aunque no es común en formData, lo incluyo si es necesario
+        .allowReserved(true));
 
     parameters.add(new Parameter()
         .name("draftDocumentIds")
