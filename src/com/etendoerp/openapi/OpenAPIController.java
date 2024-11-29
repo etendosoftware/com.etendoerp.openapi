@@ -26,11 +26,22 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Controller class for handling OpenAPI requests.
+ */
 public class OpenAPIController implements WebService {
 
   private static final String BASE_URL = "http://localhost:8080";
   private static final String RESOURCE_PACKAGE = "com.etendoerp.openapi";
 
+  /**
+   * Handles HTTP GET requests to generate OpenAPI documentation.
+   *
+   * @param path     The request path.
+   * @param request  The HttpServletRequest object.
+   * @param response The HttpServletResponse object.
+   * @throws Exception If an error occurs during the request handling.
+   */
   @Override
   public void doGet(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
@@ -49,6 +60,11 @@ public class OpenAPIController implements WebService {
     }
   }
 
+  /**
+   * Initializes the OpenAPI object with basic information.
+   *
+   * @return The initialized OpenAPI object.
+   */
   private OpenAPI initializeOpenAPI() {
     return new OpenAPI().info(new Info().title("Etendo API Headless")
             .description("OpenAPI definition for Etendo API Headless")
@@ -59,28 +75,35 @@ public class OpenAPIController implements WebService {
         .servers(Collections.singletonList(new Server().url(BASE_URL).description("Local Server")));
   }
 
+  /**
+   * Configures security schemes for the OpenAPI object.
+   *
+   * @param openAPI The OpenAPI object to configure.
+   * @throws IOException If an I/O error occurs.
+   */
   private void configureSecurity(OpenAPI openAPI) throws IOException {
     Components components = new Components().addSecuritySchemes("basicAuth",
-        new SecurityScheme().type(SecurityScheme.Type.HTTP)
-            .scheme("basic")
-            .description("Basic authentication with username and password"));
+            new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .scheme("basic")
+                .description("Basic authentication with username and password"))
+        .addSecuritySchemes("bearerAuth", new SecurityScheme().type(SecurityScheme.Type.HTTP)
+            .scheme("bearer")
+            .bearerFormat("JWT")
+            .description(
+                "Bearer token authentication using token from <a href=\"http://localhost:8080/etendo/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint. On each call use \"ETENDO_TOKEN\" as Bearer token."));
+
     openAPI.components(components);
-
-    SecurityScheme bearerAuthScheme = new SecurityScheme()
-        .type(SecurityScheme.Type.HTTP)
-        .scheme("bearer")
-        .bearerFormat("JWT")
-        .description("Bearer token authentication using token from <a href=\"http://localhost:8080/etendo/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint. On each call use \"ETENDO_TOKEN\" as Bearer token.");
-    openAPI.components(components.addSecuritySchemes("bearerAuth", bearerAuthScheme));
-
-    SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
-    openAPI.addSecurityItem(securityRequirement);
-
-    openAPI.setSecurity(
-        Collections.singletonList(securityRequirement)
-    );
+    openAPI.addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
   }
 
+  /**
+   * Applies endpoints to the OpenAPI object based on the specified tag.
+   *
+   * @param openAPI The OpenAPI object to update.
+   * @param tag     The tag to filter endpoints.
+   * @return The updated OpenAPI object.
+   * @throws OpenApiConfigurationException If an error occurs during configuration.
+   */
   private OpenAPI applyEndpoints(OpenAPI openAPI, String tag) throws OpenApiConfigurationException {
     Set<String> resourcePackages = new HashSet<>();
     resourcePackages.add(RESOURCE_PACKAGE);
@@ -89,37 +112,66 @@ public class OpenAPIController implements WebService {
         .resourcePackages(resourcePackages);
 
     OpenApiContext ctx = new GenericOpenApiContext<>().openApiConfiguration(oasConfig).init();
-
     OpenAPI updatedOpenAPI = ctx.read();
 
     for (OpenAPIEndpoint endpoint : WeldUtils.getInstances(OpenAPIEndpoint.class)) {
-      if(tag == null || endpoint.isValid(tag)) {
+      if (tag == null || endpoint.isValid(tag)) {
         endpoint.add(updatedOpenAPI);
       }
     }
     return updatedOpenAPI;
   }
 
+  /**
+   * Serializes the OpenAPI object to a JSON string.
+   *
+   * @param openAPI The OpenAPI object to serialize.
+   * @return The serialized JSON string.
+   * @throws IOException If an I/O error occurs during serialization.
+   */
   private String serializeOpenAPI(OpenAPI openAPI) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    String output =  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(openAPI);
-    output = output.replaceAll("\"type\" : \"HTTP\"", "\"type\" : \"http\"");
-    return output;
+    String output = mapper.writer().writeValueAsString(openAPI);
+    return output.replaceAll("\"type\" : \"HTTP\"", "\"type\" : \"http\"");
   }
 
+  /**
+   * Handles HTTP POST requests. Not implemented.
+   *
+   * @param path     The request path.
+   * @param request  The HttpServletRequest object.
+   * @param response The HttpServletResponse object.
+   * @throws Exception If an error occurs during the request handling.
+   */
   @Override
   public void doPost(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
     // Not implemented
   }
 
+  /**
+   * Handles HTTP DELETE requests. Not implemented.
+   *
+   * @param path     The request path.
+   * @param request  The HttpServletRequest object.
+   * @param response The HttpServletResponse object.
+   * @throws Exception If an error occurs during the request handling.
+   */
   @Override
   public void doDelete(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
     // Not implemented
   }
 
+  /**
+   * Handles HTTP PUT requests. Not implemented.
+   *
+   * @param path     The request path.
+   * @param request  The HttpServletRequest object.
+   * @param response The HttpServletResponse object.
+   * @throws Exception If an error occurs during the request handling.
+   */
   @Override
   public void doPut(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {

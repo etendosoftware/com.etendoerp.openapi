@@ -50,18 +50,7 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
     Schema<?> processOrdersResponseSchema = defineProcessOrdersResponseSchema();
     String processOrdersResponseExample = "{\n" + "    \"responseActions\": [\n" + "        {\n" + "            \"showMsgInProcessView\": {\n" + "                \"msgType\": \"success\",\n" + "                \"msgTitle\": \"Success\",\n" + "                \"msgText\": \"1000000: Process completed successfully\\n\"\n" + "            }\n" + "        }\n" + "    ],\n" + "    \"refreshParent\": true\n" + "}";
 
-    List<Parameter> commonHeaders = Arrays.asList(createHeaderParameter("Accept", "*/*", true,
-            "Specifies the media types that are acceptable for the response."),
-        createHeaderParameter("Content-Type", "application/json;charset=UTF-8", true,
-            "Indicates the media type of the resource."),
-        createHeaderParameter("Origin", "http://localhost:8080", false,
-            "The origin of the request."),
-        createHeaderParameter("Referer", "http://localhost:8080/etendo/", false,
-            "The address of the previous web page from which a link to the currently requested page was followed."),
-        createHeaderParameter("User-Agent",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
-            false, "The user agent string of the user agent."));
-
+    List<Parameter> commonHeaders = new ArrayList<>();
 
     createJobsAndActionsEndpoint(openAPI, "ProcessOrdersDefaults",
         "Initializes job processing with default settings",
