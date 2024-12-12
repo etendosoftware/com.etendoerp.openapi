@@ -33,7 +33,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
 
   @Override
   public void add(OpenAPI openAPI) {
-    // Definir los esquemas y ejemplos para la acción InitialClientSetup
+    // Define the schemas and examples for the InitialClientSetup action
     Schema<?> initialClientSetupRequestSchema = defineInitialClientSetupRequestSchema();
     String initialClientSetupRequestExample = "------WebKitFormBoundaryESnGV3KpzjPoQw1r\r\n" +
         "Content-Disposition: form-data; name=\"Command\"\r\n\r\n" +
@@ -96,7 +96,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear el endpoint relacionado con Initial Client Setup
+   * Method to create the endpoint related to Initial Client Setup
    */
   private void createInitialClientSetupEndpoint(OpenAPI openAPI, String actionName, String summary, String description,
       Schema<?> requestSchema, String requestExample,
@@ -119,7 +119,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
     Operation operation = new Operation()
         .summary(summary)
         .description(description)
-        .addTagsItem(tags.get(0)); // Asignar el primer tag de la lista
+        .addTagsItem(tags.get(0)); // Assigne the first tag to the operation
 
     for (Parameter param : queryParameters) {
       operation.addParametersItem(param);
@@ -161,7 +161,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear parámetros de consulta (query parameters)
+   * Method to create query parameters
    */
   private Parameter createQueryParameter(String name, String example, String type, boolean required, String description) {
     return new Parameter()
@@ -173,7 +173,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear parámetros de cabecera (header parameters)
+   * Method to create header parameters
    */
   private Parameter createHeaderParameter(String name, String example, String type, boolean required, String description) {
     return new Parameter()
@@ -185,12 +185,10 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear respuestas de API
+   * Method to create API responses
    */
   private ApiResponse createApiResponse(String description, Schema<?> schema, String example) {
-    // Determinar el tipo de contenido basado en el esquema
     String mediaType = "text/html";
-    // Si la respuesta fuera JSON, podrías usar "application/json"
 
     return new ApiResponse()
         .description(description)
@@ -199,7 +197,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para añadir esquemas al componente de OpenAPI
+   * Method to add schemas to the OpenAPI component
    */
   private void addSchema(OpenAPI openAPI, String key, Schema<?> schema) {
     if (openAPI.getComponents() == null) {
@@ -214,7 +212,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Define el esquema de la solicitud para InitialClientSetup (multipart/form-data)
+   * Define the request schema for InitialClientSetup (multipart/form-data)
    */
   private Schema<?> defineInitialClientSetupRequestSchema() {
     Schema<Object> schema = new Schema<>();
@@ -234,7 +232,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
     schema.addProperty("inpLevel", new Schema<>().type("string").nullable(true).example(""));
     schema.addProperty("inpNodes", new Schema<>().type("string").example("0"));
 
-    // Definir campos requeridos
+    // Define required fields
     schema.required(Arrays.asList(
         "Command",
         "inpClient",
@@ -251,7 +249,7 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Define el esquema de la respuesta para InitialClientSetup (HTML)
+   * Define the response schema for InitialClientSetup (HTML)
    */
   private Schema<?> defineInitialClientSetupResponseSchema() {
     Schema<Object> schema = new Schema<>();
