@@ -206,19 +206,19 @@ public abstract class OpenAPIDefaultRequest implements OpenAPIEndpoint {
 
   }
 
-  Operation getGETEndpoint() {
+  public Operation getGETEndpoint() {
     log.debug("GET endpoint not implemented");
     return null;
   }
 
-  Operation getPOSTEndpoint() {
+  public Operation getPOSTEndpoint() {
     log.debug("POST endpoint not implemented");
 
     return null;
   }
 
 
-  Operation getPUTEndpoint() {
+  public Operation getPUTEndpoint() {
 
     log.debug("PUT endpoint not implemented");
     return null;
