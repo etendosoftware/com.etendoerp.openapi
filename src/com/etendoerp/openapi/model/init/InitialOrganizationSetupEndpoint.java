@@ -1,6 +1,5 @@
 package com.etendoerp.openapi.model.init;
 
-
 import com.etendoerp.openapi.model.OpenAPIEndpoint;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -45,7 +44,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
         "Org\r\n" +
         "------WebKitFormBoundaryGFUPc5UZTjrBzWc7\r\n" +
         "Content-Disposition: form-data; name=\"inpOrgUser\"\r\n\r\n" +
-        "Cliente\r\n" +
+        "Client\r\n" +
         "------WebKitFormBoundaryGFUPc5UZTjrBzWc7\r\n" +
         "Content-Disposition: form-data; name=\"inpPassword\"\r\n\r\n" +
         "admin\r\n" +
@@ -75,7 +74,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
         "------WebKitFormBoundaryGFUPc5UZTjrBzWc7--\r\n";
 
     Schema<?> initialOrgSetupResponseSchema = defineInitialOrgSetupResponseSchema();
-    String initialOrgSetupResponseExample = "<html>Configuración Inicial de la Organización</html>";
+    String initialOrgSetupResponseExample = "<html>Initial Organization Setup Configuration</html>";
 
     List<Parameter> commonHeaders = Arrays.asList(
         createHeaderParameter("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryGFUPc5UZTjrBzWc7", "string", true, "Indicates the media type of the resource."),
@@ -83,7 +82,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
     );
 
 
-    // Crear endpoint para InitialOrgSetup - POST
+    // Create endpoint for InitialOrgSetup - POST
     createInitialOrgSetupEndpoint(openAPI,
         "InitialOrgSetup",
         "Handles the initial organization setup form submission",
@@ -97,73 +96,73 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear el endpoint relacionado con Initial Org Setup
+   * Method to create the endpoint related to Initial Org Setup
    */
   private void createInitialOrgSetupEndpoint(OpenAPI openAPI, String actionName, String summary, String description,
       Schema<?> requestSchema, String requestExample,
       Schema<?> responseSchema, String responseExample,
       List<Parameter> headers, List<String> tags, String httpMethod) {
 
-    // Definir los parámetros de consulta (query parameters) si los hay
-    // En este caso, no hay parámetros de consulta en la solicitud proporcionada
+    // Define query parameters if any
+    // In this case, there are no query parameters in the provided request
 
     List<Parameter> queryParameters = Collections.emptyList();
 
-    // Definir el cuerpo de la solicitud (request body)
+    // Define the request body
     RequestBody requestBody = new RequestBody()
         .description("Payload for executing the Initial Organization Setup action.")
         .content(new Content().addMediaType("multipart/form-data",
             new MediaType().schema(requestSchema).example(requestExample)))
         .required(true);
 
-    // Definir las respuestas de la API
+    // Define API responses
     ApiResponses apiResponses = new ApiResponses()
         .addApiResponse("200", createApiResponse("Successful response.", responseSchema, responseExample))
         .addApiResponse("400", new ApiResponse().description("Bad Request."))
         .addApiResponse("500", new ApiResponse().description("Internal Server Error."));
 
-    // Crear la operación
+    // Create the operation
     Operation operation = new Operation()
         .summary(summary)
         .description(description)
-        .addTagsItem(tags.get(0)); // Asignar el primer tag de la lista
+        .addTagsItem(tags.get(0)); // Assign the first tag from the list
 
-    // Añadir parámetros de consulta si existen
+    // Add query parameters if they exist
     for (Parameter param : queryParameters) {
       operation.addParametersItem(param);
     }
 
-    // Añadir encabezados
+    // Add headers
     for (Parameter header : headers) {
       operation.addParametersItem(header);
     }
 
-    // Asignar el cuerpo de la solicitud
+    // Assign the request body
     operation.setRequestBody(requestBody);
 
-    // Asignar las respuestas
+    // Assign the responses
     operation.setResponses(apiResponses);
 
-    // Crear el PathItem
+    // Create the PathItem
     PathItem pathItem = new PathItem();
     if ("GET".equalsIgnoreCase(httpMethod)) {
       pathItem.get(operation);
     } else if ("POST".equalsIgnoreCase(httpMethod)) {
       pathItem.post(operation);
     }
-    // Puedes añadir otros métodos HTTP si es necesario
+    // You can add other HTTP methods if necessary
 
-    // Añadir el PathItem al OpenAPI
+    // Add the PathItem to OpenAPI
     if (openAPI.getPaths() == null) {
       openAPI.setPaths(new Paths());
     }
 
     openAPI.getPaths().addPathItem(BASE_PATH, pathItem);
 
-    // Añadir el esquema al componente de OpenAPI
+    // Add the schema to the OpenAPI component
     addSchema(openAPI, actionName + "Response", responseSchema);
 
-    // Añadir tags al OpenAPI para evitar duplicados y proporcionar descripciones
+    // Add tags to OpenAPI to avoid duplicates and provide descriptions
     if (openAPI.getTags() == null) {
       openAPI.setTags(new ArrayList<>());
     }
@@ -179,7 +178,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear parámetros de consulta (query parameters)
+   * Method to create query parameters
    */
   private Parameter createQueryParameter(String name, String example, String type, boolean required, String description) {
     return new Parameter()
@@ -191,7 +190,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear parámetros de cabecera (header parameters)
+   * Method to create header parameters
    */
   private Parameter createHeaderParameter(String name, String example, String type, boolean required, String description) {
     return new Parameter()
@@ -203,12 +202,12 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para crear respuestas de API
+   * Method to create API responses
    */
   private ApiResponse createApiResponse(String description, Schema<?> schema, String example) {
-    // Determinar el tipo de contenido basado en el esquema
+    // Determine the content type based on the schema
     String mediaType = "text/html";
-    // Si la respuesta fuera JSON, podrías usar "application/json"
+    // If the response is JSON, you could use "application/json"
 
     return new ApiResponse()
         .description(description)
@@ -217,7 +216,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Método para añadir esquemas al componente de OpenAPI
+   * Method to add schemas to the OpenAPI component
    */
   private void addSchema(OpenAPI openAPI, String key, Schema<?> schema) {
     if (openAPI.getComponents() == null) {
@@ -232,7 +231,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Define el esquema de la solicitud para InitialOrgSetup (multipart/form-data)
+   * Define the request schema for InitialOrgSetup (multipart/form-data)
    */
   private Schema<?> defineInitialOrgSetupRequestSchema() {
     Schema<Object> schema = new Schema<>();
@@ -242,7 +241,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
     schema.addProperty("Command", new Schema<>().type("string").example("OK"));
     schema.addProperty("inpLastFieldChanged", new Schema<>().type("string").nullable(true).example(""));
     schema.addProperty("inpOrganization", new Schema<>().type("string").example("Org"));
-    schema.addProperty("inpOrgUser", new Schema<>().type("string").example("Cliente"));
+    schema.addProperty("inpOrgUser", new Schema<>().type("string").example("Client"));
     schema.addProperty("inpPassword", new Schema<>().type("string").example("admin"));
     schema.addProperty("inpConfirmPassword", new Schema<>().type("string").example("admin"));
     schema.addProperty("inpOrgType", new Schema<>().type("string").example("3"));
@@ -255,7 +254,7 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
     schema.addProperty("inpLevel", new Schema<>().type("string").nullable(true).example(""));
     schema.addProperty("inpNodes", new Schema<>().type("string").example("7BFA8FF057AB46CAAB2FAAED8B870E32"));
 
-    // Definir campos requeridos
+    // Define required fields
     schema.required(Arrays.asList(
         "Command",
         "inpOrganization",
@@ -273,15 +272,15 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
   }
 
   /**
-   * Define el esquema de la respuesta para InitialOrgSetup (HTML)
+   * Define the response schema for InitialOrgSetup (HTML)
    */
   private Schema<?> defineInitialOrgSetupResponseSchema() {
     Schema<Object> schema = new Schema<>();
     schema.type("object");
     schema.description("HTML response for Initial Organization Setup.");
 
-    // Si la respuesta es HTML, podrías no definir un esquema detallado.
-    // Sin embargo, si quieres documentar partes específicas, podrías hacerlo aquí.
+    // If the response is HTML, you might not define a detailed schema.
+    // However, if you want to document specific parts, you could do so here.
 
     return schema;
   }
