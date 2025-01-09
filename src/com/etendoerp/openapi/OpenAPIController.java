@@ -43,7 +43,6 @@ public class OpenAPIController implements WebService {
   private static final String DEFAULT_BASE_URL = "http://localhost:8080/%s";
   private static final String RESOURCE_PACKAGE = "com.etendoerp.openapi";
   private static final Logger log = LogManager.getLogger(OpenAPIController.class);
-  private static final String GENERIC_BEARER_TOKEN_DESCRIPTION = "On each call use string \"ETENDO_TOKEN\" as Bearer token, this is a placerholder automatically replaced by the real token.";
 
   /**
    * Handles HTTP GET requests to generate OpenAPI documentation.
@@ -61,7 +60,7 @@ public class OpenAPIController implements WebService {
   public void doGet(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
     try {
-      String openApiJson = getOpenAPIJson(request.getParameter("tag"), request.getParameter("host"), false);
+      String openApiJson = getOpenAPIJson(request.getParameter("tag"), request.getParameter("host"));
       response.setContentType("application/json");
       response.setCharacterEncoding("UTF-8");
       response.getWriter().write(openApiJson);
@@ -80,22 +79,18 @@ public class OpenAPIController implements WebService {
    *     the tag used to filter endpoints
    * @param baseUrl
    *     the base URL for the OpenAPI specification; if null, a default base URL is used
-   * @param genericBearerToken
-   *     if true, the bearer description will use a generic token; otherwise, the bearer description will include
-   *     the login endpoint URL
    * @return the OpenAPI specification in JSON format
    * @throws OpenApiConfigurationException
    *     if an error occurs during OpenAPI configuration
    * @throws IOException
    *     if an error occurs during serialization
    */
-  public String getOpenAPIJson(String tag, String baseUrl,
-      boolean genericBearerToken) throws OpenApiConfigurationException, IOException {
+  public String getOpenAPIJson(String tag, String baseUrl) throws OpenApiConfigurationException, IOException {
     if (baseUrl == null) {
       baseUrl = String.format(DEFAULT_BASE_URL, getContextName());
     }
     OpenAPI openAPI = initializeOpenAPI(baseUrl);
-    configureSecurity(openAPI, baseUrl, genericBearerToken);
+    configureSecurity(openAPI, baseUrl);
     openAPI = applyEndpoints(openAPI, tag);
     String openApiJson = serializeOpenAPI(openAPI);
     return openApiJson;
@@ -129,17 +124,14 @@ public class OpenAPIController implements WebService {
    *     the OpenAPI object to configure
    * @param baseUrl
    *     the base URL for the OpenAPI specification
-   * @param genericBearerToken
-   *     if true, the bearer description will use a generic token; otherwise, the bearer description will include
-   *     the login endpoint URL
    */
-  private void configureSecurity(OpenAPI openAPI, String baseUrl, boolean genericBearerToken) {
+  private void configureSecurity(OpenAPI openAPI, String baseUrl) {
     Components components = new Components().addSecuritySchemes("basicAuth",
         createSecuritySchema("basic", null, BASIC_AUTH_DESCRIPTION));
     openAPI.components(components);
 
     SecurityScheme bearerAuthScheme = createSecuritySchema("bearer", "JWT",
-        String.format(genericBearerToken ? GENERIC_BEARER_TOKEN_DESCRIPTION : BEARER_TOKEN_DESCRIPTION, baseUrl));
+        String.format(BEARER_TOKEN_DESCRIPTION, baseUrl));
     openAPI.components(components.addSecuritySchemes("bearerAuth", bearerAuthScheme));
 
     SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
@@ -208,7 +200,7 @@ public class OpenAPIController implements WebService {
   private String serializeOpenAPI(OpenAPI openAPI) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    String output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(openAPI);
+    String output = mapper.writeValueAsString(openAPI);
     output = output.replaceAll("\"type\" : \"HTTP\"", "\"type\" : \"http\"");
     return output;
   }
