@@ -1,0 +1,153 @@
+package com.etendoerp.openapi.model.init;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.junit.Assert.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class InitialClientSetupEndpointTest {
+
+    @InjectMocks
+    private InitialClientSetupEndpoint endpoint;
+
+    private OpenAPI openAPI;
+
+    @Before
+    public void setUp() {
+        openAPI = new OpenAPI();
+    }
+
+    @Test
+    public void testIsValid_withNullTag_returnsTrue() {
+        assertTrue(endpoint.isValid(null));
+    }
+
+    @Test
+    public void testIsValid_withValidTag_returnsTrue() {
+        assertTrue(endpoint.isValid("Initial Setup"));
+    }
+
+    @Test
+    public void testIsValid_withInvalidTag_returnsFalse() {
+        assertFalse(endpoint.isValid("Invalid Tag"));
+    }
+
+    @Test
+    public void testAdd_createsValidOpenAPIDefinition() {
+        // When
+        endpoint.add(openAPI);
+
+        // Then
+        assertNotNull(openAPI.getPaths());
+        PathItem pathItem = openAPI.getPaths().get("/ad_forms/InitialClientSetup.html?stateless=true");
+        assertNotNull(pathItem);
+
+        // Verify POST operation
+        Operation postOperation = pathItem.getPost();
+        assertNotNull(postOperation);
+        assertEquals("Handles the initial client setup form submission", postOperation.getSummary());
+        assertTrue(postOperation.getTags().contains("Initial Setup"));
+
+        // Verify request body
+        RequestBody requestBody = postOperation.getRequestBody();
+        assertNotNull(requestBody);
+        assertTrue(requestBody.getRequired());
+        Content content = requestBody.getContent();
+        assertNotNull(content);
+        MediaType mediaType = content.get("multipart/form-data");
+        assertNotNull(mediaType);
+
+        // Verify schema
+        Schema<?> schema = mediaType.getSchema();
+        assertNotNull(schema);
+        assertEquals("object", schema.getType());
+        assertTrue(schema.getRequired().contains("Command"));
+        assertTrue(schema.getRequired().contains("inpClient"));
+        assertTrue(schema.getRequired().contains("inpPassword"));
+        assertTrue(schema.getRequired().contains("inpClientUser"));
+        assertTrue(schema.getRequired().contains("inpConfirmPassword"));
+        assertTrue(schema.getRequired().contains("inpCurrency"));
+
+        // Verify responses
+        ApiResponse response200 = postOperation.getResponses().get("200");
+        assertNotNull(response200);
+        ApiResponse response400 = postOperation.getResponses().get("400");
+        assertNotNull(response400);
+        ApiResponse response500 = postOperation.getResponses().get("500");
+        assertNotNull(response500);
+
+        // Verify headers
+        boolean hasAcceptHeader = false;
+        boolean hasContentTypeHeader = false;
+        boolean hasOriginHeader = false;
+        boolean hasRefererHeader = false;
+        boolean hasUserAgentHeader = false;
+
+        for (Parameter parameter : postOperation.getParameters()) {
+            switch (parameter.getName()) {
+                case "Accept":
+                    hasAcceptHeader = true;
+                    assertTrue(parameter.getRequired());
+                    break;
+                case "Content-Type":
+                    hasContentTypeHeader = true;
+                    assertTrue(parameter.getRequired());
+                    break;
+                case "Origin":
+                    hasOriginHeader = true;
+                    assertFalse(parameter.getRequired());
+                    break;
+                case "Referer":
+                    hasRefererHeader = true;
+                    assertFalse(parameter.getRequired());
+                    break;
+                case "User-Agent":
+                    hasUserAgentHeader = true;
+                    assertFalse(parameter.getRequired());
+                    break;
+            }
+        }
+
+        assertTrue(hasAcceptHeader);
+        assertTrue(hasContentTypeHeader);
+        assertTrue(hasOriginHeader);
+        assertTrue(hasRefererHeader);
+        assertTrue(hasUserAgentHeader);
+    }
+
+    @Test
+    public void testAdd_createsValidSchemaDefinitions() {
+        // When
+        endpoint.add(openAPI);
+
+        // Then
+        assertNotNull(openAPI.getComponents());
+        assertNotNull(openAPI.getComponents().getSchemas());
+        assertTrue(openAPI.getComponents().getSchemas().containsKey("InitialClientSetupResponse"));
+    }
+
+    @Test
+    public void testAdd_createsValidTags() {
+        // When
+        endpoint.add(openAPI);
+
+        // Then
+        assertNotNull(openAPI.getTags());
+        boolean hasInitialSetupTag = openAPI.getTags().stream()
+                .anyMatch(tag -> "Initial Setup".equals(tag.getName()));
+        assertTrue(hasInitialSetupTag);
+    }
+}

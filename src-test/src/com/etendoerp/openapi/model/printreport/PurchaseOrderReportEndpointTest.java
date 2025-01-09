@@ -1,0 +1,196 @@
+package com.etendoerp.openapi.model.printreport;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.tags.Tag;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class PurchaseOrderReportEndpointTest {
+
+    @InjectMocks
+    private PurchaseOrderReportEndpoint purchaseOrderReportEndpoint;
+
+    @Mock
+    private OpenAPI mockOpenAPI;
+
+    @Mock
+    private Paths mockPaths;
+
+    private OpenAPI openAPI;
+
+    @Before
+    public void setUp() {
+        openAPI = new OpenAPI();
+    }
+
+    @Test
+    public void testIsValid_withNullTag_returnsTrue() {
+        assertTrue(purchaseOrderReportEndpoint.isValid(null));
+    }
+
+    @Test
+    public void testIsValid_withValidTag_returnsTrue() {
+        assertTrue(purchaseOrderReportEndpoint.isValid("Jobs and Actions"));
+    }
+
+    @Test
+    public void testIsValid_withInvalidTag_returnsFalse() {
+        assertFalse(purchaseOrderReportEndpoint.isValid("Invalid Tag"));
+    }
+
+    @Test
+    public void testAdd_addsCorrectEndpoints() {
+        // Given
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setPaths(new Paths());
+
+        // When
+        purchaseOrderReportEndpoint.add(openAPI);
+
+        // Then
+        // Verify BaseReportActionHandler endpoint
+        String baseReportPath = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler";
+        PathItem baseReportPathItem = openAPI.getPaths().get(baseReportPath);
+        assertNotNull(baseReportPathItem);
+        verifyEndpoint(baseReportPathItem);
+
+        // Verify BaseReportActionHandler&mode=DOWNLOAD endpoint
+        String downloadPath = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler&mode=DOWNLOAD";
+        PathItem downloadPathItem = openAPI.getPaths().get(downloadPath);
+        assertNotNull(downloadPathItem);
+        verifyEndpoint(downloadPathItem);
+    }
+
+    private void verifyEndpoint(PathItem pathItem) {
+        assertNotNull(pathItem.getPost());
+        Operation operation = pathItem.getPost();
+
+        // Verify operation details
+        assertEquals("Generates reports based on provided parameters", operation.getSummary());
+        assertTrue(operation.getTags().contains("Jobs and Actions"));
+
+        // Verify parameters
+        List<Parameter> parameters = operation.getParameters();
+        assertNotNull(parameters);
+        assertFalse(parameters.isEmpty());
+
+        // Verify request body
+        RequestBody requestBody = operation.getRequestBody();
+        assertNotNull(requestBody);
+        assertTrue(requestBody.getRequired());
+        Content content = requestBody.getContent();
+        assertNotNull(content);
+        MediaType mediaType = content.get("application/json");
+        assertNotNull(mediaType);
+
+        // Verify responses
+        Map<String, ApiResponse> responses = operation.getResponses();
+        assertNotNull(responses);
+        assertTrue(responses.containsKey("200"));
+        assertTrue(responses.containsKey("400"));
+        assertTrue(responses.containsKey("500"));
+    }
+
+    @Test
+    public void testAdd_addsCorrectTags() {
+        // Given
+        OpenAPI openAPI = new OpenAPI();
+
+        // When
+        purchaseOrderReportEndpoint.add(openAPI);
+
+        // Then
+        List<Tag> tags = openAPI.getTags();
+        assertNotNull(tags);
+        assertFalse(tags.isEmpty());
+        
+        boolean foundJobsAndActionsTag = false;
+        for (Tag tag : tags) {
+            if ("Jobs and Actions".equals(tag.getName())) {
+                foundJobsAndActionsTag = true;
+                assertEquals("Endpoints related to jobs and actions.", tag.getDescription());
+                break;
+            }
+        }
+        assertTrue("Jobs and Actions tag should be present", foundJobsAndActionsTag);
+    }
+
+    @Test
+    public void testAdd_addsCorrectSchemas() {
+        // Given
+        OpenAPI openAPI = new OpenAPI();
+
+        // When
+        purchaseOrderReportEndpoint.add(openAPI);
+
+        // Then
+        assertNotNull(openAPI.getComponents());
+        assertNotNull(openAPI.getComponents().getSchemas());
+        
+        // Verify BaseReportActionHandlerResponse schema
+        assertTrue(openAPI.getComponents().getSchemas().containsKey("BaseReportActionHandlerResponse"));
+        Schema<?> baseReportSchema = openAPI.getComponents().getSchemas().get("BaseReportActionHandlerResponse");
+        assertEquals("object", baseReportSchema.getType());
+        
+        // Verify BaseReportActionHandler&mode=DOWNLOADResponse schema
+        assertTrue(openAPI.getComponents().getSchemas().containsKey("BaseReportActionHandler&mode=DOWNLOADResponse"));
+        Schema<?> downloadSchema = openAPI.getComponents().getSchemas().get("BaseReportActionHandler&mode=DOWNLOADResponse");
+        assertEquals("object", downloadSchema.getType());
+    }
+
+    @Test
+    public void testAdd_requestSchemaHasCorrectStructure() {
+        // Given
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setPaths(new Paths());
+
+        // When
+        purchaseOrderReportEndpoint.add(openAPI);
+
+        // Then
+        PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler");
+        assertNotNull(pathItem);
+        
+        Operation operation = pathItem.getPost();
+        RequestBody requestBody = operation.getRequestBody();
+        MediaType mediaType = requestBody.getContent().get("application/json");
+        Schema<?> schema = mediaType.getSchema();
+        
+        // Verify schema structure
+        assertEquals("object", schema.getType());
+        assertNotNull(schema.getProperties().get("_buttonValue"));
+        assertNotNull(schema.getProperties().get("_params"));
+        
+        // Verify _params structure
+        Schema<?> paramsSchema = (Schema<?>) schema.getProperties().get("_params");
+        assertEquals("object", paramsSchema.getType());
+        assertNotNull(paramsSchema.getProperties().get("AD_Org_ID"));
+        assertNotNull(paramsSchema.getProperties().get("C_BPartner_ID"));
+        assertNotNull(paramsSchema.getProperties().get("C_Currency_ID"));
+        assertNotNull(paramsSchema.getProperties().get("DateFrom"));
+        assertNotNull(paramsSchema.getProperties().get("DateTo"));
+        assertNotNull(paramsSchema.getProperties().get("C_Project_ID"));
+        assertNotNull(paramsSchema.getProperties().get("M_Warehouse_ID"));
+        assertNotNull(paramsSchema.getProperties().get("Status"));
+    }
+}
