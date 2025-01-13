@@ -1,11 +1,59 @@
+/**
+*   This file was generated automatically by the 'createModuleBuild' task.
+*   Created at: 2025-01-13T18:54:08.376116Z.
+*
+*   WARNING: Do not put your credentials directly in this file.
+*
+*/
+
+group          = "com.etendoerp"
+version        = "1.0.0"
+description    = "OpenAPI Implementation"
+ext.artifact   = "openapi"
+ext.repository = "https://maven.pkg.github.com/etendosoftware/com.etendoerp.platform.extensions"
+
+configurations {
+    moduleDependencyContainer
+}
+
+publishing {
+    publications {
+        "com.etendoerp.openapi"(MavenPublication) {
+            from components.java
+            groupId    = group
+            artifactId = artifact
+            version    = version
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.pkg.github.com/etendosoftware/com.etendoerp.platform.extensions"
+        }
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs("etendo-resources")
+        }
+    }
+}
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://maven.pkg.github.com/etendosoftware/com.etendoerp.platform.extensions"
+    }
 }
 
+/**
+* Declare Java dependencies using 'implementation'
+* Ex: implementation "com.sun.mail:javax.mail:1.6.2"
+*/
 dependencies {
     // Swagger-Core Dependencies
-    implementation 'io.swagger.core.v3:swagger-jaxrs2:2.2.15'
-    implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
-    implementation 'io.swagger.core.v3:swagger-models:2.2.15'
+    implementation 'io.swagger.core.v3:swagger-jaxrs2:2.2.25'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.25'
+    implementation 'io.swagger.core.v3:swagger-models:2.2.25'
 }

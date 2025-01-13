@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+  <database name="TABLE ETAPI_OPENAPI_FLOWPOINT">
+    <table name="ETAPI_OPENAPI_FLOWPOINT" primaryKey="ETAPI_OPENAPI_FLOWPOINT_KEY">
+      <column name="ETAPI_OPENAPI_FLOWPOINT_ID" primaryKey="true" required="true" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false">
+        <default><![CDATA[Y]]></default>
+        <onCreateDefault/>
+      </column>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false">
+        <default><![CDATA[SYSDATE]]></default>
+        <onCreateDefault/>
+      </column>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false">
+        <default><![CDATA[SYSDATE]]></default>
+        <onCreateDefault/>
+      </column>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="ETAPI_OPENAPI_FLOW_ID" primaryKey="false" required="true" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="ETAPI_OPENAPI_REQ_ID" primaryKey="false" required="false" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="AD_MODULE_ID" primaryKey="false" required="false" type="VARCHAR" size="32" autoIncrement="false">
+        <default/>
+        <onCreateDefault/>
+      </column>
+      <column name="GET" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false">
+        <default><![CDATA[Y]]></default>
+        <onCreateDefault/>
+      </column>
+      <column name="PUT" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false">
+        <default><![CDATA[Y]]></default>
+        <onCreateDefault/>
+      </column>
+      <column name="GETBYID" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false">
+        <default><![CDATA[Y]]></default>
+        <onCreateDefault/>
+      </column>
+      <column name="POST" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false">
+        <default><![CDATA[Y]]></default>
+        <onCreateDefault/>
+      </column>
+      <foreign-key foreignTable="AD_MODULE" name="ETAPI_FLOWPT_FK">
+        <reference local="AD_MODULE_ID" foreign="AD_MODULE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_CLIENT" name="ETAPI_OPENAPI_FLOWPOINT_CLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="ETAPI_OPENAPI_FLOW" name="ETAPI_OPENAPI_FLOWPOINT_FLOW">
+        <reference local="ETAPI_OPENAPI_FLOW_ID" foreign="ETAPI_OPENAPI_FLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ETAPI_OPENAPI_FLOWPOINT_ORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="ETAPI_OPENAPI_REQ" name="ETAPI_OPENAPI_FLOWPOINT_REQ">
+        <reference local="ETAPI_OPENAPI_REQ_ID" foreign="ETAPI_OPENAPI_REQ_ID"/>
+      </foreign-key>
+      <check name="ETAPI_OPENAPI_FLOWPOINT_ISACT"><![CDATA[ISACTIVE IN ('Y', 'N')]]></check>
+      <check name="ETAPI_OPENAPI_FP_GET_CHK"><![CDATA[GET IN ('Y', 'N')]]></check>
+      <check name="ETAPI_OPENAPI_FP_GETBYID_CHK"><![CDATA[GETBYID IN ('Y', 'N')]]></check>
+      <check name="ETAPI_OPENAPI_FP_POST_CHK"><![CDATA[POST IN ('Y', 'N')]]></check>
+      <check name="ETAPI_OPENAPI_FP_PUT_CHK"><![CDATA[PUT IN ('Y', 'N')]]></check>
+    </table>
+  </database>
