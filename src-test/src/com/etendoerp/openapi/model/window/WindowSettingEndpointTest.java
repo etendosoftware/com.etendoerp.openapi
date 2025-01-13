@@ -35,6 +35,9 @@ public class WindowSettingEndpointTest {
 
     private static final String PATHS_SHOULD_BE_CREATED = "Paths should be created";
     private static final String PARAMETERS_SHOULD_EXIST = "Parameters should exist";
+    private static final String WINDOW_SETTINGS_ACTION_HANDLER_PATH = "/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.WindowSettingsActionHandler";
+    private static final String FORM_INIT_COMPONENT_NEW = "/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=NEW";
+    private static final String FORM_INIT_COMPONENT_CHANGE = "/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=CHANGE";
 
     /**
      * Sets up.
@@ -93,7 +96,7 @@ public class WindowSettingEndpointTest {
         
         // Then
         assertNotNull(PATHS_SHOULD_BE_CREATED, openAPI.getPaths());
-        PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.WindowSettingsActionHandler");
+        PathItem pathItem = openAPI.getPaths().get(WINDOW_SETTINGS_ACTION_HANDLER_PATH);
         assertNotNull("Window settings path should exist", pathItem);
         
         Operation operation = pathItem.getGet();
@@ -125,7 +128,7 @@ public class WindowSettingEndpointTest {
         
         // Then
         assertNotNull(PATHS_SHOULD_BE_CREATED, openAPI.getPaths());
-        PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=NEW");
+        PathItem pathItem = openAPI.getPaths().get(FORM_INIT_COMPONENT_NEW);
         assertNotNull("Form init path should exist", pathItem);
         
         Operation operation = pathItem.getPost();
@@ -152,7 +155,7 @@ public class WindowSettingEndpointTest {
         
         // Then
         assertNotNull(PATHS_SHOULD_BE_CREATED, openAPI.getPaths());
-        PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=CHANGE");
+        PathItem pathItem = openAPI.getPaths().get(FORM_INIT_COMPONENT_CHANGE);
         assertNotNull("Form change path should exist", pathItem);
         
         Operation operation = pathItem.getPost();

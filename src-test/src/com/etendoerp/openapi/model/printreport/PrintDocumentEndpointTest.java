@@ -45,6 +45,7 @@ public class PrintDocumentEndpointTest {
     private OpenAPI openAPI;
 
     private static final String PRINT_REPORT = "Print Report";
+    private static final String PRINT_OPTIONS_ENDPOINT = "/etendo/orders/PrintOptions.html?stateless=true";
 
     /**
      * Sets up.
@@ -90,7 +91,7 @@ public class PrintDocumentEndpointTest {
         printDocumentEndpoint.add(openAPI);
 
         // Then
-        PathItem pathItem = openAPI.getPaths().get("/etendo/orders/PrintOptions.html?stateless=true");
+        PathItem pathItem = openAPI.getPaths().get(PRINT_OPTIONS_ENDPOINT);
         assertNotNull(pathItem);
         assertNotNull(pathItem.getPost());
 

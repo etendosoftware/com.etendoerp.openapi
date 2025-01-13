@@ -32,6 +32,7 @@ public class JobsAndActionsEndpointTest {
     private OpenAPI openAPI;
 
     private static final String PROCESS_ORDER_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
+    private static final String PROCESS_ORDER_DEFAULTS_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrdersDefaults";
     private static final String ACTION = "_action";
 
     /**
@@ -90,7 +91,7 @@ public class JobsAndActionsEndpointTest {
         // Verify paths are created
         assertNotNull("Paths should not be null", openAPI.getPaths());
         assertTrue("Should contain ProcessOrdersDefaults path", 
-            openAPI.getPaths().containsKey("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrdersDefaults"));
+            openAPI.getPaths().containsKey(PROCESS_ORDER_DEFAULTS_ENDPOINT));
         assertTrue("Should contain ProcessOrders path", 
             openAPI.getPaths().containsKey(PROCESS_ORDER_ENDPOINT));
 
@@ -103,7 +104,7 @@ public class JobsAndActionsEndpointTest {
 
         // Verify ProcessOrdersDefaults endpoint
         PathItem processOrdersDefaultsPath = openAPI.getPaths()
-            .get("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrdersDefaults");
+            .get(PROCESS_ORDER_DEFAULTS_ENDPOINT);
         Operation processOrdersDefaultsOperation = processOrdersDefaultsPath.getPost();
         assertNotNull("ProcessOrdersDefaults operation should not be null", processOrdersDefaultsOperation);
         

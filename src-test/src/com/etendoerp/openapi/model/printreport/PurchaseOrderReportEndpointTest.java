@@ -46,6 +46,8 @@ public class PurchaseOrderReportEndpointTest {
 
     private static final String JOBS_AND_ACTIONS = "Jobs and Actions";
     private static final String OBJECT = "object";
+    private static final String BASE_REPORT_ACTION_HANDLER_PATH = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler";
+    private static final String BASE_REPORT_ACTION_HANDLER_DOWNLOAD_PATH = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler&mode=DOWNLOAD";
 
     /**
      * Sets up.
@@ -92,14 +94,12 @@ public class PurchaseOrderReportEndpointTest {
 
         // Then
         // Verify BaseReportActionHandler endpoint
-        String baseReportPath = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler";
-        PathItem baseReportPathItem = openAPI.getPaths().get(baseReportPath);
+        PathItem baseReportPathItem = openAPI.getPaths().get(BASE_REPORT_ACTION_HANDLER_PATH);
         assertNotNull(baseReportPathItem);
         verifyEndpoint(baseReportPathItem);
 
         // Verify BaseReportActionHandler&mode=DOWNLOAD endpoint
-        String downloadPath = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler&mode=DOWNLOAD";
-        PathItem downloadPathItem = openAPI.getPaths().get(downloadPath);
+        PathItem downloadPathItem = openAPI.getPaths().get(BASE_REPORT_ACTION_HANDLER_DOWNLOAD_PATH);
         assertNotNull(downloadPathItem);
         verifyEndpoint(downloadPathItem);
     }
@@ -193,7 +193,7 @@ public class PurchaseOrderReportEndpointTest {
         purchaseOrderReportEndpoint.add(openAPI);
 
         // Then
-        PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler");
+        PathItem pathItem = openAPI.getPaths().get(BASE_REPORT_ACTION_HANDLER_PATH);
         assertNotNull(pathItem);
         
         Operation operation = pathItem.getPost();
