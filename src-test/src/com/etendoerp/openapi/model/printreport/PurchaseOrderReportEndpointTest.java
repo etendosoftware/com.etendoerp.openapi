@@ -27,6 +27,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Purchase order report endpoint test class.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PurchaseOrderReportEndpointTest {
 
@@ -44,26 +47,41 @@ public class PurchaseOrderReportEndpointTest {
     private final String JOBS_AND_ACTIONS = "Jobs and Actions";
     private final String OBJECT = "object";
 
+    /**
+     * Sets up.
+     */
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
     }
 
+    /**
+     * Test is valid with null tag returns true.
+     */
     @Test
     public void testIsValid_withNullTag_returnsTrue() {
         assertTrue(purchaseOrderReportEndpoint.isValid(null));
     }
 
+    /**
+     * Test is valid with valid tag returns true.
+     */
     @Test
     public void testIsValid_withValidTag_returnsTrue() {
         assertTrue(purchaseOrderReportEndpoint.isValid(JOBS_AND_ACTIONS));
     }
 
+    /**
+     * Test is valid with invalid tag returns false.
+     */
     @Test
     public void testIsValid_withInvalidTag_returnsFalse() {
         assertFalse(purchaseOrderReportEndpoint.isValid("Invalid Tag"));
     }
 
+    /**
+     * Test add adds correct endpoints.
+     */
     @Test
     public void testAdd_addsCorrectEndpoints() {
         // Given
@@ -116,6 +134,9 @@ public class PurchaseOrderReportEndpointTest {
         assertTrue(responses.containsKey("500"));
     }
 
+    /**
+     * Test add adds correct tags.
+     */
     @Test
     public void testAdd_addsCorrectTags() {
         // When
@@ -137,6 +158,9 @@ public class PurchaseOrderReportEndpointTest {
         assertTrue("Jobs and Actions tag should be present", foundJobsAndActionsTag);
     }
 
+    /**
+     * Test add adds correct schemas.
+     */
     @Test
     public void testAdd_addsCorrectSchemas() {
         // When
@@ -157,6 +181,9 @@ public class PurchaseOrderReportEndpointTest {
         assertEquals(OBJECT, downloadSchema.getType());
     }
 
+    /**
+     * Test add request schema has correct structure.
+     */
     @Test
     public void testAdd_requestSchemaHasCorrectStructure() {
         // Given

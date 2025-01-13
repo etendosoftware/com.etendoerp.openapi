@@ -19,6 +19,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Window setting endpoint test class.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class WindowSettingEndpointTest {
 
@@ -33,11 +36,17 @@ public class WindowSettingEndpointTest {
     private final String PATHS_SHOULD_BE_CREATED = "Paths should be created";
     private final String PARAMETERS_SHOULD_EXIST = "Parameters should exist";
 
+    /**
+     * Sets up.
+     */
     @Before
     public void setUp() {
         endpoint = new WindowSettingEndpoint();
     }
 
+    /**
+     * Test is valid null tag.
+     */
     @Test
     public void test_isValid_nullTag() {
         // When
@@ -47,6 +56,9 @@ public class WindowSettingEndpointTest {
         assertTrue("Should be valid for null tag", result);
     }
 
+    /**
+     * Test is valid valid tag.
+     */
     @Test
     public void test_isValid_validTag() {
         // When
@@ -56,6 +68,9 @@ public class WindowSettingEndpointTest {
         assertTrue("Should be valid for 'Window Settings' tag", result);
     }
 
+    /**
+     * Test is valid invalid tag.
+     */
     @Test
     public void test_isValid_invalidTag() {
         // When
@@ -65,6 +80,9 @@ public class WindowSettingEndpointTest {
         assertFalse("Should be invalid for unknown tag", result);
     }
 
+    /**
+     * Test add window settings endpoint.
+     */
     @Test
     public void test_add_windowSettingsEndpoint() {
         // Given
@@ -94,6 +112,9 @@ public class WindowSettingEndpointTest {
         assertTrue("windowId parameter should be required", windowIdParam.getRequired());
     }
 
+    /**
+     * Test add form init endpoint.
+     */
     @Test
     public void test_add_formInitEndpoint() {
         // Given
@@ -118,6 +139,9 @@ public class WindowSettingEndpointTest {
         assertTrue("Request body should be required", operation.getRequestBody().getRequired());
     }
 
+    /**
+     * Test add form change endpoint.
+     */
     @Test
     public void test_add_formChangeEndpoint() {
         // Given
@@ -142,6 +166,9 @@ public class WindowSettingEndpointTest {
         assertTrue("Request body should be required", operation.getRequestBody().getRequired());
     }
 
+    /**
+     * Test add components and schemas.
+     */
     @Test
     public void test_add_componentsAndSchemas() {
         // Given

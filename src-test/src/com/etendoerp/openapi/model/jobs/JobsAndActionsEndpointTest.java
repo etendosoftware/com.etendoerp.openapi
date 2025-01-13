@@ -1,6 +1,5 @@
 package com.etendoerp.openapi.model.jobs;
 
-import com.ctc.wstx.util.StringUtil;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -21,7 +20,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-
+/**
+ * Jobs and actions endpoint test class.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class JobsAndActionsEndpointTest {
 
@@ -33,11 +34,17 @@ public class JobsAndActionsEndpointTest {
     private final String PROCESS_ORDER_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
     private final String ACTION = "_action";
 
+    /**
+     * Sets up.
+     */
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
     }
 
+    /**
+     * Test is valid with null tag returns true.
+     */
     @Test
     public void test_isValid_withNullTag_returnsTrue() {
         // When
@@ -47,6 +54,9 @@ public class JobsAndActionsEndpointTest {
         assertTrue("Should return true for null tag", result);
     }
 
+    /**
+     * Test is valid with valid tag returns true.
+     */
     @Test
     public void test_isValid_withValidTag_returnsTrue() {
         // When
@@ -56,6 +66,9 @@ public class JobsAndActionsEndpointTest {
         assertTrue("Should return true for valid tag", result);
     }
 
+    /**
+     * Test is valid with invalid tag returns false.
+     */
     @Test
     public void test_isValid_withInvalidTag_returnsFalse() {
         // When
@@ -65,6 +78,9 @@ public class JobsAndActionsEndpointTest {
         assertFalse("Should return false for invalid tag", result);
     }
 
+    /**
+     * Test add creates valid open api specification.
+     */
     @Test
     public void test_add_createsValidOpenAPISpecification() {
         // When
@@ -105,6 +121,9 @@ public class JobsAndActionsEndpointTest {
         assertNotNull("Should have 500 response", serverErrorResponse);
     }
 
+    /**
+     * Test add creates valid process orders request schema.
+     */
     @Test
     public void test_add_createsValidProcessOrdersRequestSchema() {
         // When
@@ -132,6 +151,9 @@ public class JobsAndActionsEndpointTest {
         assertTrue("_entityName should be required", required.contains("_entityName"));
     }
 
+    /**
+     * Test add creates valid process orders response schema.
+     */
     @Test
     public void test_add_createsValidProcessOrdersResponseSchema() {
         // When
@@ -158,6 +180,9 @@ public class JobsAndActionsEndpointTest {
         assertTrue("refreshParent should be required", required.contains("refreshParent"));
     }
 
+    /**
+     * Test add process orders includes required parameters.
+     */
     @Test
     public void test_add_processOrdersIncludesRequiredParameters() {
         // When

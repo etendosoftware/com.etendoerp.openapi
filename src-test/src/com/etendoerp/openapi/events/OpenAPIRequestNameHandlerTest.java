@@ -26,9 +26,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
+/**
+ * Open api request name handler test class.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class OpenAPIRequestNameHandlerTest {
 
+    /**
+     * The Expected exception.
+     */
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -54,6 +60,11 @@ public class OpenAPIRequestNameHandlerTest {
 
     private final String INVALID_REQUEST_NAME_ERROR = "Invalid request name";
 
+    /**
+     * Sets up.
+     *
+     * @throws Exception the exception
+     */
     @Before
     public void setUp() throws Exception {
         handler = new OpenAPIRequestNameHandler() {
@@ -72,6 +83,9 @@ public class OpenAPIRequestNameHandlerTest {
         isValidEventMethod.setAccessible(true);
     }
 
+    /**
+     * Tear down.
+     */
     @After
     public void tearDown() {
         if (mockedModelProvider != null) {
@@ -82,6 +96,9 @@ public class OpenAPIRequestNameHandlerTest {
         }
     }
 
+    /**
+     * Test on update valid name.
+     */
     @Test
     public void testOnUpdate_ValidName() {
         // Given
@@ -95,6 +112,9 @@ public class OpenAPIRequestNameHandlerTest {
         verify(openAPIRequest, times(1)).getName();
     }
 
+    /**
+     * Test on update invalid name.
+     */
     @Test
     public void testOnUpdate_InvalidName() {
         // Given
@@ -107,6 +127,9 @@ public class OpenAPIRequestNameHandlerTest {
         handler.onUpdate(updateEvent);
     }
 
+    /**
+     * Test on save valid name.
+     */
     @Test
     public void testOnSave_ValidName() {
         // Given
@@ -120,6 +143,9 @@ public class OpenAPIRequestNameHandlerTest {
         verify(openAPIRequest, times(1)).getName();
     }
 
+    /**
+     * Test on save invalid name.
+     */
     @Test
     public void testOnSave_InvalidName() {
         // Given
@@ -132,6 +158,9 @@ public class OpenAPIRequestNameHandlerTest {
         handler.onSave(newEvent);
     }
 
+    /**
+     * Test on update null name.
+     */
     @Test
     public void testOnUpdate_NullName() {
         // Given
@@ -144,6 +173,9 @@ public class OpenAPIRequestNameHandlerTest {
         handler.onUpdate(updateEvent);
     }
 
+    /**
+     * Test on save empty name.
+     */
     @Test
     public void testOnSave_EmptyName() {
         // Given

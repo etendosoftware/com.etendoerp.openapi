@@ -33,8 +33,14 @@ import com.etendoerp.openapi.model.OpenAPIEndpoint;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Open api controller test class.
+ */
 public class OpenAPIControllerTest extends WeldBaseTest {
 
+    /**
+     * The Expected exception.
+     */
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -81,6 +87,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
                 .thenReturn(endpoints);
     }
 
+    /**
+     * Tear down.
+     *
+     * @throws Exception the exception
+     */
     @After
     public void tearDown() throws Exception {
         if (mockedPropertiesProvider != null) {
@@ -94,6 +105,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         }
     }
 
+    /**
+     * Test do get success.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testDoGet_Success() throws Exception {
         // Given
@@ -109,6 +125,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         verify(response).getWriter();
     }
 
+    /**
+     * Test get open api json valid content.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetOpenAPIJson_ValidContent() throws Exception {
         // When
@@ -127,6 +148,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         assertTrue("Should contain security section", root.has("security"));
     }
 
+    /**
+     * Test get open api json with tag.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetOpenAPIJson_WithTag() throws Exception {
         // Given
@@ -140,6 +166,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         assertTrue("JSON should be properly formatted", StringUtils.contains(json, "title"));// json.contains("\"title\""));
     }
 
+    /**
+     * Test get open api json default base url.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetOpenAPIJson_DefaultBaseUrl() throws Exception {
         // Given
@@ -155,6 +186,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
                 StringUtils.contains(json, "http://localhost:8080/etendo"));
     }
 
+    /**
+     * Test security schemes.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testSecuritySchemes() throws Exception {
         // When
@@ -179,6 +215,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         assertEquals("JWT", bearerAuth.get("bearerFormat").asText());
     }
 
+    /**
+     * Test unsupported operations.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testUnsupportedOperations() throws Exception {
         // Test POST

@@ -21,7 +21,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-
+/**
+ * Initial client setup endpoint test class.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class InitialClientSetupEndpointTest {
 
@@ -32,26 +34,41 @@ public class InitialClientSetupEndpointTest {
 
     private final String INITIAL_SETUP = "Initial Setup";
 
+    /**
+     * Sets up.
+     */
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
     }
 
+    /**
+     * Test is valid with null tag returns true.
+     */
     @Test
     public void testIsValid_withNullTag_returnsTrue() {
         assertTrue(endpoint.isValid(null));
     }
 
+    /**
+     * Test is valid with valid tag returns true.
+     */
     @Test
     public void testIsValid_withValidTag_returnsTrue() {
         assertTrue(endpoint.isValid(INITIAL_SETUP));
     }
 
+    /**
+     * Test is valid with invalid tag returns false.
+     */
     @Test
     public void testIsValid_withInvalidTag_returnsFalse() {
         assertFalse(endpoint.isValid("Invalid Tag"));
     }
 
+    /**
+     * Test add creates valid open api definition.
+     */
     @Test
     public void testAdd_createsValidOpenAPIDefinition() {
         // When
@@ -135,6 +152,9 @@ public class InitialClientSetupEndpointTest {
         assertTrue(hasUserAgentHeader);
     }
 
+    /**
+     * Test add creates valid schema definitions.
+     */
     @Test
     public void testAdd_createsValidSchemaDefinitions() {
         // When
@@ -146,6 +166,9 @@ public class InitialClientSetupEndpointTest {
         assertTrue(openAPI.getComponents().getSchemas().containsKey("InitialClientSetupResponse"));
     }
 
+    /**
+     * Test add creates valid tags.
+     */
     @Test
     public void testAdd_createsValidTags() {
         // When
