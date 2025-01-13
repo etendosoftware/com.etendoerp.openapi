@@ -3,7 +3,10 @@ package com.etendoerp.openapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -25,13 +28,10 @@ import org.mockito.MockitoAnnotations;
 import org.openbravo.base.session.OBPropertiesProvider;
 import org.openbravo.base.weld.WeldUtils;
 import org.openbravo.base.weld.test.WeldBaseTest;
-import org.openbravo.dal.core.OBContext;
 
 import com.etendoerp.openapi.model.OpenAPIEndpoint;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.swagger.v3.oas.models.OpenAPI;
 
 public class OpenAPIControllerTest extends WeldBaseTest {
 

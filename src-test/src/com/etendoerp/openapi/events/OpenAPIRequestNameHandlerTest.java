@@ -1,6 +1,5 @@
 package com.etendoerp.openapi.events;
 
-import com.etendoerp.copilot.eventhandler.AssistantKBSyncStatusHandler;
 import com.etendoerp.openapi.data.OpenAPIRequest;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +20,11 @@ import org.openbravo.erpCommon.utility.OBMessageUtils;
 
 import java.lang.reflect.Method;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenAPIRequestNameHandlerTest {
