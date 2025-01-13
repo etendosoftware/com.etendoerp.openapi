@@ -58,7 +58,7 @@ public class OpenAPIRequestNameHandlerTest {
     private MockedStatic<OBMessageUtils> mockedOBMessageUtils;
     private Method isValidEventMethod;
 
-    private final String INVALID_REQUEST_NAME_ERROR = "Invalid request name";
+    private static final String INVALID_REQUEST_NAME_ERROR = "Invalid request name";
 
     /**
      * Sets up.
@@ -100,7 +100,7 @@ public class OpenAPIRequestNameHandlerTest {
      * Test on update valid name.
      */
     @Test
-    public void testOnUpdate_ValidName() {
+    public void testOnUpdateValidName() {
         // Given
         when(updateEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn("ValidName");
@@ -116,7 +116,7 @@ public class OpenAPIRequestNameHandlerTest {
      * Test on update invalid name.
      */
     @Test
-    public void testOnUpdate_InvalidName() {
+    public void testOnUpdateInvalidName() {
         // Given
         when(updateEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn("Invalid123Name");
@@ -131,7 +131,7 @@ public class OpenAPIRequestNameHandlerTest {
      * Test on save valid name.
      */
     @Test
-    public void testOnSave_ValidName() {
+    public void testOnSaveValidName() {
         // Given
         when(newEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn("ValidName");
@@ -147,7 +147,7 @@ public class OpenAPIRequestNameHandlerTest {
      * Test on save invalid name.
      */
     @Test
-    public void testOnSave_InvalidName() {
+    public void testOnSaveInvalidName() {
         // Given
         when(newEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn("Invalid123Name");
@@ -162,7 +162,7 @@ public class OpenAPIRequestNameHandlerTest {
      * Test on update null name.
      */
     @Test
-    public void testOnUpdate_NullName() {
+    public void testOnUpdateNullName() {
         // Given
         when(updateEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn(null);
@@ -177,7 +177,7 @@ public class OpenAPIRequestNameHandlerTest {
      * Test on save empty name.
      */
     @Test
-    public void testOnSave_EmptyName() {
+    public void testOnSaveEmptyName() {
         // Given
         when(newEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn(null);

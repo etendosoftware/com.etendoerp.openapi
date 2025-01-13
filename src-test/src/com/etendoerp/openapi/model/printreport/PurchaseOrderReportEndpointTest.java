@@ -44,8 +44,8 @@ public class PurchaseOrderReportEndpointTest {
 
     private OpenAPI openAPI;
 
-    private final String JOBS_AND_ACTIONS = "Jobs and Actions";
-    private final String OBJECT = "object";
+    private static final String JOBS_AND_ACTIONS = "Jobs and Actions";
+    private static final String OBJECT = "object";
 
     /**
      * Sets up.
@@ -59,7 +59,7 @@ public class PurchaseOrderReportEndpointTest {
      * Test is valid with null tag returns true.
      */
     @Test
-    public void testIsValid_withNullTag_returnsTrue() {
+    public void testIsValidWithNullTagReturnsTrue() {
         assertTrue(purchaseOrderReportEndpoint.isValid(null));
     }
 
@@ -67,7 +67,7 @@ public class PurchaseOrderReportEndpointTest {
      * Test is valid with valid tag returns true.
      */
     @Test
-    public void testIsValid_withValidTag_returnsTrue() {
+    public void testIsValidWithValidTagReturnsTrue() {
         assertTrue(purchaseOrderReportEndpoint.isValid(JOBS_AND_ACTIONS));
     }
 
@@ -75,7 +75,7 @@ public class PurchaseOrderReportEndpointTest {
      * Test is valid with invalid tag returns false.
      */
     @Test
-    public void testIsValid_withInvalidTag_returnsFalse() {
+    public void testIsValidWithInvalidTagReturnsFalse() {
         assertFalse(purchaseOrderReportEndpoint.isValid("Invalid Tag"));
     }
 
@@ -83,7 +83,7 @@ public class PurchaseOrderReportEndpointTest {
      * Test add adds correct endpoints.
      */
     @Test
-    public void testAdd_addsCorrectEndpoints() {
+    public void testAddCorrectEndpoints() {
         // Given
         openAPI.setPaths(new Paths());
 
@@ -138,7 +138,7 @@ public class PurchaseOrderReportEndpointTest {
      * Test add adds correct tags.
      */
     @Test
-    public void testAdd_addsCorrectTags() {
+    public void testAddCorrectTags() {
         // When
         purchaseOrderReportEndpoint.add(openAPI);
 
@@ -162,7 +162,7 @@ public class PurchaseOrderReportEndpointTest {
      * Test add adds correct schemas.
      */
     @Test
-    public void testAdd_addsCorrectSchemas() {
+    public void testAddCorrectSchemas() {
         // When
         purchaseOrderReportEndpoint.add(openAPI);
 
@@ -185,9 +185,8 @@ public class PurchaseOrderReportEndpointTest {
      * Test add request schema has correct structure.
      */
     @Test
-    public void testAdd_requestSchemaHasCorrectStructure() {
+    public void testAddRequestSchemaHasCorrectStructure() {
         // Given
-        OpenAPI openAPI = new OpenAPI();
         openAPI.setPaths(new Paths());
 
         // When

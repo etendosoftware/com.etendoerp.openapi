@@ -62,8 +62,8 @@ public class OpenAPIControllerTest extends WeldBaseTest {
     private MockedStatic<OBPropertiesProvider> mockedPropertiesProvider;
     private MockedStatic<WeldUtils> mockedWeldUtils;
 
-    private final String TEST_URL = "http://test.com";
-    private final String OPENAPI_JSON_ERROR = "OpenAPI JSON should not be null";
+    private static final String TEST_URL = "http://test.com";
+    private static final String OPENAPI_JSON_ERROR = "OpenAPI JSON should not be null";
 
     @Before
     public void setUp() throws Exception {
@@ -111,7 +111,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
      * @throws Exception the exception
      */
     @Test
-    public void testDoGet_Success() throws Exception {
+    public void testDoGetSuccess() throws Exception {
         // Given
         when(request.getParameter("tag")).thenReturn(null);
         when(request.getParameter("host")).thenReturn(null);
@@ -131,7 +131,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
      * @throws Exception the exception
      */
     @Test
-    public void testGetOpenAPIJson_ValidContent() throws Exception {
+    public void testGetOpenAPIJsonValidContent() throws Exception {
         // When
         String json = controller.getOpenAPIJson(null, TEST_URL);
 
@@ -154,7 +154,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
      * @throws Exception the exception
      */
     @Test
-    public void testGetOpenAPIJson_WithTag() throws Exception {
+    public void testGetOpenAPIJsonWithTag() throws Exception {
         // Given
         String tag = "test";
         
@@ -163,7 +163,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
 
         // Then
         assertNotNull(OPENAPI_JSON_ERROR, json);
-        assertTrue("JSON should be properly formatted", StringUtils.contains(json, "title"));// json.contains("\"title\""));
+        assertTrue("JSON should be properly formatted", StringUtils.contains(json, "title"));
     }
 
     /**
@@ -172,7 +172,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
      * @throws Exception the exception
      */
     @Test
-    public void testGetOpenAPIJson_DefaultBaseUrl() throws Exception {
+    public void testGetOpenAPIJsonDefaultBaseUrl() throws Exception {
         // Given
         when(propertiesProvider.getOpenbravoProperties().getProperty("context.name"))
                 .thenReturn("etendo");

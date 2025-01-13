@@ -32,7 +32,7 @@ public class InitialOrganizationSetupEndpointTest {
 
     private OpenAPI openAPI;
 
-    private final String INITIAL_SETUP = "Initial Setup";
+    private static final String INITIAL_SETUP = "Initial Setup";
 
     /**
      * Sets up.
@@ -46,7 +46,7 @@ public class InitialOrganizationSetupEndpointTest {
      * Test is valid with null tag returns true.
      */
     @Test
-    public void testIsValid_withNullTag_returnsTrue() {
+    public void testIsValidWithNullTagReturnsTrue() {
         assertTrue(endpoint.isValid(null));
     }
 
@@ -54,7 +54,7 @@ public class InitialOrganizationSetupEndpointTest {
      * Test is valid with valid tag returns true.
      */
     @Test
-    public void testIsValid_withValidTag_returnsTrue() {
+    public void testIsValidWithValidTagReturnsTrue() {
         assertTrue(endpoint.isValid(INITIAL_SETUP));
     }
 
@@ -62,7 +62,7 @@ public class InitialOrganizationSetupEndpointTest {
      * Test is valid with invalid tag returns false.
      */
     @Test
-    public void testIsValid_withInvalidTag_returnsFalse() {
+    public void testIsValidWithInvalidTagReturnsFalse() {
         assertFalse(endpoint.isValid("Invalid Tag"));
     }
 
@@ -70,7 +70,7 @@ public class InitialOrganizationSetupEndpointTest {
      * Test add creates valid open api definition.
      */
     @Test
-    public void testAdd_createsValidOpenAPIDefinition() {
+    public void testAddCreatesValidOpenAPIDefinition() {
         // When
         endpoint.add(openAPI);
 
@@ -131,7 +131,7 @@ public class InitialOrganizationSetupEndpointTest {
      * Test add creates valid schema definitions.
      */
     @Test
-    public void testAdd_createsValidSchemaDefinitions() {
+    public void testAddCreatesValidSchemaDefinitions() {
         // When
         endpoint.add(openAPI);
 
@@ -145,7 +145,7 @@ public class InitialOrganizationSetupEndpointTest {
      * Test add creates valid tags.
      */
     @Test
-    public void testAdd_createsValidTags() {
+    public void testAddCreatesValidTags() {
         // When
         endpoint.add(openAPI);
 

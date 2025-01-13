@@ -31,8 +31,8 @@ public class JobsAndActionsEndpointTest {
 
     private OpenAPI openAPI;
 
-    private final String PROCESS_ORDER_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
-    private final String ACTION = "_action";
+    private static final String PROCESS_ORDER_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
+    private static final String ACTION = "_action";
 
     /**
      * Sets up.
@@ -46,7 +46,7 @@ public class JobsAndActionsEndpointTest {
      * Test is valid with null tag returns true.
      */
     @Test
-    public void test_isValid_withNullTag_returnsTrue() {
+    public void testIsValidWithNullTagReturnsTrue() {
         // When
         boolean result = jobsAndActionsEndpoint.isValid(null);
 
@@ -58,7 +58,7 @@ public class JobsAndActionsEndpointTest {
      * Test is valid with valid tag returns true.
      */
     @Test
-    public void test_isValid_withValidTag_returnsTrue() {
+    public void testIsValidWithValidTagReturnsTrue() {
         // When
         boolean result = jobsAndActionsEndpoint.isValid("Jobs and Actions");
 
@@ -70,7 +70,7 @@ public class JobsAndActionsEndpointTest {
      * Test is valid with invalid tag returns false.
      */
     @Test
-    public void test_isValid_withInvalidTag_returnsFalse() {
+    public void testIsValidWithInvalidTagReturnsFalse() {
         // When
         boolean result = jobsAndActionsEndpoint.isValid("Invalid Tag");
 
@@ -82,7 +82,7 @@ public class JobsAndActionsEndpointTest {
      * Test add creates valid open api specification.
      */
     @Test
-    public void test_add_createsValidOpenAPISpecification() {
+    public void testAddCreatesValidOpenAPISpecification() {
         // When
         jobsAndActionsEndpoint.add(openAPI);
 
@@ -125,7 +125,7 @@ public class JobsAndActionsEndpointTest {
      * Test add creates valid process orders request schema.
      */
     @Test
-    public void test_add_createsValidProcessOrdersRequestSchema() {
+    public void testAddCreatesValidProcessOrdersRequestSchema() {
         // When
         jobsAndActionsEndpoint.add(openAPI);
 
@@ -155,7 +155,7 @@ public class JobsAndActionsEndpointTest {
      * Test add creates valid process orders response schema.
      */
     @Test
-    public void test_add_createsValidProcessOrdersResponseSchema() {
+    public void testAddCreatesValidProcessOrdersResponseSchema() {
         // When
         jobsAndActionsEndpoint.add(openAPI);
 
@@ -184,7 +184,7 @@ public class JobsAndActionsEndpointTest {
      * Test add process orders includes required parameters.
      */
     @Test
-    public void test_add_processOrdersIncludesRequiredParameters() {
+    public void testAddProcessOrdersIncludesRequiredParameters() {
         // When
         jobsAndActionsEndpoint.add(openAPI);
 

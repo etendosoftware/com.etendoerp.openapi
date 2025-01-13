@@ -44,7 +44,7 @@ public class PrintDocumentEndpointTest {
 
     private OpenAPI openAPI;
 
-    private final String PRINT_REPORT = "Print Report";
+    private static final String PRINT_REPORT = "Print Report";
 
     /**
      * Sets up.
@@ -58,7 +58,7 @@ public class PrintDocumentEndpointTest {
      * Test is valid with null tag returns true.
      */
     @Test
-    public void testIsValid_withNullTag_returnsTrue() {
+    public void testIsValidWithNullTagReturnsTrue() {
         assertTrue(printDocumentEndpoint.isValid(null));
     }
 
@@ -66,7 +66,7 @@ public class PrintDocumentEndpointTest {
      * Test is valid with valid tag returns true.
      */
     @Test
-    public void testIsValid_withValidTag_returnsTrue() {
+    public void testIsValidWithValidTagReturnsTrue() {
         assertTrue(printDocumentEndpoint.isValid(PRINT_REPORT));
     }
 
@@ -74,7 +74,7 @@ public class PrintDocumentEndpointTest {
      * Test is valid with invalid tag returns false.
      */
     @Test
-    public void testIsValid_withInvalidTag_returnsFalse() {
+    public void testIsValidWithInvalidTagReturnsFalse() {
         assertFalse(printDocumentEndpoint.isValid("Invalid Tag"));
     }
 
@@ -82,7 +82,7 @@ public class PrintDocumentEndpointTest {
      * Test add adds correct path item.
      */
     @Test
-    public void testAdd_addsCorrectPathItem() {
+    public void testAddCorrectPathItem() {
         // Given
         openAPI.setPaths(new Paths());
 
@@ -124,7 +124,7 @@ public class PrintDocumentEndpointTest {
      * Test add adds correct tags.
      */
     @Test
-    public void testAdd_addsCorrectTags() {
+    public void testAddCorrectTags() {
         // When
         printDocumentEndpoint.add(openAPI);
 
@@ -148,7 +148,7 @@ public class PrintDocumentEndpointTest {
      * Test add adds correct schema.
      */
     @Test
-    public void testAdd_addsCorrectSchema() {
+    public void testAddCorrectSchema() {
         // When
         printDocumentEndpoint.add(openAPI);
 

@@ -33,8 +33,8 @@ public class WindowSettingEndpointTest {
     @Mock
     private Paths mockPaths;
 
-    private final String PATHS_SHOULD_BE_CREATED = "Paths should be created";
-    private final String PARAMETERS_SHOULD_EXIST = "Parameters should exist";
+    private static final String PATHS_SHOULD_BE_CREATED = "Paths should be created";
+    private static final String PARAMETERS_SHOULD_EXIST = "Parameters should exist";
 
     /**
      * Sets up.
@@ -48,7 +48,7 @@ public class WindowSettingEndpointTest {
      * Test is valid null tag.
      */
     @Test
-    public void test_isValid_nullTag() {
+    public void testIsValidNullTag() {
         // When
         boolean result = endpoint.isValid(null);
 
@@ -60,7 +60,7 @@ public class WindowSettingEndpointTest {
      * Test is valid valid tag.
      */
     @Test
-    public void test_isValid_validTag() {
+    public void testIsValidValidTag() {
         // When
         boolean result = endpoint.isValid("Window Settings");
 
@@ -72,7 +72,7 @@ public class WindowSettingEndpointTest {
      * Test is valid invalid tag.
      */
     @Test
-    public void test_isValid_invalidTag() {
+    public void testIsValidInvalidTag() {
         // When
         boolean result = endpoint.isValid("Invalid Tag");
 
@@ -84,7 +84,7 @@ public class WindowSettingEndpointTest {
      * Test add window settings endpoint.
      */
     @Test
-    public void test_add_windowSettingsEndpoint() {
+    public void testAddWindowSettingsEndpoint() {
         // Given
         OpenAPI openAPI = new OpenAPI();
         
@@ -116,7 +116,7 @@ public class WindowSettingEndpointTest {
      * Test add form init endpoint.
      */
     @Test
-    public void test_add_formInitEndpoint() {
+    public void testAddFormInitEndpoint() {
         // Given
         OpenAPI openAPI = new OpenAPI();
         
@@ -143,7 +143,7 @@ public class WindowSettingEndpointTest {
      * Test add form change endpoint.
      */
     @Test
-    public void test_add_formChangeEndpoint() {
+    public void testAddFormChangeEndpoint() {
         // Given
         OpenAPI openAPI = new OpenAPI();
         
@@ -170,7 +170,7 @@ public class WindowSettingEndpointTest {
      * Test add components and schemas.
      */
     @Test
-    public void test_add_componentsAndSchemas() {
+    public void testAddComponentsAndSchemas() {
         // Given
         OpenAPI openAPI = new OpenAPI();
         
