@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +39,9 @@ public class PurchaseOrderReportEndpointTest {
 
     private OpenAPI openAPI;
 
+    private final String JOBS_AND_ACTIONS = "Jobs and Actions";
+    private final String OBJECT = "object";
+
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
@@ -50,7 +54,7 @@ public class PurchaseOrderReportEndpointTest {
 
     @Test
     public void testIsValid_withValidTag_returnsTrue() {
-        assertTrue(purchaseOrderReportEndpoint.isValid("Jobs and Actions"));
+        assertTrue(purchaseOrderReportEndpoint.isValid(JOBS_AND_ACTIONS));
     }
 
     @Test
@@ -61,7 +65,6 @@ public class PurchaseOrderReportEndpointTest {
     @Test
     public void testAdd_addsCorrectEndpoints() {
         // Given
-        OpenAPI openAPI = new OpenAPI();
         openAPI.setPaths(new Paths());
 
         // When
@@ -87,7 +90,7 @@ public class PurchaseOrderReportEndpointTest {
 
         // Verify operation details
         assertEquals("Generates reports based on provided parameters", operation.getSummary());
-        assertTrue(operation.getTags().contains("Jobs and Actions"));
+        assertTrue(operation.getTags().contains(JOBS_AND_ACTIONS));
 
         // Verify parameters
         List<Parameter> parameters = operation.getParameters();
@@ -113,9 +116,6 @@ public class PurchaseOrderReportEndpointTest {
 
     @Test
     public void testAdd_addsCorrectTags() {
-        // Given
-        OpenAPI openAPI = new OpenAPI();
-
         // When
         purchaseOrderReportEndpoint.add(openAPI);
 
@@ -126,7 +126,7 @@ public class PurchaseOrderReportEndpointTest {
         
         boolean foundJobsAndActionsTag = false;
         for (Tag tag : tags) {
-            if ("Jobs and Actions".equals(tag.getName())) {
+            if (StringUtils.equals(JOBS_AND_ACTIONS, tag.getName())) {
                 foundJobsAndActionsTag = true;
                 assertEquals("Endpoints related to jobs and actions.", tag.getDescription());
                 break;
@@ -137,9 +137,6 @@ public class PurchaseOrderReportEndpointTest {
 
     @Test
     public void testAdd_addsCorrectSchemas() {
-        // Given
-        OpenAPI openAPI = new OpenAPI();
-
         // When
         purchaseOrderReportEndpoint.add(openAPI);
 
@@ -150,12 +147,12 @@ public class PurchaseOrderReportEndpointTest {
         // Verify BaseReportActionHandlerResponse schema
         assertTrue(openAPI.getComponents().getSchemas().containsKey("BaseReportActionHandlerResponse"));
         Schema<?> baseReportSchema = openAPI.getComponents().getSchemas().get("BaseReportActionHandlerResponse");
-        assertEquals("object", baseReportSchema.getType());
+        assertEquals(OBJECT, baseReportSchema.getType());
         
         // Verify BaseReportActionHandler&mode=DOWNLOADResponse schema
         assertTrue(openAPI.getComponents().getSchemas().containsKey("BaseReportActionHandler&mode=DOWNLOADResponse"));
         Schema<?> downloadSchema = openAPI.getComponents().getSchemas().get("BaseReportActionHandler&mode=DOWNLOADResponse");
-        assertEquals("object", downloadSchema.getType());
+        assertEquals(OBJECT, downloadSchema.getType());
     }
 
     @Test
@@ -177,13 +174,13 @@ public class PurchaseOrderReportEndpointTest {
         Schema<?> schema = mediaType.getSchema();
         
         // Verify schema structure
-        assertEquals("object", schema.getType());
+        assertEquals(OBJECT, schema.getType());
         assertNotNull(schema.getProperties().get("_buttonValue"));
         assertNotNull(schema.getProperties().get("_params"));
         
         // Verify _params structure
         Schema<?> paramsSchema = (Schema<?>) schema.getProperties().get("_params");
-        assertEquals("object", paramsSchema.getType());
+        assertEquals(OBJECT, paramsSchema.getType());
         assertNotNull(paramsSchema.getProperties().get("AD_Org_ID"));
         assertNotNull(paramsSchema.getProperties().get("C_BPartner_ID"));
         assertNotNull(paramsSchema.getProperties().get("C_Currency_ID"));

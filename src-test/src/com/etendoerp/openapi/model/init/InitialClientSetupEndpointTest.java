@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,8 @@ public class InitialClientSetupEndpointTest {
 
     private OpenAPI openAPI;
 
+    private final String INITIAL_SETUP = "Initial Setup";
+
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
@@ -37,7 +40,7 @@ public class InitialClientSetupEndpointTest {
 
     @Test
     public void testIsValid_withValidTag_returnsTrue() {
-        assertTrue(endpoint.isValid("Initial Setup"));
+        assertTrue(endpoint.isValid(INITIAL_SETUP));
     }
 
     @Test
@@ -59,7 +62,7 @@ public class InitialClientSetupEndpointTest {
         Operation postOperation = pathItem.getPost();
         assertNotNull(postOperation);
         assertEquals("Handles the initial client setup form submission", postOperation.getSummary());
-        assertTrue(postOperation.getTags().contains("Initial Setup"));
+        assertTrue(postOperation.getTags().contains(INITIAL_SETUP));
 
         // Verify request body
         RequestBody requestBody = postOperation.getRequestBody();
@@ -147,7 +150,7 @@ public class InitialClientSetupEndpointTest {
         // Then
         assertNotNull(openAPI.getTags());
         boolean hasInitialSetupTag = openAPI.getTags().stream()
-                .anyMatch(tag -> "Initial Setup".equals(tag.getName()));
+                .anyMatch(tag -> StringUtils.equals(INITIAL_SETUP, tag.getName()));
         assertTrue(hasInitialSetupTag);
     }
 }

@@ -1,5 +1,6 @@
 package com.etendoerp.openapi.model.printreport;
 
+import com.ctc.wstx.util.StringUtil;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +40,8 @@ public class PrintDocumentEndpointTest {
 
     private OpenAPI openAPI;
 
+    private final String PRINT_REPORT = "Print Report";
+
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
@@ -50,7 +54,7 @@ public class PrintDocumentEndpointTest {
 
     @Test
     public void testIsValid_withValidTag_returnsTrue() {
-        assertTrue(printDocumentEndpoint.isValid("Print Report"));
+        assertTrue(printDocumentEndpoint.isValid(PRINT_REPORT));
     }
 
     @Test
@@ -61,7 +65,6 @@ public class PrintDocumentEndpointTest {
     @Test
     public void testAdd_addsCorrectPathItem() {
         // Given
-        OpenAPI openAPI = new OpenAPI();
         openAPI.setPaths(new Paths());
 
         // When
@@ -74,7 +77,7 @@ public class PrintDocumentEndpointTest {
 
         Operation operation = pathItem.getPost();
         assertEquals("(Require changes in backend) Initializes print options for an order", operation.getSummary());
-        assertTrue(operation.getTags().contains("Print Report"));
+        assertTrue(operation.getTags().contains(PRINT_REPORT));
 
         // Verify parameters
         List<Parameter> parameters = operation.getParameters();
@@ -100,9 +103,6 @@ public class PrintDocumentEndpointTest {
 
     @Test
     public void testAdd_addsCorrectTags() {
-        // Given
-        OpenAPI openAPI = new OpenAPI();
-
         // When
         printDocumentEndpoint.add(openAPI);
 
@@ -113,7 +113,7 @@ public class PrintDocumentEndpointTest {
         
         boolean foundPrintReportTag = false;
         for (Tag tag : tags) {
-            if ("Print Report".equals(tag.getName())) {
+            if (StringUtils.equals(PRINT_REPORT,tag.getName())) {
                 foundPrintReportTag = true;
                 assertEquals("Endpoints related to printing reports and documents.", tag.getDescription());
                 break;
@@ -124,9 +124,6 @@ public class PrintDocumentEndpointTest {
 
     @Test
     public void testAdd_addsCorrectSchema() {
-        // Given
-        OpenAPI openAPI = new OpenAPI();
-
         // When
         printDocumentEndpoint.add(openAPI);
 

@@ -1,5 +1,6 @@
 package com.etendoerp.openapi.model.jobs;
 
+import com.ctc.wstx.util.StringUtil;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -24,6 +25,9 @@ public class JobsAndActionsEndpointTest {
     private JobsAndActionsEndpoint jobsAndActionsEndpoint;
 
     private OpenAPI openAPI;
+
+    private final String PROCESS_ORDER_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
+    private final String ACTION = "_action";
 
     @Before
     public void setUp() {
@@ -68,13 +72,13 @@ public class JobsAndActionsEndpointTest {
         assertTrue("Should contain ProcessOrdersDefaults path", 
             openAPI.getPaths().containsKey("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrdersDefaults"));
         assertTrue("Should contain ProcessOrders path", 
-            openAPI.getPaths().containsKey("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders"));
+            openAPI.getPaths().containsKey(PROCESS_ORDER_ENDPOINT));
 
         // Verify tags are created
         assertNotNull("Tags should not be null", openAPI.getTags());
         List<Tag> tags = openAPI.getTags();
         boolean hasJobsAndActionsTag = tags.stream()
-            .anyMatch(tag -> "Jobs and Actions".equals(tag.getName()));
+            .anyMatch(tag -> tag.getName().equals("Jobs and Actions"));
         assertTrue("Should contain Jobs and Actions tag", hasJobsAndActionsTag);
 
         // Verify ProcessOrdersDefaults endpoint
@@ -86,7 +90,7 @@ public class JobsAndActionsEndpointTest {
         // Verify required parameters
         List<Parameter> parameters = processOrdersDefaultsOperation.getParameters();
         assertTrue("Should have _action parameter", 
-            parameters.stream().anyMatch(p -> p.getName().equals("_action")));
+            parameters.stream().anyMatch(p -> p.getName().equals(ACTION)));
 
         // Verify responses
         ApiResponse successResponse = processOrdersDefaultsOperation.getResponses().get("200");
@@ -104,7 +108,7 @@ public class JobsAndActionsEndpointTest {
 
         // Then
         PathItem processOrdersPath = openAPI.getPaths()
-            .get("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders");
+            .get(PROCESS_ORDER_ENDPOINT);
         Operation processOrdersOperation = processOrdersPath.getPost();
         
         // Verify request body schema
@@ -131,7 +135,7 @@ public class JobsAndActionsEndpointTest {
 
         // Then
         PathItem processOrdersPath = openAPI.getPaths()
-            .get("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders");
+            .get(PROCESS_ORDER_ENDPOINT);
         Operation processOrdersOperation = processOrdersPath.getPost();
         
         // Verify response schema
@@ -157,14 +161,14 @@ public class JobsAndActionsEndpointTest {
 
         // Then
         PathItem processOrdersPath = openAPI.getPaths()
-            .get("/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders");
+            .get(PROCESS_ORDER_ENDPOINT);
         Operation processOrdersOperation = processOrdersPath.getPost();
         
         List<Parameter> parameters = processOrdersOperation.getParameters();
         
         // Verify all required parameters are present
         assertTrue("Should have _action parameter", 
-            parameters.stream().anyMatch(p -> p.getName().equals("_action")));
+            parameters.stream().anyMatch(p -> p.getName().equals(ACTION)));
         assertTrue("Should have processId parameter", 
             parameters.stream().anyMatch(p -> p.getName().equals("processId")));
         assertTrue("Should have reportId parameter", 
@@ -174,7 +178,7 @@ public class JobsAndActionsEndpointTest {
         
         // Verify parameters are required
         assertTrue("_action should be required", 
-            parameters.stream().filter(p -> p.getName().equals("_action"))
+            parameters.stream().filter(p -> p.getName().equals(ACTION))
                 .findFirst()
                 .map(Parameter::getRequired)
                 .orElse(false));

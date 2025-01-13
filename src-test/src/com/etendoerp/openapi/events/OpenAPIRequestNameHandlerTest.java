@@ -49,6 +49,8 @@ public class OpenAPIRequestNameHandlerTest {
     private MockedStatic<OBMessageUtils> mockedOBMessageUtils;
     private Method isValidEventMethod;
 
+    private final String INVALID_REQUEST_NAME_ERROR = "Invalid request name";
+
     @Before
     public void setUp() throws Exception {
         handler = new OpenAPIRequestNameHandler() {
@@ -61,7 +63,7 @@ public class OpenAPIRequestNameHandlerTest {
 
         mockedOBMessageUtils = mockStatic(OBMessageUtils.class);
         mockedOBMessageUtils.when(() -> OBMessageUtils.getI18NMessage(OpenAPIRequestNameHandler.INVALID_REQUEST_NAME))
-                .thenReturn("Invalid request name");
+                .thenReturn(INVALID_REQUEST_NAME_ERROR);
         // Prepare reflection for isValidEvent if needed
         isValidEventMethod = OpenAPIRequestNameHandler.class.getSuperclass().getDeclaredMethod("isValidEvent", EntityPersistenceEvent.class);
         isValidEventMethod.setAccessible(true);
@@ -96,7 +98,7 @@ public class OpenAPIRequestNameHandlerTest {
         when(updateEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn("Invalid123Name");
         expectedException.expect(OBException.class);
-        expectedException.expectMessage("Invalid request name");
+        expectedException.expectMessage(INVALID_REQUEST_NAME_ERROR);
 
         // When
         handler.onUpdate(updateEvent);
@@ -121,7 +123,7 @@ public class OpenAPIRequestNameHandlerTest {
         when(newEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn("Invalid123Name");
         expectedException.expect(OBException.class);
-        expectedException.expectMessage("Invalid request name");
+        expectedException.expectMessage(INVALID_REQUEST_NAME_ERROR);
 
         // When
         handler.onSave(newEvent);
@@ -133,7 +135,7 @@ public class OpenAPIRequestNameHandlerTest {
         when(updateEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn(null);
         expectedException.expect(OBException.class);
-        expectedException.expectMessage("Invalid request name");
+        expectedException.expectMessage(INVALID_REQUEST_NAME_ERROR);
 
         // When
         handler.onUpdate(updateEvent);
@@ -145,7 +147,7 @@ public class OpenAPIRequestNameHandlerTest {
         when(newEvent.getTargetInstance()).thenReturn(openAPIRequest);
         when(openAPIRequest.getName()).thenReturn(null);
         expectedException.expect(OBException.class);
-        expectedException.expectMessage("Invalid request name");
+        expectedException.expectMessage(INVALID_REQUEST_NAME_ERROR);
 
         // When
         handler.onSave(newEvent);

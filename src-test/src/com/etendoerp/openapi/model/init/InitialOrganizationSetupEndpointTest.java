@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,8 @@ public class InitialOrganizationSetupEndpointTest {
 
     private OpenAPI openAPI;
 
+    private final String INITIAL_SETUP = "Initial Setup";
+
     @Before
     public void setUp() {
         openAPI = new OpenAPI();
@@ -39,7 +42,7 @@ public class InitialOrganizationSetupEndpointTest {
 
     @Test
     public void testIsValid_withValidTag_returnsTrue() {
-        assertTrue(endpoint.isValid("Initial Setup"));
+        assertTrue(endpoint.isValid(INITIAL_SETUP));
     }
 
     @Test
@@ -61,7 +64,7 @@ public class InitialOrganizationSetupEndpointTest {
         Operation postOperation = pathItem.getPost();
         assertNotNull(postOperation);
         assertEquals("Handles the initial organization setup form submission", postOperation.getSummary());
-        assertTrue(postOperation.getTags().contains("Initial Setup"));
+        assertTrue(postOperation.getTags().contains(INITIAL_SETUP));
 
         // Verify request body
         RequestBody requestBody = postOperation.getRequestBody();
@@ -92,11 +95,11 @@ public class InitialOrganizationSetupEndpointTest {
         boolean hasContentTypeHeader = false;
         boolean hasUserAgentHeader = false;
         for (Parameter parameter : postOperation.getParameters()) {
-            if ("Content-Type".equals(parameter.getName())) {
+            if (StringUtils.equals("Content-Type", parameter.getName())) {
                 hasContentTypeHeader = true;
                 assertTrue(parameter.getRequired());
             }
-            if ("User-Agent".equals(parameter.getName())) {
+            if (StringUtils.equals("User-Agent", parameter.getName())) {
                 hasUserAgentHeader = true;
                 assertFalse(parameter.getRequired());
             }
@@ -124,7 +127,7 @@ public class InitialOrganizationSetupEndpointTest {
         // Then
         assertNotNull(openAPI.getTags());
         boolean hasInitialSetupTag = openAPI.getTags().stream()
-                .anyMatch(tag -> "Initial Setup".equals(tag.getName()));
+                .anyMatch(tag -> StringUtils.equals(INITIAL_SETUP, tag.getName()));
         assertTrue(hasInitialSetupTag);
     }
 }

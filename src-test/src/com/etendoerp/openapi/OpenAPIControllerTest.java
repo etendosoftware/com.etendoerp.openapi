@@ -13,6 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,6 +55,9 @@ public class OpenAPIControllerTest extends WeldBaseTest {
 
     private MockedStatic<OBPropertiesProvider> mockedPropertiesProvider;
     private MockedStatic<WeldUtils> mockedWeldUtils;
+
+    private final String TEST_URL = "http://test.com";
+    private final String OPENAPI_JSON_ERROR = "OpenAPI JSON should not be null";
 
     @Before
     public void setUp() throws Exception {
@@ -108,10 +112,10 @@ public class OpenAPIControllerTest extends WeldBaseTest {
     @Test
     public void testGetOpenAPIJson_ValidContent() throws Exception {
         // When
-        String json = controller.getOpenAPIJson(null, "http://test.com");
+        String json = controller.getOpenAPIJson(null, TEST_URL);
 
         // Then
-        assertNotNull("OpenAPI JSON should not be null", json);
+        assertNotNull(OPENAPI_JSON_ERROR, json);
         
         // Validate JSON structure
         ObjectMapper mapper = new ObjectMapper();
@@ -129,11 +133,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         String tag = "test";
         
         // When
-        String json = controller.getOpenAPIJson(tag, "http://test.com");
+        String json = controller.getOpenAPIJson(tag, TEST_URL);
 
         // Then
-        assertNotNull("OpenAPI JSON should not be null", json);
-        assertTrue("JSON should be properly formatted", json.contains("\"title\""));
+        assertNotNull(OPENAPI_JSON_ERROR, json);
+        assertTrue("JSON should be properly formatted", StringUtils.contains(json, "title"));// json.contains("\"title\""));
     }
 
     @Test
@@ -146,15 +150,15 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         String json = controller.getOpenAPIJson(null, null);
 
         // Then
-        assertNotNull("OpenAPI JSON should not be null", json);
+        assertNotNull(OPENAPI_JSON_ERROR, json);
         assertTrue("Should contain default base URL", 
-                json.contains("http://localhost:8080/etendo"));
+                StringUtils.contains(json, "http://localhost:8080/etendo"));
     }
 
     @Test
     public void testSecuritySchemes() throws Exception {
         // When
-        String json = controller.getOpenAPIJson(null, "http://test.com");
+        String json = controller.getOpenAPIJson(null, TEST_URL);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(json);
 

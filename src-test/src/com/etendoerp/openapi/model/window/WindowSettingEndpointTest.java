@@ -28,6 +28,9 @@ public class WindowSettingEndpointTest {
     @Mock
     private Paths mockPaths;
 
+    private final String PAHTS_SHOULDBE_CREATED = "Paths should be created";
+    private final String PARAMTERES_SHOULD_EXIST = "Parameters should exist";
+
     @Before
     public void setUp() {
         endpoint = new WindowSettingEndpoint();
@@ -69,7 +72,7 @@ public class WindowSettingEndpointTest {
         endpoint.add(openAPI);
         
         // Then
-        assertNotNull("Paths should be created", openAPI.getPaths());
+        assertNotNull(PAHTS_SHOULDBE_CREATED, openAPI.getPaths());
         PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.WindowSettingsActionHandler");
         assertNotNull("Window settings path should exist", pathItem);
         
@@ -77,7 +80,7 @@ public class WindowSettingEndpointTest {
         assertNotNull("GET operation should exist", operation);
         
         List<Parameter> parameters = operation.getParameters();
-        assertNotNull("Parameters should exist", parameters);
+        assertNotNull(PARAMTERES_SHOULD_EXIST, parameters);
         assertEquals("Should have 2 parameters", 2, parameters.size());
         
         Parameter actionParam = parameters.get(0);
@@ -98,7 +101,7 @@ public class WindowSettingEndpointTest {
         endpoint.add(openAPI);
         
         // Then
-        assertNotNull("Paths should be created", openAPI.getPaths());
+        assertNotNull(PAHTS_SHOULDBE_CREATED, openAPI.getPaths());
         PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=NEW");
         assertNotNull("Form init path should exist", pathItem);
         
@@ -106,7 +109,7 @@ public class WindowSettingEndpointTest {
         assertNotNull("POST operation should exist", operation);
         
         List<Parameter> parameters = operation.getParameters();
-        assertNotNull("Parameters should exist", parameters);
+        assertNotNull(PARAMTERES_SHOULD_EXIST, parameters);
         assertTrue("Should have parameters", parameters.size() > 0);
         
         assertNotNull("Request body should exist", operation.getRequestBody());
@@ -122,7 +125,7 @@ public class WindowSettingEndpointTest {
         endpoint.add(openAPI);
         
         // Then
-        assertNotNull("Paths should be created", openAPI.getPaths());
+        assertNotNull(PAHTS_SHOULDBE_CREATED, openAPI.getPaths());
         PathItem pathItem = openAPI.getPaths().get("/etendo/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=CHANGE");
         assertNotNull("Form change path should exist", pathItem);
         
@@ -130,7 +133,7 @@ public class WindowSettingEndpointTest {
         assertNotNull("POST operation should exist", operation);
         
         List<Parameter> parameters = operation.getParameters();
-        assertNotNull("Parameters should exist", parameters);
+        assertNotNull(PARAMTERES_SHOULD_EXIST, parameters);
         assertTrue("Should have parameters", parameters.size() > 0);
         
         assertNotNull("Request body should exist", operation.getRequestBody());
