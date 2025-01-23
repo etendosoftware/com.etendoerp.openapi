@@ -15,7 +15,6 @@
  */
 package com.etendoerp.openapi.events;
 
-import com.etendoerp.etendorx.data.ETRXEntityField;
 import com.etendoerp.openapi.data.OpenAPIRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;

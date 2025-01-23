@@ -1,2 +1,6 @@
 build/etendo-classes/
 build/tmp/
+
+build/
+!build/classes/
+etendo.artifact.properties

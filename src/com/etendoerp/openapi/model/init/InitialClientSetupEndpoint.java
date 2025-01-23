@@ -20,7 +20,7 @@ import java.util.*;
 @ApplicationScoped
 public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
 
-  private static final String BASE_PATH = "/etendo/ad_forms/InitialClientSetup.html?stateless=true";
+  private static final String BASE_PATH = "/ad_forms/InitialClientSetup.html?stateless=true";
   private static final List<String> tags = Arrays.asList("Initial Setup");
 
   @Override
