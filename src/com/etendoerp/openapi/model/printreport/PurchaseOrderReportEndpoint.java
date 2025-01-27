@@ -193,23 +193,23 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
     Schema<Object> schema = new Schema<>();
     schema.type("object");
 
-    schema.addProperty("_buttonValue", new Schema<>().type("string").example("HTML"));
+    schema.addProperties("_buttonValue", new Schema<>().type("string").example("HTML"));
     Schema<Object> paramsSchema = new Schema<>();
     paramsSchema.type("object");
-    paramsSchema.addProperty("AD_Org_ID",
+    paramsSchema.addProperties("AD_Org_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    paramsSchema.addProperty("C_BPartner_ID",
+    paramsSchema.addProperties("C_BPartner_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    paramsSchema.addProperty("C_Currency_ID", new Schema<>().type("string").example("102"));
-    paramsSchema.addProperty("DateFrom", new Schema<>().type("string").example("2024-11-07"));
-    paramsSchema.addProperty("DateTo", new Schema<>().type("string").nullable(true).example(null));
-    paramsSchema.addProperty("C_Project_ID",
+    paramsSchema.addProperties("C_Currency_ID", new Schema<>().type("string").example("102"));
+    paramsSchema.addProperties("DateFrom", new Schema<>().type("string").example("2024-11-07"));
+    paramsSchema.addProperties("DateTo", new Schema<>().type("string").nullable(true).example(null));
+    paramsSchema.addProperties("C_Project_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    paramsSchema.addProperty("M_Warehouse_ID",
+    paramsSchema.addProperties("M_Warehouse_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    paramsSchema.addProperty("Status", new Schema<>().type("string").nullable(true).example(null));
+    paramsSchema.addProperties("Status", new Schema<>().type("string").nullable(true).example(null));
 
-    schema.addProperty("_params", paramsSchema);
+    schema.addProperties("_params", paramsSchema);
 
     schema.required(Arrays.asList("_buttonValue", "_params"));
 
@@ -220,9 +220,9 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
     Schema<Object> schema = new Schema<>();
     schema.type("object");
 
-    schema.addProperty("retryExecution", new Schema<>().type("boolean").example(true));
-    schema.addProperty("showResultsInProcessView", new Schema<>().type("boolean").example(true));
-    schema.addProperty("refreshParent", new Schema<>().type("boolean").example(true));
+    schema.addProperties("retryExecution", new Schema<>().type("boolean").example(true));
+    schema.addProperties("showResultsInProcessView", new Schema<>().type("boolean").example(true));
+    schema.addProperties("refreshParent", new Schema<>().type("boolean").example(true));
 
     Schema<Object> responseActionsSchema = new Schema<>();
     responseActionsSchema.type("array");
@@ -234,41 +234,41 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
 
     Schema<Object> processParametersSchema = new Schema<>();
     processParametersSchema.type("object");
-    processParametersSchema.addProperty("AD_Org_ID",
+    processParametersSchema.addProperties("AD_Org_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    processParametersSchema.addProperty("C_BPartner_ID",
+    processParametersSchema.addProperties("C_BPartner_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    processParametersSchema.addProperty("C_Currency_ID",
+    processParametersSchema.addProperties("C_Currency_ID",
         new Schema<>().type("string").example("102"));
-    processParametersSchema.addProperty("DateFrom",
+    processParametersSchema.addProperties("DateFrom",
         new Schema<>().type("string").example("2024-11-07"));
-    processParametersSchema.addProperty("DateTo",
+    processParametersSchema.addProperties("DateTo",
         new Schema<>().type("string").nullable(true).example(null));
-    processParametersSchema.addProperty("C_Project_ID",
+    processParametersSchema.addProperties("C_Project_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    processParametersSchema.addProperty("M_Warehouse_ID",
+    processParametersSchema.addProperties("M_Warehouse_ID",
         new Schema<>().type("string").nullable(true).example(null));
-    processParametersSchema.addProperty("Status",
+    processParametersSchema.addProperties("Status",
         new Schema<>().type("string").nullable(true).example(null));
-    processParametersSchema.addProperty("processId",
+    processParametersSchema.addProperties("processId",
         new Schema<>().type("string").example("4BDE0AF5E8C44B6C9575E388AAECDF69"));
-    processParametersSchema.addProperty("reportId",
+    processParametersSchema.addProperties("reportId",
         new Schema<>().type("string").example("95A65133A5314CAABEE405B1EB2A639D"));
-    processParametersSchema.addProperty("actionHandler", new Schema<>().type("string")
+    processParametersSchema.addProperties("actionHandler", new Schema<>().type("string")
         .example("org.openbravo.client.application.report.BaseReportActionHandler"));
 
-    browseReportSchema.addProperty("processParameters", processParametersSchema);
-    browseReportSchema.addProperty("tmpfileName",
+    browseReportSchema.addProperties("processParameters", processParametersSchema);
+    browseReportSchema.addProperties("tmpfileName",
         new Schema<>().type("string").example("3d5c89c9-c563-4395-8ce9-04be8e7b0ea5.html"));
-    browseReportSchema.addProperty("fileName",
+    browseReportSchema.addProperties("fileName",
         new Schema<>().type("string").example("Purchase Order Report-07-11-2024 14_01_38.html"));
-    browseReportSchema.addProperty("tabTitle",
+    browseReportSchema.addProperties("tabTitle",
         new Schema<>().type("string").example("Purchase Order Report"));
 
-    responseActionItemSchema.addProperty("OBUIAPP_browseReport", browseReportSchema);
-    responseActionsSchema.addOneOfItem(responseActionItemSchema);
+    responseActionItemSchema.addProperties("OBUIAPP_browseReport", browseReportSchema);
+    responseActionsSchema.setAdditionalProperties(responseActionItemSchema);
 
-    schema.addProperty("responseActions", responseActionsSchema);
+    schema.addProperties("responseActions", responseActionsSchema);
 
     schema.required(Arrays.asList("retryExecution", "showResultsInProcessView", "refreshParent",
         "responseActions"));

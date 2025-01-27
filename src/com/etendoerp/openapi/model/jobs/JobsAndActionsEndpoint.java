@@ -185,10 +185,10 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
     schema.type("object");
 
     Schema<?> items = new Schema<>().type("array");
-    items.items(new Schema<>().type("string").example("CO"));
-    schema.addProperty("documentStatuses", items);
-    schema.addProperty("isProcessing", new Schema<>().type("string").example(""));
-    schema.addProperty("tabId", new Schema<>().type("string").example("294"));
+    items.setAdditionalProperties(new Schema<>().type("string").example("CO"));
+    schema.addProperties("documentStatuses", items);
+    schema.addProperties("isProcessing", new Schema<>().type("string").example(""));
+    schema.addProperties("tabId", new Schema<>().type("string").example("294"));
 
     schema.required(Arrays.asList("documentStatuses", "tabId"));
 
@@ -200,8 +200,8 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
     schema.type("object");
 
     Schema<?> items = new Schema<>().type("array");
-    items.items(new Schema<>().type("string").example("CL"));
-    schema.addProperty("actions", items);
+    items.setAdditionalProperties(new Schema<>().type("string").example("CL"));
+    schema.addProperties("actions", items);
 
     schema.required(List.of("actions"));
 
@@ -213,13 +213,13 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
     schema.type("object");
 
     Schema<?> items = new Schema<>().type("array");
-    items.items(new Schema<>().type("string").example("0AC230C0DDA4435A949B40602A183F45"));
+    items.setAdditionalProperties(new Schema<>().type("string").example("0AC230C0DDA4435A949B40602A183F45"));
 
-    schema.addProperty("recordIds", items);
-    schema.addProperty("_buttonValue", new Schema<>().type("string").example("DONE"));
-    schema.addProperty("_params", new Schema<>().type("object")
-        .addProperty("DocAction", new Schema<>().type("string").example("CL")));
-    schema.addProperty("_entityName", new Schema<>().type("string").example("Order"));
+    schema.addProperties("recordIds", items);
+    schema.addProperties("_buttonValue", new Schema<>().type("string").example("DONE"));
+    schema.addProperties("_params", new Schema<>().type("object")
+        .addProperties("DocAction", new Schema<>().type("string").example("CL")));
+    schema.addProperties("_entityName", new Schema<>().type("string").example("Order"));
 
     schema.required(Arrays.asList("recordIds", "_buttonValue", "_params", "_entityName"));
 
@@ -237,18 +237,18 @@ public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
 
     Schema<Object> showMsgInProcessViewSchema = new Schema<>();
     showMsgInProcessViewSchema.type("object");
-    showMsgInProcessViewSchema.addProperty("msgType",
+    showMsgInProcessViewSchema.addProperties("msgType",
         new Schema<>().type("string").example("success"));
-    showMsgInProcessViewSchema.addProperty("msgTitle",
+    showMsgInProcessViewSchema.addProperties("msgTitle",
         new Schema<>().type("string").example("Success"));
-    showMsgInProcessViewSchema.addProperty("msgText",
+    showMsgInProcessViewSchema.addProperties("msgText",
         new Schema<>().type("string").example("1000000: Process completed successfully\n"));
 
-    responseActionItemSchema.addProperty("showMsgInProcessView", showMsgInProcessViewSchema);
-    responseActionsSchema.addOneOfItem(responseActionItemSchema);
+    responseActionItemSchema.addProperties("showMsgInProcessView", showMsgInProcessViewSchema);
+    responseActionsSchema.setAdditionalProperties(responseActionItemSchema);
 
-    schema.addProperty("responseActions", responseActionsSchema);
-    schema.addProperty("refreshParent", new Schema<>().type("boolean").example(true));
+    schema.addProperties("responseActions", responseActionsSchema);
+    schema.addProperties("refreshParent", new Schema<>().type("boolean").example(true));
 
     schema.required(Arrays.asList("responseActions", "refreshParent"));
 

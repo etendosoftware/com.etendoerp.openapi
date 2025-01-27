@@ -170,40 +170,40 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
 
   private Schema<?> defineWindowSettingsResponseSchema() {
     Schema<?> items = new Schema<>().type("array");
-    items.items(new Schema<>().type("string"));
+    items.setAdditionalProperties(new Schema<>().type("string"));
 
     Schema<Object> schema = new Schema<>();
     schema.type("object");
 
-    schema.addProperty("uiPattern",
+    schema.addProperties("uiPattern",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    schema.addProperty("autoSave", new Schema<>().type("boolean"));
+    schema.addProperties("autoSave", new Schema<>().type("boolean"));
 
     Schema<Object> personalizationSchema = new Schema<>();
     personalizationSchema.type("object");
-    personalizationSchema.addProperty("forms",
+    personalizationSchema.addProperties("forms",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
 
-    personalizationSchema.addProperty("views", items);
+    personalizationSchema.addProperties("views", items);
 
     Schema<Object> formDataSchema = new Schema<>();
     formDataSchema.type("object");
-    formDataSchema.addProperty("clients",
+    formDataSchema.addProperties("clients",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    formDataSchema.addProperty("orgs",
+    formDataSchema.addProperties("orgs",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    formDataSchema.addProperty("roles",
+    formDataSchema.addProperties("roles",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
 
-    personalizationSchema.addProperty("formData", formDataSchema);
-    schema.addProperty("personalization", personalizationSchema);
+    personalizationSchema.addProperties("formData", formDataSchema);
+    schema.addProperties("personalization", personalizationSchema);
 
-    schema.addProperty("showAutoSaveConfirmation", new Schema<>().type("boolean"));
-    schema.addProperty("tabs", items);
-    schema.addProperty("notAccessibleProcesses", items);
-    schema.addProperty("extraSettings",
+    schema.addProperties("showAutoSaveConfirmation", new Schema<>().type("boolean"));
+    schema.addProperties("tabs", items);
+    schema.addProperties("notAccessibleProcesses", items);
+    schema.addProperties("extraSettings",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    schema.addProperty("extraCallbacks", items);
+    schema.addProperties("extraCallbacks", items);
 
     // Define required fields
     schema.required(
@@ -216,23 +216,23 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
   private Schema<?> defineFormInitResponseSchema() {
     Schema<Object> schema = new Schema<>();
     Schema<?> items = new Schema<>().type("array");
-    items.items(new Schema<>().type("string"));
+    items.setAdditionalProperties(new Schema<>().type("string"));
 
     schema.type("object");
 
-    schema.addProperty("hiddenInputs",
+    schema.addProperties("hiddenInputs",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    schema.addProperty("calloutMessages", items);
-    schema.addProperty("columnValues",
+    schema.addProperties("calloutMessages", items);
+    schema.addProperties("columnValues",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    schema.addProperty("auxiliaryInputValues",
+    schema.addProperties("auxiliaryInputValues",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    schema.addProperty("overwrittenAuxiliaryInputs", items);
-    schema.addProperty("sessionAttributes",
+    schema.addProperties("overwrittenAuxiliaryInputs", items);
+    schema.addProperties("sessionAttributes",
         new Schema<>().type("object").additionalProperties(new Schema<>().type("string")));
-    schema.addProperty("dynamicCols", items);
-    schema.addProperty("attachmentCount", new Schema<>().type("integer").example(0));
-    schema.addProperty("attachmentExists", new Schema<>().type("boolean").example(false));
+    schema.addProperties("dynamicCols", items);
+    schema.addProperties("attachmentCount", new Schema<>().type("integer").example(0));
+    schema.addProperties("attachmentExists", new Schema<>().type("boolean").example(false));
 
     // Define required fields
     schema.required(
@@ -248,172 +248,172 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
     schema.type("object");
 
     // Propiedades del esquema
-    schema.addProperty("inpgeneratetemplate", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpcReturnReasonId",
+    schema.addProperties("inpgeneratetemplate", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpcReturnReasonId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inprmPickfromshipment", new Schema<>().type("string").example("N"));
-    schema.addProperty("inprmReceivematerials", new Schema<>().type("string").example("N"));
-    schema.addProperty("inprmCreateinvoice", new Schema<>().type("string").example("N"));
-    schema.addProperty("inptotallines",
+    schema.addProperties("inprmPickfromshipment", new Schema<>().type("string").example("N"));
+    schema.addProperties("inprmReceivematerials", new Schema<>().type("string").example("N"));
+    schema.addProperties("inprmCreateinvoice", new Schema<>().type("string").example("N"));
+    schema.addProperties("inptotallines",
         new Schema<>().type("number").format("float").example(0.00));
-    schema.addProperty("inpadUserId", new Schema<>().type("string").example("100"));
-    schema.addProperty("inpsalesrepId", new Schema<>().type("string").example("100"));
-    schema.addProperty("inpcIncotermsId",
+    schema.addProperties("inpadUserId", new Schema<>().type("string").example("100"));
+    schema.addProperties("inpsalesrepId", new Schema<>().type("string").example("100"));
+    schema.addProperties("inpcIncotermsId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpincotermsdescription",
+    schema.addProperties("inpincotermsdescription",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpisdiscountprinted", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpcDoctypeId", new Schema<>().type("string").example("0"));
-    schema.addProperty("inpfreightamt",
+    schema.addProperties("inpisdiscountprinted", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpcDoctypeId", new Schema<>().type("string").example("0"));
+    schema.addProperties("inpfreightamt",
         new Schema<>().type("number").format("float").example(0.00));
-    schema.addProperty("inpdeliveryviarule", new Schema<>().type("string").example("P"));
-    schema.addProperty("inpcCampaignId",
+    schema.addProperties("inpdeliveryviarule", new Schema<>().type("string").example("P"));
+    schema.addProperties("inpcCampaignId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpmShipperId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inppriorityrule", new Schema<>().type("string").example("5"));
-    schema.addProperty("inpchargeamt", new Schema<>().type("number").format("float").example(0.00));
-    schema.addProperty("inpcChargeId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpcActivityId",
+    schema.addProperties("inpmShipperId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inppriorityrule", new Schema<>().type("string").example("5"));
+    schema.addProperties("inpchargeamt", new Schema<>().type("number").format("float").example(0.00));
+    schema.addProperties("inpcChargeId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpcActivityId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpfreightcostrule", new Schema<>().type("string").example("I"));
-    schema.addProperty("inpadOrgtrxId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpemAprmAddpayment", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpdocaction", new Schema<>().type("string").example("CO"));
-    schema.addProperty("inpcopyfrom", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpcopyfrompo", new Schema<>().type("string").example("N"));
-    schema.addProperty("inprmAddorphanline", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpconvertquotation", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpcRejectReasonId",
+    schema.addProperties("inpfreightcostrule", new Schema<>().type("string").example("I"));
+    schema.addProperties("inpadOrgtrxId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpemAprmAddpayment", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpdocaction", new Schema<>().type("string").example("CO"));
+    schema.addProperties("inpcopyfrom", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpcopyfrompo", new Schema<>().type("string").example("N"));
+    schema.addProperties("inprmAddorphanline", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpconvertquotation", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpcRejectReasonId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpvaliduntil", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpcalculatePromotions", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpquotationId",
+    schema.addProperties("inpvaliduntil", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpcalculatePromotions", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpquotationId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpcreatePolines", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpcOrderId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpadClientId",
+    schema.addProperties("inpcreatePolines", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpcOrderId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpadClientId",
         new Schema<>().type("string").example("23C59575B9CF467C9620760EB255B389"));
-    schema.addProperty("inpisactive", new Schema<>().type("string").example("Y"));
-    schema.addProperty("inpisdelivered", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpisinvoiced", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpisprinted", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpdateacct", new Schema<>().type("string").example("07-11-2024"));
-    schema.addProperty("inpinvoicerule", new Schema<>().type("string").example("D"));
-    schema.addProperty("inpprocessing", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpprocessed", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpdateprinted",
+    schema.addProperties("inpisactive", new Schema<>().type("string").example("Y"));
+    schema.addProperties("inpisdelivered", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpisinvoiced", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpisprinted", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpdateacct", new Schema<>().type("string").example("07-11-2024"));
+    schema.addProperties("inpinvoicerule", new Schema<>().type("string").example("D"));
+    schema.addProperties("inpprocessing", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpprocessed", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpdateprinted",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpdeliveryrule", new Schema<>().type("string").example("A"));
-    schema.addProperty("inpissotrx", new Schema<>().type("string").example("N"));
-    schema.addProperty("inppaymentrule", new Schema<>().type("string").example("P"));
-    schema.addProperty("inpposted", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpisselected", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpdropshipUserId",
+    schema.addProperties("inpdeliveryrule", new Schema<>().type("string").example("A"));
+    schema.addProperties("inpissotrx", new Schema<>().type("string").example("N"));
+    schema.addProperties("inppaymentrule", new Schema<>().type("string").example("P"));
+    schema.addProperties("inpposted", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpisselected", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpdropshipUserId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpdropshipBpartnerId",
+    schema.addProperties("inpdropshipBpartnerId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpdropshipLocationId",
+    schema.addProperties("inpdropshipLocationId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpisselfservice", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpdeliveryLocationId",
+    schema.addProperties("inpisselfservice", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpdeliveryLocationId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpsoResStatus",
+    schema.addProperties("inpsoResStatus",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("C_Order_ID", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpadOrgId",
+    schema.addProperties("C_Order_ID", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpadOrgId",
         new Schema<>().type("string").example("E443A31992CB4635AFCAEABE7183CE85"));
-    schema.addProperty("inpcDoctypetargetId",
+    schema.addProperties("inpcDoctypetargetId",
         new Schema<>().type("string").example("AB22CE8FFA5E4AF29F2AC90FCDD400D8"));
-    schema.addProperty("inpdocumentno", new Schema<>().type("string").example("<1000376>"));
-    schema.addProperty("inpdateordered", new Schema<>().type("string").example("07-11-2024"));
-    schema.addProperty("inpcBpartnerId",
+    schema.addProperties("inpdocumentno", new Schema<>().type("string").example("<1000376>"));
+    schema.addProperties("inpdateordered", new Schema<>().type("string").example("07-11-2024"));
+    schema.addProperties("inpcBpartnerId",
         new Schema<>().type("string").example("858B90C7AF0A4533863EEC65437382BF"));
-    schema.addProperty("inpcBpartnerLocationId",
+    schema.addProperties("inpcBpartnerLocationId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpmWarehouseId",
+    schema.addProperties("inpmWarehouseId",
         new Schema<>().type("string").example("B2D40D8A5D644DD89E329DC297309055"));
-    schema.addProperty("inpdatepromised", new Schema<>().type("string").example("07-11-2024"));
-    schema.addProperty("inpfinPaymentmethodId",
+    schema.addProperties("inpdatepromised", new Schema<>().type("string").example("07-11-2024"));
+    schema.addProperties("inpfinPaymentmethodId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpcPaymenttermId",
+    schema.addProperties("inpcPaymenttermId",
         new Schema<>().type("string").example("B62EDD9166D146539E9A19C05BCF85E5"));
-    schema.addProperty("inpmPricelistId",
+    schema.addProperties("inpmPricelistId",
         new Schema<>().type("string").example("CBC16D5792744C669D388FC4F66B85FD"));
-    schema.addProperty("inpdeliverynotes",
+    schema.addProperties("inpdeliverynotes",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpdescription",
+    schema.addProperties("inpdescription",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpporeference",
+    schema.addProperties("inpporeference",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpbilltoId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpistaxincluded", new Schema<>().type("string").example("N"));
-    schema.addProperty("inpcProjectId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpcCostcenterId",
+    schema.addProperties("inpbilltoId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpistaxincluded", new Schema<>().type("string").example("N"));
+    schema.addProperties("inpcProjectId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpcCostcenterId",
         new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpaAssetId", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpuser1Id", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpuser2Id", new Schema<>().type("string").nullable(true).example(null));
-    schema.addProperty("inpdocstatus", new Schema<>().type("string").example("DR"));
-    schema.addProperty("inpgrandtotal",
+    schema.addProperties("inpaAssetId", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpuser1Id", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpuser2Id", new Schema<>().type("string").nullable(true).example(null));
+    schema.addProperties("inpdocstatus", new Schema<>().type("string").example("DR"));
+    schema.addProperties("inpgrandtotal",
         new Schema<>().type("number").format("float").example(0.00));
-    schema.addProperty("inpcCurrencyId", new Schema<>().type("string").example("102"));
-    schema.addProperty("inpTabId", new Schema<>().type("string").example("294"));
-    schema.addProperty("inpwindowId", new Schema<>().type("string").example("181"));
-    schema.addProperty("inpTableId", new Schema<>().type("string").example("259"));
-    schema.addProperty("inpkeyColumnId", new Schema<>().type("string").example("C_Order_ID"));
-    schema.addProperty("keyProperty", new Schema<>().type("string").example("id"));
-    schema.addProperty("inpKeyName", new Schema<>().type("string").example("inpcOrderId"));
-    schema.addProperty("keyColumnName", new Schema<>().type("string").example("C_Order_ID"));
-    schema.addProperty("keyPropertyType", new Schema<>().type("string").example("_id_13"));
-    schema.addProperty("ORDERTYPE", new Schema<>().type("string").example("--"));
-    schema.addProperty("DOCBASETYPE", new Schema<>().type("string").example("POO"));
-    schema.addProperty("showAddPayment", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("APRM_OrderIsPaid",
+    schema.addProperties("inpcCurrencyId", new Schema<>().type("string").example("102"));
+    schema.addProperties("inpTabId", new Schema<>().type("string").example("294"));
+    schema.addProperties("inpwindowId", new Schema<>().type("string").example("181"));
+    schema.addProperties("inpTableId", new Schema<>().type("string").example("259"));
+    schema.addProperties("inpkeyColumnId", new Schema<>().type("string").example("C_Order_ID"));
+    schema.addProperties("keyProperty", new Schema<>().type("string").example("id"));
+    schema.addProperties("inpKeyName", new Schema<>().type("string").example("inpcOrderId"));
+    schema.addProperties("keyColumnName", new Schema<>().type("string").example("C_Order_ID"));
+    schema.addProperties("keyPropertyType", new Schema<>().type("string").example("_id_13"));
+    schema.addProperties("ORDERTYPE", new Schema<>().type("string").example("--"));
+    schema.addProperties("DOCBASETYPE", new Schema<>().type("string").example("POO"));
+    schema.addProperties("showAddPayment", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("APRM_OrderIsPaid",
         new Schema<>().type("string").nullable(true).example(""));
 
     // Propiedades con prefijo "$Element_"
-    schema.addProperty("$Element_U2_SOO_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$Element_U2_ARR_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$Element_U2_APP_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("StockReservations", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_OO", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_CC", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_OO_POO_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_U1_POO_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$Element_PJ_SOO_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_CC_APP_H", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_CC_ARR_H", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_BP_POO_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_AS", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_BP_SOO_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_CC_SOO_H", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_U1_SOO_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$IsAcctDimCentrally", new Schema<>().type("string").example("Y"));
-    schema.addProperty("ACCT_DIMENSION_DISPLAY", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_OO_ARR_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_U2_POO_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$Element_OO_APP_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_U2", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_BP_APP_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_U1", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_U1_ARR_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$Element_BP_ARR_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_PJ", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_CC_POO_H", new Schema<>().type("string").example(""));
-    schema.addProperty("$Element_U1_APP_H", new Schema<>().type("string").example("N"));
-    schema.addProperty("$Element_PJ_POO_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_PJ_ARR_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_OO_SOO_H", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_BP", new Schema<>().type("string").example("Y"));
-    schema.addProperty("$Element_PJ_APP_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_U2_SOO_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$Element_U2_ARR_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$Element_U2_APP_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("StockReservations", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_OO", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_CC", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_OO_POO_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_U1_POO_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$Element_PJ_SOO_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_CC_APP_H", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_CC_ARR_H", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_BP_POO_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_AS", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_BP_SOO_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_CC_SOO_H", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_U1_SOO_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$IsAcctDimCentrally", new Schema<>().type("string").example("Y"));
+    schema.addProperties("ACCT_DIMENSION_DISPLAY", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_OO_ARR_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_U2_POO_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$Element_OO_APP_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_U2", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_BP_APP_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_U1", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_U1_ARR_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$Element_BP_ARR_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_PJ", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_CC_POO_H", new Schema<>().type("string").example(""));
+    schema.addProperties("$Element_U1_APP_H", new Schema<>().type("string").example("N"));
+    schema.addProperties("$Element_PJ_POO_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_PJ_ARR_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_OO_SOO_H", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_BP", new Schema<>().type("string").example("Y"));
+    schema.addProperties("$Element_PJ_APP_H", new Schema<>().type("string").example("Y"));
 
     // Propiedades adicionales
-    schema.addProperty("_entityName", new Schema<>().type("string").example("Order"));
+    schema.addProperties("_entityName", new Schema<>().type("string").example("Order"));
 
     // Propiedad de arreglo "overwrittenAuxiliaryInputs"
     Schema<?> overwrittenAuxiliaryInputsSchema = new Schema<>().type("array");
-    overwrittenAuxiliaryInputsSchema.items(new Schema<>().type("string").example("ORDERTYPE"));
-    schema.addProperty("overwrittenAuxiliaryInputs", overwrittenAuxiliaryInputsSchema);
+    overwrittenAuxiliaryInputsSchema.setAdditionalProperties(new Schema<>().type("string").example("ORDERTYPE"));
+    schema.addProperties("overwrittenAuxiliaryInputs", overwrittenAuxiliaryInputsSchema);
 
     // Definir campos requeridos
     schema.required(
@@ -447,103 +447,103 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
 
     Schema<Object> hiddenInputsSchema = new Schema<>();
     hiddenInputsSchema.type("object");
-    hiddenInputsSchema.addProperty("inpiscashvat", new Schema<>().type("string").example("N"));
-    hiddenInputsSchema.addProperty("inpcProjectId_R", new Schema<>().type("string").example(""));
-    schema.addProperty("hiddenInputs", hiddenInputsSchema);
+    hiddenInputsSchema.addProperties("inpiscashvat", new Schema<>().type("string").example("N"));
+    hiddenInputsSchema.addProperties("inpcProjectId_R", new Schema<>().type("string").example(""));
+    schema.addProperties("hiddenInputs", hiddenInputsSchema);
 
     Schema<Object> calloutMessageSchema = new Schema<>();
     calloutMessageSchema.type("object");
-    calloutMessageSchema.addProperty("text", new Schema<>().type("string").example(""));
-    calloutMessageSchema.addProperty("severity",
+    calloutMessageSchema.addProperties("text", new Schema<>().type("string").example(""));
+    calloutMessageSchema.addProperties("severity",
         new Schema<>().type("string").example("TYPE_INFO"));
 
     Schema<Object> calloutMessagesSchema = new Schema<>();
     calloutMessagesSchema.type("array");
-    calloutMessagesSchema.items(calloutMessageSchema);
-    schema.addProperty("calloutMessages", calloutMessagesSchema);
+    calloutMessagesSchema.setAdditionalProperties(calloutMessageSchema);
+    schema.addProperties("calloutMessages", calloutMessagesSchema);
 
     Schema<Object> columnValuesSchema = new Schema<>();
     columnValuesSchema.type("object");
 
     Schema<Object> cBPartnerLocationIdSchema = new Schema<>();
     cBPartnerLocationIdSchema.type("object");
-    cBPartnerLocationIdSchema.addProperty("value",
+    cBPartnerLocationIdSchema.addProperties("value",
         new Schema<>().type("string").example("1F38687D74244B369F0B16B3858CD256"));
-    cBPartnerLocationIdSchema.addProperty("classicValue",
+    cBPartnerLocationIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("1F38687D74244B369F0B16B3858CD256"));
-    cBPartnerLocationIdSchema.addProperty("identifier",
+    cBPartnerLocationIdSchema.addProperties("identifier",
         new Schema<>().type("string").example(".Barcelona, C\\Mayor, 23"));
-    columnValuesSchema.addProperty("C_BPartner_Location_ID", cBPartnerLocationIdSchema);
+    columnValuesSchema.addProperties("C_BPartner_Location_ID", cBPartnerLocationIdSchema);
 
     Schema<Object> mWarehouseIdSchema = new Schema<>();
     mWarehouseIdSchema.type("object");
-    mWarehouseIdSchema.addProperty("value",
+    mWarehouseIdSchema.addProperties("value",
         new Schema<>().type("string").example("B2D40D8A5D644DD89E329DC297309055"));
-    mWarehouseIdSchema.addProperty("classicValue",
+    mWarehouseIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("B2D40D8A5D644DD89E329DC297309055"));
 
     Schema<Object> mWarehouseEntriesSchema = new Schema<>();
     mWarehouseEntriesSchema.type("array");
     Schema<Object> mWarehouseEntryItemSchema = new Schema<>();
     mWarehouseEntryItemSchema.type("object");
-    mWarehouseEntryItemSchema.addProperty("id",
+    mWarehouseEntryItemSchema.addProperties("id",
         new Schema<>().type("string").example("B2D40D8A5D644DD89E329DC297309055"));
-    mWarehouseEntryItemSchema.addProperty("_identifier",
+    mWarehouseEntryItemSchema.addProperties("_identifier",
         new Schema<>().type("string").example("España Región Norte"));
-    mWarehouseEntriesSchema.items(mWarehouseEntryItemSchema);
-    mWarehouseIdSchema.addProperty("entries", mWarehouseEntriesSchema);
+    mWarehouseEntriesSchema.setAdditionalProperties(mWarehouseEntryItemSchema);
+    mWarehouseIdSchema.addProperties("entries", mWarehouseEntriesSchema);
 
-    columnValuesSchema.addProperty("M_Warehouse_ID", mWarehouseIdSchema);
+    columnValuesSchema.addProperties("M_Warehouse_ID", mWarehouseIdSchema);
 
     Schema<Object> finPaymentmethodIdSchema = new Schema<>();
     finPaymentmethodIdSchema.type("object");
-    finPaymentmethodIdSchema.addProperty("value",
+    finPaymentmethodIdSchema.addProperties("value",
         new Schema<>().type("string").example("A97CFD2AFC234B59BB0A72189BD8FC2A"));
-    finPaymentmethodIdSchema.addProperty("classicValue",
+    finPaymentmethodIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("A97CFD2AFC234B59BB0A72189BD8FC2A"));
-    finPaymentmethodIdSchema.addProperty("identifier",
+    finPaymentmethodIdSchema.addProperties("identifier",
         new Schema<>().type("string").example("Transferencia"));
-    columnValuesSchema.addProperty("FIN_Paymentmethod_ID", finPaymentmethodIdSchema);
+    columnValuesSchema.addProperties("FIN_Paymentmethod_ID", finPaymentmethodIdSchema);
 
     Schema<Object> cPaymentTermIdSchema = new Schema<>();
     cPaymentTermIdSchema.type("object");
-    cPaymentTermIdSchema.addProperty("value",
+    cPaymentTermIdSchema.addProperties("value",
         new Schema<>().type("string").example("66BA1164A7394344BB9CD1A6ECEED05D"));
-    cPaymentTermIdSchema.addProperty("classicValue",
+    cPaymentTermIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("66BA1164A7394344BB9CD1A6ECEED05D"));
-    cPaymentTermIdSchema.addProperty("identifier",
+    cPaymentTermIdSchema.addProperties("identifier",
         new Schema<>().type("string").example("30 days"));
-    columnValuesSchema.addProperty("C_PaymentTerm_ID", cPaymentTermIdSchema);
+    columnValuesSchema.addProperties("C_PaymentTerm_ID", cPaymentTermIdSchema);
 
     Schema<Object> mPriceListIdSchema = new Schema<>();
     mPriceListIdSchema.type("object");
-    mPriceListIdSchema.addProperty("value",
+    mPriceListIdSchema.addProperties("value",
         new Schema<>().type("string").example("91AE1E96A30844209CD996917E193BE1"));
-    mPriceListIdSchema.addProperty("classicValue",
+    mPriceListIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("91AE1E96A30844209CD996917E193BE1"));
-    mPriceListIdSchema.addProperty("identifier",
+    mPriceListIdSchema.addProperties("identifier",
         new Schema<>().type("string").example("Tarifa Bebidas Alegres"));
-    columnValuesSchema.addProperty("M_PriceList_ID", mPriceListIdSchema);
+    columnValuesSchema.addProperties("M_PriceList_ID", mPriceListIdSchema);
 
     Schema<Object> adUserIdSchema = new Schema<>();
     adUserIdSchema.type("object");
-    adUserIdSchema.addProperty("value",
+    adUserIdSchema.addProperties("value",
         new Schema<>().type("string").example("33FE57CFE5BE4774B9B9EDFD8E27BCAE"));
-    adUserIdSchema.addProperty("classicValue",
+    adUserIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("33FE57CFE5BE4774B9B9EDFD8E27BCAE"));
 
     Schema<Object> adUserEntriesSchema = new Schema<>();
     adUserEntriesSchema.type("array");
     Schema<Object> adUserEntryItemSchema = new Schema<>();
     adUserEntryItemSchema.type("object");
-    adUserEntryItemSchema.addProperty("id",
+    adUserEntryItemSchema.addProperties("id",
         new Schema<>().type("string").example("33FE57CFE5BE4774B9B9EDFD8E27BCAE"));
-    adUserEntryItemSchema.addProperty("_identifier",
+    adUserEntryItemSchema.addProperties("_identifier",
         new Schema<>().type("string").example("Pablo Ramos"));
-    adUserEntriesSchema.items(adUserEntryItemSchema);
-    adUserIdSchema.addProperty("entries", adUserEntriesSchema);
+    adUserEntriesSchema.setAdditionalProperties(adUserEntryItemSchema);
+    adUserIdSchema.addProperties("entries", adUserEntriesSchema);
 
-    columnValuesSchema.addProperty("AD_User_ID", adUserIdSchema);
+    columnValuesSchema.addProperties("AD_User_ID", adUserIdSchema);
 
     Schema<Object> salesRepIdSchema = new Schema<>();
     salesRepIdSchema.type("object");
@@ -556,125 +556,125 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
 
     Schema<Object> salesRepEntry1 = new Schema<>();
     salesRepEntry1.type("object");
-    salesRepEntry1.addProperty("id",
+    salesRepEntry1.addProperties("id",
         new Schema<>().type("string").example("C3503BEFB3CB4848A674284A656163B9"));
-    salesRepEntry1.addProperty("_identifier",
+    salesRepEntry1.addProperties("_identifier",
         new Schema<>().type("string").example("Javier Martín"));
 
     Schema<Object> salesRepEntry2 = new Schema<>();
     salesRepEntry2.type("object");
-    salesRepEntry2.addProperty("id",
+    salesRepEntry2.addProperties("id",
         new Schema<>().type("string").example("8537B1F5669E423ABA79F1F57B1E4222"));
-    salesRepEntry2.addProperty("_identifier", new Schema<>().type("string").example("John Smith"));
+    salesRepEntry2.addProperties("_identifier", new Schema<>().type("string").example("John Smith"));
 
     Schema<Object> salesRepEntry3 = new Schema<>();
     salesRepEntry3.type("object");
-    salesRepEntry3.addProperty("id",
+    salesRepEntry3.addProperties("id",
         new Schema<>().type("string").example("CADCDC3549FB4201B5F24E4C03AD2349"));
-    salesRepEntry3.addProperty("_identifier", new Schema<>().type("string").example("Juan López"));
+    salesRepEntry3.addProperties("_identifier", new Schema<>().type("string").example("Juan López"));
 
-    salesRepEntriesSchema.addOneOfItem(emptySalesRepEntry);
-    salesRepEntriesSchema.addOneOfItem(salesRepEntry1);
-    salesRepEntriesSchema.addOneOfItem(salesRepEntry2);
-    salesRepEntriesSchema.addOneOfItem(salesRepEntry3);
+    salesRepEntriesSchema.setAdditionalProperties(emptySalesRepEntry);
+    salesRepEntriesSchema.setAdditionalProperties(salesRepEntry1);
+    salesRepEntriesSchema.setAdditionalProperties(salesRepEntry2);
+    salesRepEntriesSchema.setAdditionalProperties(salesRepEntry3);
 
-    salesRepIdSchema.addProperty("entries", salesRepEntriesSchema);
-    columnValuesSchema.addProperty("SalesRep_ID", salesRepIdSchema);
+    salesRepIdSchema.addProperties("entries", salesRepEntriesSchema);
+    columnValuesSchema.addProperties("SalesRep_ID", salesRepIdSchema);
 
     Schema<Object> billToIdSchema = new Schema<>();
     billToIdSchema.type("object");
-    billToIdSchema.addProperty("value",
+    billToIdSchema.addProperties("value",
         new Schema<>().type("string").example("1F38687D74244B369F0B16B3858CD256"));
-    billToIdSchema.addProperty("classicValue",
+    billToIdSchema.addProperties("classicValue",
         new Schema<>().type("string").example("1F38687D74244B369F0B16B3858CD256"));
-    billToIdSchema.addProperty("identifier",
+    billToIdSchema.addProperties("identifier",
         new Schema<>().type("string").example(".Barcelona, C\\Mayor, 23"));
-    columnValuesSchema.addProperty("BillTo_ID", billToIdSchema);
+    columnValuesSchema.addProperties("BillTo_ID", billToIdSchema);
 
     Schema<Object> cProjectIdSchema = new Schema<>();
     cProjectIdSchema.type("object");
-    cProjectIdSchema.addProperty("value", new Schema<>().type("string").example(""));
-    cProjectIdSchema.addProperty("classicValue", new Schema<>().type("string").example(""));
-    columnValuesSchema.addProperty("C_Project_ID", cProjectIdSchema);
+    cProjectIdSchema.addProperties("value", new Schema<>().type("string").example(""));
+    cProjectIdSchema.addProperties("classicValue", new Schema<>().type("string").example(""));
+    columnValuesSchema.addProperties("C_Project_ID", cProjectIdSchema);
 
     Schema<Object> invoiceRuleSchema = new Schema<>();
     invoiceRuleSchema.type("object");
-    invoiceRuleSchema.addProperty("value", new Schema<>().type("string").example("I"));
-    invoiceRuleSchema.addProperty("classicValue", new Schema<>().type("string").example("I"));
+    invoiceRuleSchema.addProperties("value", new Schema<>().type("string").example("I"));
+    invoiceRuleSchema.addProperties("classicValue", new Schema<>().type("string").example("I"));
 
     Schema<Object> invoiceRuleEntriesSchema = new Schema<>();
     invoiceRuleEntriesSchema.type("array");
 
     Schema<Object> invoiceRuleEntry1 = new Schema<>();
     invoiceRuleEntry1.type("object");
-    invoiceRuleEntry1.addProperty("id", new Schema<>().type("string").example("D"));
-    invoiceRuleEntry1.addProperty("_identifier",
+    invoiceRuleEntry1.addProperties("id", new Schema<>().type("string").example("D"));
+    invoiceRuleEntry1.addProperties("_identifier",
         new Schema<>().type("string").example("After Delivery"));
 
     Schema<Object> invoiceRuleEntry2 = new Schema<>();
     invoiceRuleEntry2.type("object");
-    invoiceRuleEntry2.addProperty("id", new Schema<>().type("string").example("O"));
-    invoiceRuleEntry2.addProperty("_identifier",
+    invoiceRuleEntry2.addProperties("id", new Schema<>().type("string").example("O"));
+    invoiceRuleEntry2.addProperties("_identifier",
         new Schema<>().type("string").example("After Order Delivered"));
 
     Schema<Object> invoiceRuleEntry3 = new Schema<>();
     invoiceRuleEntry3.type("object");
-    invoiceRuleEntry3.addProperty("id", new Schema<>().type("string").example("S"));
-    invoiceRuleEntry3.addProperty("_identifier",
+    invoiceRuleEntry3.addProperties("id", new Schema<>().type("string").example("S"));
+    invoiceRuleEntry3.addProperties("_identifier",
         new Schema<>().type("string").example("Customer Schedule After Delivery"));
 
     Schema<Object> invoiceRuleEntry4 = new Schema<>();
     invoiceRuleEntry4.type("object");
-    invoiceRuleEntry4.addProperty("id", new Schema<>().type("string").example("N"));
-    invoiceRuleEntry4.addProperty("_identifier",
+    invoiceRuleEntry4.addProperties("id", new Schema<>().type("string").example("N"));
+    invoiceRuleEntry4.addProperties("_identifier",
         new Schema<>().type("string").example("Do Not Invoice"));
 
     Schema<Object> invoiceRuleEntry5 = new Schema<>();
     invoiceRuleEntry5.type("object");
-    invoiceRuleEntry5.addProperty("id", new Schema<>().type("string").example("I"));
-    invoiceRuleEntry5.addProperty("_identifier",
+    invoiceRuleEntry5.addProperties("id", new Schema<>().type("string").example("I"));
+    invoiceRuleEntry5.addProperties("_identifier",
         new Schema<>().type("string").example("Immediate"));
 
-    invoiceRuleEntriesSchema.addOneOfItem(invoiceRuleEntry1);
-    invoiceRuleEntriesSchema.addOneOfItem(invoiceRuleEntry2);
-    invoiceRuleEntriesSchema.addOneOfItem(invoiceRuleEntry3);
-    invoiceRuleEntriesSchema.addOneOfItem(invoiceRuleEntry4);
-    invoiceRuleEntriesSchema.addOneOfItem(invoiceRuleEntry5);
+    invoiceRuleEntriesSchema.setAdditionalProperties(invoiceRuleEntry1);
+    invoiceRuleEntriesSchema.setAdditionalProperties(invoiceRuleEntry2);
+    invoiceRuleEntriesSchema.setAdditionalProperties(invoiceRuleEntry3);
+    invoiceRuleEntriesSchema.setAdditionalProperties(invoiceRuleEntry4);
+    invoiceRuleEntriesSchema.setAdditionalProperties(invoiceRuleEntry5);
 
-    invoiceRuleSchema.addProperty("entries", invoiceRuleEntriesSchema);
-    columnValuesSchema.addProperty("InvoiceRule", invoiceRuleSchema);
+    invoiceRuleSchema.addProperties("entries", invoiceRuleEntriesSchema);
+    columnValuesSchema.addProperties("InvoiceRule", invoiceRuleSchema);
 
-    schema.addProperty("columnValues", columnValuesSchema);
+    schema.addProperties("columnValues", columnValuesSchema);
 
     Schema<Object> auxiliaryInputValuesSchema = new Schema<>();
     auxiliaryInputValuesSchema.type("object");
 
     Schema<Object> docbasetypeSchema = new Schema<>();
     docbasetypeSchema.type("object");
-    docbasetypeSchema.addProperty("value", new Schema<>().type("string").example("POO"));
-    docbasetypeSchema.addProperty("classicValue", new Schema<>().type("string").example("POO"));
-    auxiliaryInputValuesSchema.addProperty("DOCBASETYPE", docbasetypeSchema);
+    docbasetypeSchema.addProperties("value", new Schema<>().type("string").example("POO"));
+    docbasetypeSchema.addProperties("classicValue", new Schema<>().type("string").example("POO"));
+    auxiliaryInputValuesSchema.addProperties("DOCBASETYPE", docbasetypeSchema);
 
     Schema<Object> showAddPaymentSchema = new Schema<>();
     showAddPaymentSchema.type("object");
-    auxiliaryInputValuesSchema.addProperty("showAddPayment", showAddPaymentSchema);
+    auxiliaryInputValuesSchema.addProperties("showAddPayment", showAddPaymentSchema);
 
     Schema<Object> aprmOrderIsPaidSchema = new Schema<>();
     aprmOrderIsPaidSchema.type("object");
-    auxiliaryInputValuesSchema.addProperty("APRM_OrderIsPaid", aprmOrderIsPaidSchema);
+    auxiliaryInputValuesSchema.addProperties("APRM_OrderIsPaid", aprmOrderIsPaidSchema);
 
-    schema.addProperty("auxiliaryInputValues", auxiliaryInputValuesSchema);
+    schema.addProperties("auxiliaryInputValues", auxiliaryInputValuesSchema);
 
     Schema<Object> overwrittenAuxiliaryInputsSchema = new Schema<>();
     overwrittenAuxiliaryInputsSchema.type("array");
-    overwrittenAuxiliaryInputsSchema.items(new Schema<>().type("string").example("ORDERTYPE"));
-    schema.addProperty("overwrittenAuxiliaryInputs", overwrittenAuxiliaryInputsSchema);
+    overwrittenAuxiliaryInputsSchema.setAdditionalProperties(new Schema<>().type("string").example("ORDERTYPE"));
+    schema.addProperties("overwrittenAuxiliaryInputs", overwrittenAuxiliaryInputsSchema);
 
-    schema.addProperty("noteCount", new Schema<>().type("integer").example(0));
+    schema.addProperties("noteCount", new Schema<>().type("integer").example(0));
 
-    schema.addProperty("attachmentCount", new Schema<>().type("integer").example(0));
+    schema.addProperties("attachmentCount", new Schema<>().type("integer").example(0));
 
-    schema.addProperty("attachmentExists", new Schema<>().type("boolean").example(false));
+    schema.addProperties("attachmentExists", new Schema<>().type("boolean").example(false));
 
     schema.required(
         Arrays.asList("hiddenInputs", "calloutMessages", "columnValues", "auxiliaryInputValues",

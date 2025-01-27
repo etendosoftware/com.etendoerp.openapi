@@ -219,18 +219,18 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
     schema.type("object");
     schema.description("Multipart form data for Initial Client Setup.");
 
-    schema.addProperty("Command", new Schema<>().type("string").example("OK"));
-    schema.addProperty("inpLastFieldChanged", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpClient", new Schema<>().type("string").example("Cliente"));
-    schema.addProperty("inpPassword", new Schema<>().type("string").example("admin"));
-    schema.addProperty("inpClientUser", new Schema<>().type("string").example("ClienteAdmin"));
-    schema.addProperty("inpConfirmPassword", new Schema<>().type("string").example("admin"));
-    schema.addProperty("inpCurrency", new Schema<>().type("string").example("102"));
-    schema.addProperty("inpFile", new Schema<>().type("string").format("binary").nullable(true).example(""));
-    schema.addProperty("inpTreeClass", new Schema<>().type("string").example("org.openbravo.erpCommon.modules.ModuleReferenceDataClientTree"));
-    schema.addProperty("inpNodeId", new Schema<>().type("string").example("0"));
-    schema.addProperty("inpLevel", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpNodes", new Schema<>().type("string").example("0"));
+    schema.addProperties("Command", new Schema<>().type("string").example("OK"));
+    schema.addProperties("inpLastFieldChanged", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpClient", new Schema<>().type("string").example("Cliente"));
+    schema.addProperties("inpPassword", new Schema<>().type("string").example("admin"));
+    schema.addProperties("inpClientUser", new Schema<>().type("string").example("ClienteAdmin"));
+    schema.addProperties("inpConfirmPassword", new Schema<>().type("string").example("admin"));
+    schema.addProperties("inpCurrency", new Schema<>().type("string").example("102"));
+    schema.addProperties("inpFile", new Schema<>().type("string").format("binary").nullable(true).example(""));
+    schema.addProperties("inpTreeClass", new Schema<>().type("string").example("org.openbravo.erpCommon.modules.ModuleReferenceDataClientTree"));
+    schema.addProperties("inpNodeId", new Schema<>().type("string").example("0"));
+    schema.addProperties("inpLevel", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpNodes", new Schema<>().type("string").example("0"));
 
     // Define required fields
     schema.required(Arrays.asList(

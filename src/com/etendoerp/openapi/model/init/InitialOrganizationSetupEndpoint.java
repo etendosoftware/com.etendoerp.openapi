@@ -238,21 +238,21 @@ public class InitialOrganizationSetupEndpoint implements OpenAPIEndpoint {
     schema.type("object");
     schema.description("Multipart form data for Initial Organization Setup.");
 
-    schema.addProperty("Command", new Schema<>().type("string").example("OK"));
-    schema.addProperty("inpLastFieldChanged", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpOrganization", new Schema<>().type("string").example("Org"));
-    schema.addProperty("inpOrgUser", new Schema<>().type("string").example("Client"));
-    schema.addProperty("inpPassword", new Schema<>().type("string").example("admin"));
-    schema.addProperty("inpConfirmPassword", new Schema<>().type("string").example("admin"));
-    schema.addProperty("inpOrgType", new Schema<>().type("string").example("3"));
-    schema.addProperty("inpParentOrg", new Schema<>().type("string").example("0"));
-    schema.addProperty("inpcLocationId", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpcLocationId_R", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpCurrency", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpTreeClass", new Schema<>().type("string").example("org.openbravo.erpCommon.modules.ModuleReferenceDataOrgTree"));
-    schema.addProperty("inpNodeId", new Schema<>().type("string").example("7BFA8FF057AB46CAAB2FAAED8B870E32"));
-    schema.addProperty("inpLevel", new Schema<>().type("string").nullable(true).example(""));
-    schema.addProperty("inpNodes", new Schema<>().type("string").example("7BFA8FF057AB46CAAB2FAAED8B870E32"));
+    schema.addProperties("Command", new Schema<>().type("string").example("OK"));
+    schema.addProperties("inpLastFieldChanged", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpOrganization", new Schema<>().type("string").example("Org"));
+    schema.addProperties("inpOrgUser", new Schema<>().type("string").example("Client"));
+    schema.addProperties("inpPassword", new Schema<>().type("string").example("admin"));
+    schema.addProperties("inpConfirmPassword", new Schema<>().type("string").example("admin"));
+    schema.addProperties("inpOrgType", new Schema<>().type("string").example("3"));
+    schema.addProperties("inpParentOrg", new Schema<>().type("string").example("0"));
+    schema.addProperties("inpcLocationId", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpcLocationId_R", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpCurrency", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpTreeClass", new Schema<>().type("string").example("org.openbravo.erpCommon.modules.ModuleReferenceDataOrgTree"));
+    schema.addProperties("inpNodeId", new Schema<>().type("string").example("7BFA8FF057AB46CAAB2FAAED8B870E32"));
+    schema.addProperties("inpLevel", new Schema<>().type("string").nullable(true).example(""));
+    schema.addProperties("inpNodes", new Schema<>().type("string").example("7BFA8FF057AB46CAAB2FAAED8B870E32"));
 
     // Define required fields
     schema.required(Arrays.asList(

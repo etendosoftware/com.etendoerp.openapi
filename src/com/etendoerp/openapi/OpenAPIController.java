@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openbravo.base.HttpBaseUtils;
 import org.openbravo.base.session.OBPropertiesProvider;
 import org.openbravo.base.weld.WeldUtils;
+import org.openbravo.erpCommon.utility.HttpsUtils;
 import org.openbravo.service.web.WebService;
 
 import com.etendoerp.openapi.model.OpenAPIEndpoint;
@@ -40,7 +42,7 @@ public class OpenAPIController implements WebService {
 
   public static final String BEARER_TOKEN_DESCRIPTION = "Bearer token authentication using token from <a href=\"%s/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint.";
   public static final String BASIC_AUTH_DESCRIPTION = "Basic authentication with username and password";
-  private static final String DEFAULT_BASE_URL = "http://localhost:8080/%s";
+  private static final String DEFAULT_BASE_URL = "%s/%s";
   private static final String RESOURCE_PACKAGE = "com.etendoerp.openapi";
   private static final Logger log = LogManager.getLogger(OpenAPIController.class);
 
@@ -60,7 +62,8 @@ public class OpenAPIController implements WebService {
   public void doGet(String path, HttpServletRequest request, HttpServletResponse response)
       throws Exception {
     try {
-      String openApiJson = getOpenAPIJson(request.getParameter("tag"), request.getParameter("host"));
+      String hostAddress = HttpBaseUtils.getLocalHostAddress(request, true);
+      String openApiJson = getOpenAPIJson(hostAddress, request.getParameter("tag"), request.getParameter("host"));
       response.setContentType("application/json");
       response.setCharacterEncoding("UTF-8");
       response.getWriter().write(openApiJson);
@@ -85,9 +88,9 @@ public class OpenAPIController implements WebService {
    * @throws IOException
    *     if an error occurs during serialization
    */
-  public String getOpenAPIJson(String tag, String baseUrl) throws OpenApiConfigurationException, IOException {
+  public String getOpenAPIJson(String hostAddress, String tag, String baseUrl) throws OpenApiConfigurationException, IOException {
     if (baseUrl == null) {
-      baseUrl = String.format(DEFAULT_BASE_URL, getContextName());
+      baseUrl = String.format(DEFAULT_BASE_URL, hostAddress, getContextName());
     }
     OpenAPI openAPI = initializeOpenAPI(baseUrl);
     configureSecurity(openAPI, baseUrl);

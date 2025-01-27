@@ -87,14 +87,14 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
           .content(new Content().addMediaType("application/x-www-form-urlencoded",
               new MediaType()
                   .schema(new ObjectSchema()
-                      .addProperty("Command", new StringSchema().example("PRINT"))
-                      .addProperty("IsPopUpCall", new StringSchema().example("1"))
-                      .addProperty("inpLastFieldChanged", new StringSchema().example(""))
-                      .addProperty("inpKey", new StringSchema().example(""))
-                      .addProperty("inpwindowId", new StringSchema().example(""))
-                      .addProperty("inpTabId", new StringSchema().example(""))
-                      .addProperty("inpDocumentId", new StringSchema().example("('0AC230C0DDA4435A949B40602A183F45')"))
-                      .addProperty("draftDocumentIds", new StringSchema().example(""))
+                      .addProperties("Command", new StringSchema().example("PRINT"))
+                      .addProperties("IsPopUpCall", new StringSchema().example("1"))
+                      .addProperties("inpLastFieldChanged", new StringSchema().example(""))
+                      .addProperties("inpKey", new StringSchema().example(""))
+                      .addProperties("inpwindowId", new StringSchema().example(""))
+                      .addProperties("inpTabId", new StringSchema().example(""))
+                      .addProperties("inpDocumentId", new StringSchema().example("('0AC230C0DDA4435A949B40602A183F45')"))
+                      .addProperties("draftDocumentIds", new StringSchema().example(""))
                   )
                   .example(new HashMap<String, Object>() {{
                     put("Command", "PRINT");
