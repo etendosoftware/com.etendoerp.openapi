@@ -62,6 +62,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
     private MockedStatic<OBPropertiesProvider> mockedPropertiesProvider;
     private MockedStatic<WeldUtils> mockedWeldUtils;
 
+    private static final String HOST_ADDRESS = "http://localhost:8080";
     private static final String TEST_URL = "http://test.com";
     private static final String OPENAPI_JSON_ERROR = "OpenAPI JSON should not be null";
 
@@ -133,7 +134,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
     @Test
     public void testGetOpenAPIJsonValidContent() throws Exception {
         // When
-        String json = controller.getOpenAPIJson(null, TEST_URL);
+        String json = controller.getOpenAPIJson(HOST_ADDRESS, null, TEST_URL);
 
         // Then
         assertNotNull(OPENAPI_JSON_ERROR, json);
@@ -159,7 +160,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         String tag = "test";
         
         // When
-        String json = controller.getOpenAPIJson(tag, TEST_URL);
+        String json = controller.getOpenAPIJson(HOST_ADDRESS, tag, TEST_URL);
 
         // Then
         assertNotNull(OPENAPI_JSON_ERROR, json);
@@ -178,7 +179,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
                 .thenReturn("etendo");
 
         // When
-        String json = controller.getOpenAPIJson(null, null);
+        String json = controller.getOpenAPIJson(HOST_ADDRESS, null, null);
 
         // Then
         assertNotNull(OPENAPI_JSON_ERROR, json);
@@ -194,7 +195,7 @@ public class OpenAPIControllerTest extends WeldBaseTest {
     @Test
     public void testSecuritySchemes() throws Exception {
         // When
-        String json = controller.getOpenAPIJson(null, TEST_URL);
+        String json = controller.getOpenAPIJson(HOST_ADDRESS, null, TEST_URL);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(json);
 

@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.openbravo.base.HttpBaseUtils;
 import org.openbravo.base.session.OBPropertiesProvider;
 import org.openbravo.base.weld.WeldUtils;
-import org.openbravo.erpCommon.utility.HttpsUtils;
 import org.openbravo.service.web.WebService;
 
 import com.etendoerp.openapi.model.OpenAPIEndpoint;
