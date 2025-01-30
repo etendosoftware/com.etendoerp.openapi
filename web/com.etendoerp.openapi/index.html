@@ -17,8 +17,13 @@
 <script src="./swagger-initializer.js" charset="UTF-8"> </script>
 <script>
   window.onload = function() {
+    const baseUrl = window.location.origin;
+    const pathname = window.location.pathname;
+    const contextPath = pathname.substring(0, pathname.indexOf('/', 1));
+    const apiUrl = `${baseUrl}${contextPath}/ws/com.etendoerp.openapi.openAPIController`;
+
     const ui = SwaggerUIBundle({
-      url: "http://localhost:8080/etendo/ws/com.etendoerp.openapi.openAPIController",
+      url: apiUrl,
       dom_id: '#swagger-ui',
       deepLinking: true,
       presets: [
