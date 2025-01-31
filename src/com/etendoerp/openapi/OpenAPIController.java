@@ -203,7 +203,7 @@ public class OpenAPIController implements WebService {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     String output = mapper.writeValueAsString(openAPI);
-    output = output.replaceAll("\"type\" : \"HTTP\"", "\"type\" : \"http\"");
+    output = output.replaceAll("\"type\":\"HTTP\"", "\"type\":\"http\"");
     return output;
   }
 
