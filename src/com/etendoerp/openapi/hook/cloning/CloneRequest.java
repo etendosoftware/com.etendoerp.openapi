@@ -11,6 +11,12 @@ import org.openbravo.dal.service.OBDal;
 import com.etendoerp.openapi.data.OpenAPIRequest;
 import com.smf.jobs.hooks.CloneRecordHook;
 
+/**
+ * CloneRequest class for handling the cloning of OpenAPIRequest records.
+ * <p>
+ * This class extends CloneRecordHook and provides custom implementations for
+ * pre-copy, post-copy, and child record handling during the cloning process.
+ */
 @ApplicationScoped
 @ComponentProvider.Qualifier(OpenAPIRequest.ENTITY_NAME)
 public class CloneRequest extends CloneRecordHook {

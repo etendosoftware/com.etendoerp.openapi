@@ -14,6 +14,12 @@ import com.etendoerp.openapi.data.OpenApiFlow;
 import com.smf.jobs.hooks.CloneRecordHook;
 
 
+/**
+ * CloneFlow class for handling the cloning of OpenApiFlow records.
+ * <p>
+ * This class extends CloneRecordHook and provides custom implementations for
+ * pre-copy, post-copy, and child record handling during the cloning process.
+ */
 @ApplicationScoped
 @Qualifier(OpenApiFlow.ENTITY_NAME)
 public class CloneFlow extends CloneRecordHook {
