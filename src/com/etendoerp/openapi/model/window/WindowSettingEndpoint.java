@@ -24,7 +24,7 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
 
   private static final String WINDOW_SETTINGS_ACTION = "org.openbravo.client.application.WindowSettingsActionHandler";
   private static final String FORM_INIT_ACTION = "org.openbravo.client.application.window.FormInitializationComponent";
-  private static final String BASE_PATH = "/etendo/org.openbravo.client.kernel?_action=";
+  private static final String BASE_PATH = "/org.openbravo.client.kernel?_action=";
   private static final List<String> tags = List.of("Window Settings");
 
   @Override

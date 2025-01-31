@@ -25,7 +25,7 @@ import java.util.List;
 public class JobsAndActionsEndpoint implements OpenAPIEndpoint {
 
   private static final String JOBS_ACTION_HANDLER = "com.smf.jobs.defaults";
-  private static final String BASE_PATH = "/etendo/org.openbravo.client.kernel";
+  private static final String BASE_PATH = "/org.openbravo.client.kernel";
   private static final List<String> tags = List.of("Jobs and Actions");
 
   @Override
