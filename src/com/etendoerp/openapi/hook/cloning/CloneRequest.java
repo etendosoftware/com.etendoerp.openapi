@@ -73,7 +73,6 @@ public class CloneRequest extends CloneRecordHook {
     removeModuleInClonedChildren(cloneReq);
 
     OBDal.getInstance().refresh(cloneReq);
-
     return cloneReq;
   }
 }

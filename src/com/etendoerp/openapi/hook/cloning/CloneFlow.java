@@ -105,6 +105,4 @@ public class CloneFlow extends CloneRecordHook {
       }
     }
   }
-
-
 }

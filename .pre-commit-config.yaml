@@ -1,0 +1,19 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_language_version:
+  python: python3.10
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-byte-order-marker # Forbid UTF-8 byte-order markers
+      - id: check-case-conflict      # Check for case conflicts on filesystems
+      - id: check-json
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude: \.xml$
+      - id: trailing-whitespace
+        exclude: \.xml$
+      - id: mixed-line-ending
+      - id: debug-statements
+      - id: check-added-large-files
