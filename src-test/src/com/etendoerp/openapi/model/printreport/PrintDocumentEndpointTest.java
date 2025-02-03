@@ -45,7 +45,7 @@ public class PrintDocumentEndpointTest {
     private OpenAPI openAPI;
 
     private static final String PRINT_REPORT = "Print Report";
-    private static final String PRINT_OPTIONS_ENDPOINT = "/etendo/orders/PrintOptions.html?stateless=true";
+    private static final String PRINT_OPTIONS_ENDPOINT = "/orders/PrintOptions.html?stateless=true";
 
     /**
      * Sets up.

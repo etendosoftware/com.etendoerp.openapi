@@ -31,8 +31,8 @@ public class JobsAndActionsEndpointTest {
 
     private OpenAPI openAPI;
 
-    private static final String PROCESS_ORDER_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
-    private static final String PROCESS_ORDER_DEFAULTS_ENDPOINT = "/etendo/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrdersDefaults";
+    private static final String PROCESS_ORDER_ENDPOINT = "/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrders";
+    private static final String PROCESS_ORDER_DEFAULTS_ENDPOINT = "/org.openbravo.client.kernel?_action=com.smf.jobs.defaults.ProcessOrdersDefaults";
     private static final String ACTION = "_action";
 
     /**

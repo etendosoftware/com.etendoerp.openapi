@@ -46,8 +46,8 @@ public class PurchaseOrderReportEndpointTest {
 
     private static final String JOBS_AND_ACTIONS = "Jobs and Actions";
     private static final String OBJECT = "object";
-    private static final String BASE_REPORT_ACTION_HANDLER_PATH = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler";
-    private static final String BASE_REPORT_ACTION_HANDLER_DOWNLOAD_PATH = "/etendo/org.openbravo.client.kernel?_action=BaseReportActionHandler&mode=DOWNLOAD";
+    private static final String BASE_REPORT_ACTION_HANDLER_PATH = "/org.openbravo.client.kernel?_action=BaseReportActionHandler";
+    private static final String BASE_REPORT_ACTION_HANDLER_DOWNLOAD_PATH = "/org.openbravo.client.kernel?_action=BaseReportActionHandler&mode=DOWNLOAD";
 
     /**
      * Sets up.

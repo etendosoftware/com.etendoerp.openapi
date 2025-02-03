@@ -207,11 +207,11 @@ public class OpenAPIControllerTest extends WeldBaseTest {
         assertTrue("Should contain bearerAuth scheme", securitySchemes.has("bearerAuth"));
         
         JsonNode basicAuth = securitySchemes.get("basicAuth");
-        assertEquals("HTTP", basicAuth.get("type").asText());
+        assertEquals("http", basicAuth.get("type").asText());
         assertEquals("basic", basicAuth.get("scheme").asText());
         
         JsonNode bearerAuth = securitySchemes.get("bearerAuth");
-        assertEquals("HTTP", bearerAuth.get("type").asText());
+        assertEquals("http", bearerAuth.get("type").asText());
         assertEquals("bearer", bearerAuth.get("scheme").asText());
         assertEquals("JWT", bearerAuth.get("bearerFormat").asText());
     }
