@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.openbravo.base.session.OBPropertiesProvider;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
 
   @Override
   public void add(OpenAPI openAPI) {
+    String etendoHost = OBPropertiesProvider.getInstance().getOpenbravoProperties().getProperty("ETENDO_HOST");
+    String url = etendoHost.substring(0, etendoHost.lastIndexOf('/'));
+
     Schema<?> printDocumentResponseSchema = definePrintDocumentResponseSchema();
     String printDocumentResponseExample = "";
 
@@ -48,9 +52,9 @@ public class PrintDocumentEndpoint implements OpenAPIEndpoint {
             true, "Specifies the media types that are acceptable for the response."),
         createHeaderParameter("Content-Type", "application/x-www-form-urlencoded", true,
             "Indicates the media type of the resource."),
-        createHeaderParameter("Origin", "http://localhost:8080", false,
+        createHeaderParameter("Origin", url, false,
             "The origin of the request."), createHeaderParameter("Referer",
-            "http://localhost:8080/etendo/orders/print.html?Commnad=PDF&IsPopUpCall=1", false,
+                    etendoHost + "/orders/print.html?Commnad=PDF&IsPopUpCall=1", false,
             "The address of the previous web page from which a link to the currently requested page was followed."),
         createHeaderParameter("User-Agent",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.openbravo.base.session.OBPropertiesProvider;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
@@ -33,6 +34,8 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
 
   @Override
   public void add(OpenAPI openAPI) {
+    String etendoHost = OBPropertiesProvider.getInstance().getOpenbravoProperties().getProperty("ETENDO_HOST");
+    String url = etendoHost.substring(0, etendoHost.lastIndexOf('/'));
     // Define the schemas and examples for the InitialClientSetup action
     Schema<?> initialClientSetupRequestSchema = defineInitialClientSetupRequestSchema();
     String initialClientSetupRequestExample = "------WebKitFormBoundaryESnGV3KpzjPoQw1r\r\n" +
@@ -77,8 +80,8 @@ public class InitialClientSetupEndpoint implements OpenAPIEndpoint {
     List<Parameter> commonHeaders = Arrays.asList(
         createHeaderParameter("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "string", true, "Specifies the media types that are acceptable for the response."),
         createHeaderParameter("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryESnGV3KpzjPoQw1r", "string", true, "Indicates the media type of the resource."),
-        createHeaderParameter("Origin", "http://localhost:8080", "string", false, "The origin of the request."),
-        createHeaderParameter("Referer", "http://localhost:8080/etendo/ad_forms/InitialClientSetup.html?noprefs=true&hideMenu=true&Command=DEFAULT", "string", false, "The address of the previous web page from which a link to the currently requested page was followed."),
+        createHeaderParameter("Origin", url, "string", false, "The origin of the request."),
+        createHeaderParameter("Referer", etendoHost + "/ad_forms/InitialClientSetup.html?noprefs=true&hideMenu=true&Command=DEFAULT", "string", false, "The address of the previous web page from which a link to the currently requested page was followed."),
         createHeaderParameter("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "string", false, "The user agent string of the user agent.")
     );
 
