@@ -17,8 +17,10 @@
 <script src="./swagger-initializer.js" charset="UTF-8"> </script>
 <script>
   window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tag = urlParams.has('tag') ? urlParams.get('tag') : null;
     const ui = SwaggerUIBundle({
-      url: "http://localhost:8080/etendo/ws/com.etendoerp.openapi.openAPIController",
+      url: "http://localhost:8080/etendo/ws/com.etendoerp.openapi.openAPIController"+(tag ? '?tag='+decodeURIComponent(tag): ''),
       dom_id: '#swagger-ui',
       deepLinking: true,
       presets: [
@@ -30,7 +32,7 @@
       ],
       layout: "BaseLayout",
       requestInterceptor: (req) => {
-        if(!req.url.endsWith('com.etendoerp.openapi.openAPIController')) {
+        if(!req.url.includes('com.etendoerp.openapi.openAPIController')) {
           req.credentials = 'omit';
         }
         return req;
