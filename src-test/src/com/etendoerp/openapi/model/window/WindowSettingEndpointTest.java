@@ -35,9 +35,9 @@ public class WindowSettingEndpointTest {
 
     private static final String PATHS_SHOULD_BE_CREATED = "Paths should be created";
     private static final String PARAMETERS_SHOULD_EXIST = "Parameters should exist";
-    private static final String WINDOW_SETTINGS_ACTION_HANDLER_PATH = "/org.openbravo.client.kernel?_action=org.openbravo.client.application.WindowSettingsActionHandler";
-    private static final String FORM_INIT_COMPONENT_NEW = "/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=NEW";
-    private static final String FORM_INIT_COMPONENT_CHANGE = "/org.openbravo.client.kernel?_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=CHANGE";
+    private static final String WINDOW_SETTINGS_ACTION_HANDLER_PATH = "/org.openbravo.client.kernel?stateless=true&_action=org.openbravo.client.application.WindowSettingsActionHandler";
+    private static final String FORM_INIT_COMPONENT_NEW = "/org.openbravo.client.kernel?stateless=true&_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=NEW";
+    private static final String FORM_INIT_COMPONENT_CHANGE = "/org.openbravo.client.kernel?stateless=true&_action=org.openbravo.client.application.window.FormInitializationComponent&MODE=CHANGE";
 
     /**
      * Sets up.

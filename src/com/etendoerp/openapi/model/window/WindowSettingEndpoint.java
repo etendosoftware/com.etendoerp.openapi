@@ -24,7 +24,7 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
 
   private static final String WINDOW_SETTINGS_ACTION = "org.openbravo.client.application.WindowSettingsActionHandler";
   private static final String FORM_INIT_ACTION = "org.openbravo.client.application.window.FormInitializationComponent";
-  private static final String BASE_PATH = "/org.openbravo.client.kernel?_action=";
+  private static final String BASE_PATH = "/org.openbravo.client.kernel?stateless=true&_action=";
   private static final List<String> tags = List.of("Window Settings");
 
   @Override
@@ -41,9 +41,9 @@ public class WindowSettingEndpoint implements OpenAPIEndpoint {
     String windowSettingsExample = "{\"uiPattern\":{\"293\":\"STD\",\"294\":\"STD\",\"295\":\"RO\",\"800220\":\"STD\",\"800221\":\"RO\",\"1011100001\":\"STD\",\"ADBD1719BFA14C97A32C7B6E8452D14F\":\"RO\",\"4CA5324BD037430B8E682B41C1DAA8CC\":\"RO\",\"64B971D786A646DC9656534AABB13FA9\":\"RO\",\"FA57D75B1BBB4583B4A777008A29BF54\":\"RO\",\"6707D7449A8D45DB851F608BA88329C8\":\"RO\"},\"autoSave\":true,\"personalization\":{\"forms\":{},\"views\":[],\"formData\":{\"clients\":{\"23C59575B9CF467C9620760EB255B389\":\"F&B International Group\"},\"orgs\":{\"E443A31992CB4635AFCAEABE7183CE85\":\"F&B España - Región Norte\",\"B843C30461EA4501935CB1D125C9C25A\":\"F&B España, S.A\",\"BAE22373FEBE4CCCA24517E23F0C8A48\":\"F&B US West Coast\",\"DC206C91AA6A4897B44DA897936E0EC3\":\"F&B España - Región Sur\",\"19404EAD144C49A0AF37D54377CF452D\":\"F&B International Group\",\"2E60544D37534C0B89E765FE29BC0B43\":\"F&B US, Inc.\",\"7BABA5FF80494CAFA54DEBD22EC46F01\":\"F&B US East Coast\"},\"roles\":{\"0\":\"System Administrator\",\"42D0EEB1C66F497A90DD526DC597E6F0\":\"F&B International Group Admin\"}}},\"showAutoSaveConfirmation\":false,\"tabs\":[],\"notAccessibleProcesses\":[],\"extraSettings\":{},\"extraCallbacks\":[]}";
 
     List<Parameter> windowSettingsParams = Arrays.asList(
-        createParameter("_action", true, "string", WINDOW_SETTINGS_ACTION, "Acción a ejecutar."),
+        createParameter("_action", true, "string", WINDOW_SETTINGS_ACTION, "Action to execute."),
         createParameter("windowId", true, "string", "181",
-            "ID de la ventana del formulario a consultar."));
+                "Window ID of the form to search."));
 
     createEndpoint(openAPI, WINDOW_SETTINGS_ACTION,
         "Obtains the initial configuration of Window Settings for a specific window.",
