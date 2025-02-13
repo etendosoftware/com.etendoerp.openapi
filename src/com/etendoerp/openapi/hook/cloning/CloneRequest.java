@@ -65,7 +65,7 @@ public class CloneRequest extends CloneRecordHook {
   public BaseOBObject postCopy(BaseOBObject originalRecord, BaseOBObject newRecord) {
     OpenAPIRequest originalReq = (OpenAPIRequest) originalRecord;
     OpenAPIRequest cloneReq = (OpenAPIRequest) newRecord;
-    cloneReq.setName("Copy of " + originalReq.getName());
+    cloneReq.setName("Copy_of_" + originalReq.getName());
     cloneReq.setModule(null);
 
     OBDal.getInstance().save(cloneReq);
