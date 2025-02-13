@@ -27,7 +27,7 @@ public class PurchaseOrderReportEndpoint implements OpenAPIEndpoint {
   private static final String JOBS_ACTION_HANDLER = "com.smf.jobs.defaults";
   private static final String DEFAULTS_PROCESS_ACTION_HANDLER = "org.openbravo.client.application.process.DefaultsProcessActionHandler";
   private static final String BASE_REPORT_ACTION_HANDLER = "org.openbravo.client.application.report.BaseReportActionHandler";
-  private static final String BASE_PATH = "/org.openbravo.client.kernel";
+  private static final String BASE_PATH = "/sws/com.smf.securewebservices.kernel/org.openbravo.client.kernel";
   private static final List<String> tags = List.of("Jobs and Actions");
   private static final List<String> tagsDescription = List.of("Endpoints related to jobs and actions.");
 
