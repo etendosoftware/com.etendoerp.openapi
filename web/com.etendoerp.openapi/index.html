@@ -19,8 +19,14 @@
   window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     const tag = urlParams.has('tag') ? urlParams.get('tag') : null;
+
+    const baseUrl = window.location.origin;
+    const pathname = window.location.pathname;
+    const contextPath = pathname.substring(0, pathname.indexOf('/', 1));
+    const apiUrl = `${baseUrl}${contextPath}/ws/com.etendoerp.openapi.openAPIController`;
+
     const ui = SwaggerUIBundle({
-      url: "http://localhost:8080/etendo/ws/com.etendoerp.openapi.openAPIController"+(tag ? '?tag='+decodeURIComponent(tag): ''),
+      url: tag ? `${apiUrl}?tag=${decodeURIComponent(tag)}` : apiUrl,
       dom_id: '#swagger-ui',
       deepLinking: true,
       presets: [
