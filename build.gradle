@@ -7,7 +7,7 @@
 */
 
 group          = "com.etendoerp"
-version        = "1.3.0"
+version        = "2.0.0"
 description    = "OpenAPI Implementation"
 ext.artifact   = "openapi"
 ext.repository = "https://maven.pkg.github.com/etendosoftware/com.etendoerp.platform.extensions"
@@ -56,5 +56,5 @@ dependencies {
     implementation('io.swagger.core.v3:swagger-jaxrs2:2.1.13')
     implementation('io.swagger.core.v3:swagger-annotations:2.1.13')
     implementation('io.swagger.core.v3:swagger-models:2.1.13')
-    implementation('com.etendoerp.platform:etendo-core:[23.2.0,25.1.0)')
+    implementation('com.etendoerp.platform:etendo-core:[25.1.0,25.2.0)')
 }
