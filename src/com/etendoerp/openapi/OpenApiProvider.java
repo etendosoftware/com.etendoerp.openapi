@@ -11,9 +11,9 @@ import org.openbravo.client.kernel.Component;
 import org.openbravo.client.kernel.ComponentProvider;
 
 @ApplicationScoped
-@ComponentProvider.Qualifier(OpenApiProvider.ETAPI_ComponentProvider)
+@ComponentProvider.Qualifier(OpenApiProvider.ETAPI_COMPONENT_TYPE)
 public class OpenApiProvider extends BaseComponentProvider {
-    public static final String ETAPI_ComponentProvider = "ETAPI_ComponentProvider";
+    public static final String ETAPI_COMPONENT_TYPE = "ETAPI_ComponentProvider";
 
     @Override
     public Component getComponent(String componentId, Map<String, Object> parameters) {
