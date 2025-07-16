@@ -10,6 +10,9 @@ import org.openbravo.client.kernel.BaseComponentProvider;
 import org.openbravo.client.kernel.Component;
 import org.openbravo.client.kernel.ComponentProvider;
 
+/**
+ * Component Provider for OpenAPI module.
+ */
 @ApplicationScoped
 @ComponentProvider.Qualifier(OpenApiProvider.ETAPI_COMPONENT_TYPE)
 public class OpenApiProvider extends BaseComponentProvider {
