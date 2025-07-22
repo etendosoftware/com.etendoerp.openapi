@@ -20,7 +20,7 @@ OB.ETAPI.swagger.openSwagger = function(params, view) {
   let encodedTag = encodeURIComponent(name);
 
   // Build Swagger URL
-  let baseUrl = "/etendo/web/com.etendoerp.openapi/#/";
+  let baseUrl = OB.Utilities.getLocationUrlWithoutFragment() + "web/com.etendoerp.openapi/#/";
   let fullUrl = baseUrl + encodedTag;
 
   window.open(fullUrl, "_blank");
