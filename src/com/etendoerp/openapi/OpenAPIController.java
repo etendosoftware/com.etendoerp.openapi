@@ -61,9 +61,11 @@ public class OpenAPIController implements WebService {
   private static final Logger log = LogManager.getLogger(OpenAPIController.class);
 
 
-  private static final Schema<?> STRING_SCHEMA = new Schema<>()
-      .type("string");
+
   public static final String APPLICATION_JSON = "application/json";
+  public static final String LOGIN = "Login";
+  public static final String STRING = "string";
+  public static final String QUERY = "query";
 
   /**
    * Handles HTTP GET requests to generate OpenAPI documentation.
@@ -159,26 +161,26 @@ public class OpenAPIController implements WebService {
         .summary("Obtain authentication token")
         .description(
             "Obtains an authentication token (JWT) associated with an Etendo context (User, Role, Org, Warehouse) and the list of usable roles, organizations and warehouses.\nBoth the lists of roles, organizations and warehouses can be hidden to simplify the request result.")
-        .addTagsItem("Login");
+        .addTagsItem(LOGIN);
 
     // Add query parameters
     loginOperation.addParametersItem(new Parameter()
         .name("showRoles")
-        .in("query")
+        .in(QUERY)
         .description("Show role list.")
         .required(false)
         .schema(getBooleanSchemaTrue()));
 
     loginOperation.addParametersItem(new Parameter()
         .name("showOrgs")
-        .in("query")
+        .in(QUERY)
         .description("Show Organization lists.")
         .required(false)
         .schema(getBooleanSchemaTrue()));
 
     loginOperation.addParametersItem(new Parameter()
         .name("showWarehouses")
-        .in("query")
+        .in(QUERY)
         .description("Show Warehouse lists.")
         .required(false)
         .schema(getBooleanSchemaTrue()));
@@ -187,11 +189,11 @@ public class OpenAPIController implements WebService {
     Schema<Object> loginRequestSchema = new Schema<Object>()
         .type("object")
         .required(List.of("username", "password"))
-        .addProperties("username", new Schema<String>().type("string").example("admin"))
-        .addProperties("password", new Schema<String>().type("string").example("admin"))
-        .addProperties("role", new Schema<String>().type("string").example("0"))
-        .addProperties("organization", new Schema<String>().type("string").example("0"))
-        .addProperties("warehouse", new Schema<String>().type("string").example("0"));
+        .addProperties("username", new Schema<String>().type(STRING).example("admin"))
+        .addProperties("password", new Schema<String>().type(STRING).example("admin"))
+        .addProperties("role", new Schema<String>().type(STRING).example("0"))
+        .addProperties("organization", new Schema<String>().type(STRING).example("0"))
+        .addProperties("warehouse", new Schema<String>().type(STRING).example("0"));
 
     // Set request body
     RequestBody requestBody = new RequestBody()
@@ -233,9 +235,9 @@ public class OpenAPIController implements WebService {
       openAPI.setTags(new ArrayList<>());
     }
     boolean hasLoginTag = openAPI.getTags().stream()
-        .anyMatch(tag -> "Login".equals(tag.getName()));
+        .anyMatch(tag -> LOGIN.equals(tag.getName()));
     if (!hasLoginTag) {
-      openAPI.getTags().add(new Tag().name("Login").description("Authentication endpoints"));
+      openAPI.getTags().add(new Tag().name(LOGIN).description("Authentication endpoints"));
     }
   }
 
@@ -278,20 +280,20 @@ public class OpenAPIController implements WebService {
     // Warehouse schema
     Schema<Object> warehouseSchema = new Schema<>();
     warehouseSchema.type("object");
-    warehouseSchema.addProperties("id", new Schema<String>().type("string").example("0"));
-    warehouseSchema.addProperties("name", new Schema<String>().type("string").example("*"));
+    warehouseSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
+    warehouseSchema.addProperties("name", new Schema<String>().type(STRING).example("*"));
 
     // Organization schema
     Schema<Object> orgSchema = new Schema<>();
     orgSchema.type("object");
-    orgSchema.addProperties("id", new Schema<String>().type("string").example("0"));
-    orgSchema.addProperties("name", new Schema<String>().type("string").example("*"));
+    orgSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
+    orgSchema.addProperties("name", new Schema<String>().type(STRING).example("*"));
     orgSchema.addProperties("warehouseList", new ArraySchema().items(warehouseSchema));
 
     // Role schema
     Schema<Object> roleSchema = new Schema<>();
     roleSchema.type("object");
-    roleSchema.addProperties("id", new Schema<String>().type("string").example("0"));
+    roleSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
     roleSchema.addProperties("name", getStringSchema("System Administrator"));
     roleSchema.addProperties("orgList", new ArraySchema().items(orgSchema));
 
@@ -299,8 +301,8 @@ public class OpenAPIController implements WebService {
     Schema<Object> logRespSchema = new Schema<>();
     logRespSchema.type("object");
     logRespSchema.title("Login response");
-    logRespSchema.addProperties("status", new Schema<String>().type("string").example("success"));
-    logRespSchema.addProperties("token", new Schema<String>().type("string").example(
+    logRespSchema.addProperties("status", new Schema<String>().type(STRING).example("success"));
+    logRespSchema.addProperties("token", new Schema<String>().type(STRING).example(
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzd3MiLCJyb2xlIjoiMCIsIm9yZ2FuaXphdGlvbiI6IjAiLCJpc3MiOiJzd3MiLCJleHAiOjE1ODE1MjMxNTcsInVzZXIiOiIxMDAiLCJpYXQiOjE1ODE1MTU3Nzd9.ZyAwUz7B1xOuMJzrtt6LJo0O7UNi133W15Uv_RfW3IM"));
     logRespSchema.addProperties("roleList", new ArraySchema().items(roleSchema));
 
@@ -320,7 +322,7 @@ public class OpenAPIController implements WebService {
    */
   private static Schema getStringSchema(String example) {
     Schema<String> stringSchema = new Schema<>();
-    stringSchema.type("string");
+    stringSchema.type(STRING);
     stringSchema.setExample(example);
     return stringSchema;
   }
