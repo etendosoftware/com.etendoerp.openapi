@@ -54,7 +54,7 @@ import io.swagger.v3.oas.models.tags.Tag;
  */
 public class OpenAPIController implements WebService {
 
-  public static final String BEARER_TOKEN_DESCRIPTION = "Bearer token authentication using token from <a href=\"%s/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint.";
+  public static final String BEARER_TOKEN_DESCRIPTION = "Bearer token authentication using token from <a href=\"#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint.";
   public static final String BASIC_AUTH_DESCRIPTION = "Basic authentication with username and password";
   private static final String DEFAULT_BASE_URL = "%s/%s";
   private static final String RESOURCE_PACKAGE = "com.etendoerp.openapi";
