@@ -66,6 +66,7 @@ public class OpenAPIController implements WebService {
   public static final String LOGIN = "Login";
   public static final String STRING = "string";
   public static final String QUERY = "query";
+  public static final String OBJECT = "object";
 
   /**
    * Handles HTTP GET requests to generate OpenAPI documentation.
@@ -138,7 +139,7 @@ public class OpenAPIController implements WebService {
    */
   public String getOpenAPIJson(String hostAddress, String tag,
       String baseUrl, boolean excludeLogin) throws OpenApiConfigurationException, IOException {
-
+    log.debug("Generating OpenAPI JSON for tag: {}, baseUrl: {}, excludeLogin: {}", tag, baseUrl, excludeLogin);
     if (baseUrl == null) {
       baseUrl = String.format(DEFAULT_BASE_URL, hostAddress, getContextName());
     }
@@ -148,8 +149,7 @@ public class OpenAPIController implements WebService {
     if (!excludeLogin) {
       addLoginEndpoint(openAPI);
     }
-    String openApiJson = serializeOpenAPI(openAPI);
-    return openApiJson;
+    return serializeOpenAPI(openAPI);
   }
 
   private void addLoginEndpoint(OpenAPI openAPI) {
@@ -187,7 +187,7 @@ public class OpenAPIController implements WebService {
 
     // Create request body schema
     Schema<Object> loginRequestSchema = new Schema<Object>()
-        .type("object")
+        .type(OBJECT)
         .required(List.of("username", "password"))
         .addProperties("username", new Schema<String>().type(STRING).example("admin"))
         .addProperties("password", new Schema<String>().type(STRING).example("admin"))
@@ -249,7 +249,7 @@ public class OpenAPIController implements WebService {
    *
    * @return a Schema object configured as boolean type with default and example values set to true
    */
-  private Schema getBooleanSchemaTrue() {
+  private Schema<Boolean> getBooleanSchemaTrue() {
     Schema<Boolean> booleanSchema = new Schema<>();
     booleanSchema.type("boolean");
     booleanSchema.setDefault(true);
@@ -279,27 +279,27 @@ public class OpenAPIController implements WebService {
 
     // Warehouse schema
     Schema<Object> warehouseSchema = new Schema<>();
-    warehouseSchema.type("object");
+    warehouseSchema.type(OBJECT);
     warehouseSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
     warehouseSchema.addProperties("name", new Schema<String>().type(STRING).example("*"));
 
     // Organization schema
     Schema<Object> orgSchema = new Schema<>();
-    orgSchema.type("object");
+    orgSchema.type(OBJECT);
     orgSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
     orgSchema.addProperties("name", new Schema<String>().type(STRING).example("*"));
     orgSchema.addProperties("warehouseList", new ArraySchema().items(warehouseSchema));
 
     // Role schema
     Schema<Object> roleSchema = new Schema<>();
-    roleSchema.type("object");
+    roleSchema.type(OBJECT);
     roleSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
     roleSchema.addProperties("name", getStringSchema("System Administrator"));
     roleSchema.addProperties("orgList", new ArraySchema().items(orgSchema));
 
     // Main LogResp schema
     Schema<Object> logRespSchema = new Schema<>();
-    logRespSchema.type("object");
+    logRespSchema.type(OBJECT);
     logRespSchema.title("Login response");
     logRespSchema.addProperties("status", new Schema<String>().type(STRING).example("success"));
     logRespSchema.addProperties("token", new Schema<String>().type(STRING).example(
@@ -320,7 +320,7 @@ public class OpenAPIController implements WebService {
    *     the example value to set for the string schema
    * @return a Schema object configured as string type with the provided example value
    */
-  private static Schema getStringSchema(String example) {
+  private static Schema<String> getStringSchema(String example) {
     Schema<String> stringSchema = new Schema<>();
     stringSchema.type(STRING);
     stringSchema.setExample(example);
@@ -432,7 +432,7 @@ public class OpenAPIController implements WebService {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     String output = mapper.writeValueAsString(openAPI);
-    output = output.replaceAll("\"type\":\"HTTP\"", "\"type\":\"http\"");
+    output = output.replace("\"type\":\"HTTP\"", "\"type\":\"http\"");
     return output;
   }
 
