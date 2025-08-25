@@ -1,8 +1,11 @@
 package com.etendoerp.openapi;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -28,22 +31,42 @@ import io.swagger.v3.oas.integration.api.OpenApiContext;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 
 /**
  * Controller class for handling OpenAPI requests.
  */
 public class OpenAPIController implements WebService {
 
-  public static final String BEARER_TOKEN_DESCRIPTION = "Bearer token authentication using token from <a href=\"%s/web/com.smf.securewebservices/doc/#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint.";
+  public static final String BEARER_TOKEN_DESCRIPTION = "Bearer token authentication using token from <a href=\"#/Login/post_sws_login\" target=\"_blank\">Login</a> endpoint.";
   public static final String BASIC_AUTH_DESCRIPTION = "Basic authentication with username and password";
   private static final String DEFAULT_BASE_URL = "%s/%s";
   private static final String RESOURCE_PACKAGE = "com.etendoerp.openapi";
   private static final Logger log = LogManager.getLogger(OpenAPIController.class);
+
+
+
+  public static final String APPLICATION_JSON = "application/json";
+  public static final String LOGIN = "Login";
+  public static final String STRING = "string";
+  public static final String QUERY = "query";
+  public static final String OBJECT = "object";
 
   /**
    * Handles HTTP GET requests to generate OpenAPI documentation.
@@ -63,7 +86,7 @@ public class OpenAPIController implements WebService {
     try {
       String hostAddress = HttpBaseUtils.getLocalHostAddress(request, true);
       String openApiJson = getOpenAPIJson(hostAddress, request.getParameter("tag"), request.getParameter("host"));
-      response.setContentType("application/json");
+      response.setContentType(APPLICATION_JSON);
       response.setCharacterEncoding("UTF-8");
       response.getWriter().write(openApiJson);
     } catch (Exception e) {
@@ -74,9 +97,10 @@ public class OpenAPIController implements WebService {
   /**
    * Generates the OpenAPI specification JSON for the specified flow and base URL.
    * <p>
-   * This method initializes the OpenAPI object with the given base URL, configures security settings,
-   * applies endpoints based on the provided tag, and serializes the OpenAPI object to JSON format.
+   * This method provides backward compatibility by calling the overloaded method with excludeLogin set to false.
    *
+   * @param hostAddress
+   *     the host address for the OpenAPI specification
    * @param tag
    *     the tag used to filter endpoints
    * @param baseUrl
@@ -87,15 +111,220 @@ public class OpenAPIController implements WebService {
    * @throws IOException
    *     if an error occurs during serialization
    */
-  public String getOpenAPIJson(String hostAddress, String tag, String baseUrl) throws OpenApiConfigurationException, IOException {
+  public String getOpenAPIJson(String hostAddress, String tag,
+      String baseUrl) throws OpenApiConfigurationException, IOException {
+    return getOpenAPIJson(hostAddress, tag, baseUrl, false);
+  }
+
+  /**
+   * Generates the OpenAPI specification JSON for the specified flow and base URL.
+   * <p>
+   * This method initializes the OpenAPI object with the given base URL, configures security settings,
+   * applies endpoints based on the provided tag, and serializes the OpenAPI object to JSON format.
+   * The login endpoint can be optionally excluded from the generated specification.
+   *
+   * @param hostAddress
+   *     the host address for the OpenAPI specification
+   * @param tag
+   *     the tag used to filter endpoints
+   * @param baseUrl
+   *     the base URL for the OpenAPI specification; if null, a default base URL is used
+   * @param excludeLogin
+   *     if true, the login endpoint will be excluded from the OpenAPI specification
+   * @return the OpenAPI specification in JSON format
+   * @throws OpenApiConfigurationException
+   *     if an error occurs during OpenAPI configuration
+   * @throws IOException
+   *     if an error occurs during serialization
+   */
+  public String getOpenAPIJson(String hostAddress, String tag,
+      String baseUrl, boolean excludeLogin) throws OpenApiConfigurationException, IOException {
+    log.debug("Generating OpenAPI JSON for tag: {}, baseUrl: {}, excludeLogin: {}", tag, baseUrl, excludeLogin);
     if (baseUrl == null) {
       baseUrl = String.format(DEFAULT_BASE_URL, hostAddress, getContextName());
     }
     OpenAPI openAPI = initializeOpenAPI(baseUrl);
     configureSecurity(openAPI, baseUrl);
     openAPI = applyEndpoints(openAPI, tag);
-    String openApiJson = serializeOpenAPI(openAPI);
-    return openApiJson;
+    if (!excludeLogin) {
+      addLoginEndpoint(openAPI);
+    }
+    return serializeOpenAPI(openAPI);
+  }
+
+  private void addLoginEndpoint(OpenAPI openAPI) {
+    // Create login endpoint path
+    PathItem loginPath = new PathItem();
+
+    // Create POST operation for login
+    Operation loginOperation = new Operation()
+        .summary("Obtain authentication token")
+        .description(
+            "Obtains an authentication token (JWT) associated with an Etendo context (User, Role, Org, Warehouse) and the list of usable roles, organizations and warehouses.\nBoth the lists of roles, organizations and warehouses can be hidden to simplify the request result.")
+        .addTagsItem(LOGIN);
+
+    // Add query parameters
+    loginOperation.addParametersItem(new Parameter()
+        .name("showRoles")
+        .in(QUERY)
+        .description("Show role list.")
+        .required(false)
+        .schema(getBooleanSchemaTrue()));
+
+    loginOperation.addParametersItem(new Parameter()
+        .name("showOrgs")
+        .in(QUERY)
+        .description("Show Organization lists.")
+        .required(false)
+        .schema(getBooleanSchemaTrue()));
+
+    loginOperation.addParametersItem(new Parameter()
+        .name("showWarehouses")
+        .in(QUERY)
+        .description("Show Warehouse lists.")
+        .required(false)
+        .schema(getBooleanSchemaTrue()));
+
+    // Create request body schema
+    Schema<Object> loginRequestSchema = new Schema<Object>()
+        .type(OBJECT)
+        .required(List.of("username", "password"))
+        .addProperties("username", new Schema<String>().type(STRING).example("admin"))
+        .addProperties("password", new Schema<String>().type(STRING).example("admin"))
+        .addProperties("role", new Schema<String>().type(STRING).example("0"))
+        .addProperties("organization", new Schema<String>().type(STRING).example("0"))
+        .addProperties("warehouse", new Schema<String>().type(STRING).example("0"));
+
+    // Set request body
+    RequestBody requestBody = new RequestBody()
+        .description("Username, password, role id, organization id, storage id. Only the first two are required.")
+        .required(true)
+        .content(new Content()
+            .addMediaType(APPLICATION_JSON,
+                new MediaType().schema(loginRequestSchema)));
+
+    loginOperation.setRequestBody(requestBody);
+
+    // Create response schemas
+    addLoginResponseSchemas(openAPI);
+
+    // Add responses
+    ApiResponses responses = new ApiResponses();
+    responses.addApiResponse("200", new ApiResponse()
+        .description("Ok.")
+        .content(new Content()
+            .addMediaType(APPLICATION_JSON,
+                new MediaType().schema(new Schema<Object>().$ref("#/components/schemas/LogResp")))));
+
+    responses.addApiResponse("401", new ApiResponse()
+        .description("No auth."));
+
+    loginOperation.setResponses(responses);
+
+    // Set the POST operation on the path
+    loginPath.setPost(loginOperation);
+
+    // Add the path to OpenAPI
+    if (openAPI.getPaths() == null) {
+      openAPI.setPaths(new Paths());
+    }
+    openAPI.getPaths().addPathItem("/sws/login", loginPath);
+
+    // Add Login tag
+    if (openAPI.getTags() == null) {
+      openAPI.setTags(new ArrayList<>());
+    }
+    boolean hasLoginTag = openAPI.getTags().stream()
+        .anyMatch(tag -> LOGIN.equals(tag.getName()));
+    if (!hasLoginTag) {
+      openAPI.getTags().add(new Tag().name(LOGIN).description("Authentication endpoints"));
+    }
+  }
+
+  /**
+   * Creates a boolean schema with default value and example set to true.
+   * <p>
+   * This is a utility method for creating consistent boolean schema objects
+   * used in OpenAPI parameter definitions.
+   *
+   * @return a Schema object configured as boolean type with default and example values set to true
+   */
+  private Schema<Boolean> getBooleanSchemaTrue() {
+    Schema<Boolean> booleanSchema = new Schema<>();
+    booleanSchema.type("boolean");
+    booleanSchema.setDefault(true);
+    booleanSchema.setExample(true);
+    return booleanSchema;
+  }
+
+  /**
+   * Adds login response schemas to the OpenAPI specification.
+   * <p>
+   * This method defines the schema components for login responses, including:
+   * - Warehouse schema with id and name properties
+   * - Organization schema with id, name, and warehouseList properties
+   * - Role schema with id, name, and orgList properties
+   * - Main LogResp schema containing status, token, and roleList properties
+   *
+   * @param openAPI
+   *     the OpenAPI object to add the schemas to
+   */
+  private void addLoginResponseSchemas(OpenAPI openAPI) {
+    if (openAPI.getComponents() == null) {
+      openAPI.setComponents(new Components());
+    }
+    if (openAPI.getComponents().getSchemas() == null) {
+      openAPI.getComponents().setSchemas(new HashMap<>());
+    }
+
+    // Warehouse schema
+    Schema<Object> warehouseSchema = new Schema<>();
+    warehouseSchema.type(OBJECT);
+    warehouseSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
+    warehouseSchema.addProperties("name", new Schema<String>().type(STRING).example("*"));
+
+    // Organization schema
+    Schema<Object> orgSchema = new Schema<>();
+    orgSchema.type(OBJECT);
+    orgSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
+    orgSchema.addProperties("name", new Schema<String>().type(STRING).example("*"));
+    orgSchema.addProperties("warehouseList", new ArraySchema().items(warehouseSchema));
+
+    // Role schema
+    Schema<Object> roleSchema = new Schema<>();
+    roleSchema.type(OBJECT);
+    roleSchema.addProperties("id", new Schema<String>().type(STRING).example("0"));
+    roleSchema.addProperties("name", getStringSchema("System Administrator"));
+    roleSchema.addProperties("orgList", new ArraySchema().items(orgSchema));
+
+    // Main LogResp schema
+    Schema<Object> logRespSchema = new Schema<>();
+    logRespSchema.type(OBJECT);
+    logRespSchema.title("Login response");
+    logRespSchema.addProperties("status", new Schema<String>().type(STRING).example("success"));
+    logRespSchema.addProperties("token", new Schema<String>().type(STRING).example(
+        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzd3MiLCJyb2xlIjoiMCIsIm9yZ2FuaXphdGlvbiI6IjAiLCJpc3MiOiJzd3MiLCJleHAiOjE1ODE1MjMxNTcsInVzZXIiOiIxMDAiLCJpYXQiOjE1ODE1MTU3Nzd9.ZyAwUz7B1xOuMJzrtt6LJo0O7UNi133W15Uv_RfW3IM"));
+    logRespSchema.addProperties("roleList", new ArraySchema().items(roleSchema));
+
+    // Add schemas to components
+    openAPI.getComponents().addSchemas("LogResp", logRespSchema);
+  }
+
+  /**
+   * Creates a string schema with the specified example value.
+   * <p>
+   * This is a utility method for creating consistent string schema objects
+   * used in OpenAPI response definitions.
+   *
+   * @param example
+   *     the example value to set for the string schema
+   * @return a Schema object configured as string type with the provided example value
+   */
+  private static Schema<String> getStringSchema(String example) {
+    Schema<String> stringSchema = new Schema<>();
+    stringSchema.type(STRING);
+    stringSchema.setExample(example);
+    return stringSchema;
   }
 
   /**
@@ -203,7 +432,7 @@ public class OpenAPIController implements WebService {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     String output = mapper.writeValueAsString(openAPI);
-    output = output.replaceAll("\"type\":\"HTTP\"", "\"type\":\"http\"");
+    output = output.replace("\"type\":\"HTTP\"", "\"type\":\"http\"");
     return output;
   }
 
