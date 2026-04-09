@@ -2,7 +2,7 @@ package com.etendoerp.openapi.hook.cloning;
 
 import static com.etendoerp.openapi.hook.cloning.CloneFlow.removeModuleInClonedChildren;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.openbravo.base.structure.BaseOBObject;
 import org.openbravo.client.kernel.ComponentProvider;
