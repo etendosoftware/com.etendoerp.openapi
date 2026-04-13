@@ -27,7 +27,7 @@ import org.openbravo.client.kernel.event.EntityPersistenceEventObserver;
 import org.openbravo.client.kernel.event.EntityUpdateEvent;
 import org.openbravo.erpCommon.utility.OBMessageUtils;
 
-import javax.enterprise.event.Observes;
+import jakarta.enterprise.event.Observes;
 
 public class OpenAPIRequestNameHandler extends EntityPersistenceEventObserver {
 
